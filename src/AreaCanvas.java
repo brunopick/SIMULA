@@ -1,4 +1,7 @@
+package src;
 
+
+import src.Executar;
 import java.awt.*;
 import java.awt.image.*;
 

@@ -1,4 +1,6 @@
+package src;
 
+import src.Executar;
 import java.awt.*;
 import java.math.*;
 import java.awt.image.*;

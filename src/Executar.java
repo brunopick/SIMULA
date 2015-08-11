@@ -1,8 +1,9 @@
+package src;
+
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import Codigos;
 
 public class Executar extends Frame implements WindowListener, MouseListener,
         ActionListener, Runnable, ItemListener, AdjustmentListener
@@ -368,6 +369,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
             }
             catch ( Exception e )
             {
+                e.printStackTrace();
             }
             if ( Codigos.atingiuCondicaoParada() )
             {

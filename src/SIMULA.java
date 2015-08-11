@@ -1,13 +1,16 @@
+package src;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.awt.image.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import src.components.SFileChooser;
 
 public class SIMULA
-    extends
+        extends
         Frame
-    implements
+        implements
         ActionListener, WindowListener, ItemListener, KeyListener, MouseListener,
         AdjustmentListener
 {
@@ -17,7 +20,8 @@ public class SIMULA
     public static Behavior[] behaviorList = new Behavior[1000];
     public static Variable[] variaveisList = new Variable[1000];
     public static Dist[] distList = new Dist[1600];
-    public static String linhas = "25", colunas = "25", critpar = "", file = "", printstr, condicao, regraString, paraString;
+    public static String linhas = "25", colunas = "25", critpar = "", printstr, condicao, regraString, paraString;
+    public static File file = null;
     public Imagem canvas1;
     public int ident = 1, identDist = 1, aux, identVar = 1, identComp = 1, indPreCond = 0, choice = 0;
     public static int col = 25, lin = 25;
@@ -102,68 +106,69 @@ public class SIMULA
         addWindowListener( this );
     }
 
+    @Override
     public void actionPerformed( ActionEvent evt )
     {
         String parametro = evt.getActionCommand();
         Object source = evt.getSource();
         if ( source == FileMenu )
         {
-            if ( ("Abrir").equals( parametro ) )
+            switch ( parametro )
             {
-                abrirArquivo();
-            }
-            else if ( ("Novo").equals( parametro ) )
-            {
-                novasVariaveis();
-                file = "novo.dat";
-                this.setTitle( "SIMULA - " + file );
-            }
-            else if ( ("Salvar").equals( parametro ) )
-            {
-                SalvaArq();
-            }
-            else if ( ("Salvar Como").equals( parametro ) )
-            {
-                FileDialog fd = new FileDialog( this, null, FileDialog.SAVE );
-                fd.setDirectory( "." );
-                fd.setFile( "novo.dat" );
-                fd.setVisible( true );
-                try
-                {
-                    if ( !(fd.getFile().equals( "null" )) )
-                    {
-                        file = fd.getFile();
-                        this.setTitle( "SIMULA - " + file );
-                    }
+                case "Abrir":
+                    abrirArquivo();
+                    break;
+                case "Novo":
+                    novasVariaveis();
+                    file = null;
+                    this.setTitle( "SIMULA" );
+                    break;
+                case "Salvar":
                     SalvaArq();
-                }
-                catch ( Exception e )
-                {
-                }
-            }
-            else if ( ("Sair").equals( parametro ) )
-            {
-                dispose();
-                System.exit( 0 );
+                    break;
+                case "Salvar Como":
+                    SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG );
+                    File fileToSave = null;
+                    if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
+                    {
+                        fileToSave = fc.getSelectedFile();
+                    }
+
+                    if ( fileToSave != null )
+                    {
+                        SalvaArq();
+                        this.setTitle( "SIMULA - " + fileToSave );
+                        file = fileToSave;
+                    }
+                    else
+                    {
+                        System.out.println( "Escolha um arquivo para salvar. Tente novamente." );
+                    }
+                    break;
+                case "Sair":
+                    dispose();
+                    System.exit( 0 );
             }
         }
 
         else if ( source == CompileMenu )
         {
-            if ( ("Gerar Codigo").equals( parametro ) )
+            switch ( parametro )
             {
-                GerarCodigo();
-            }
-            else if ( ("Execucao").equals( parametro ) )
-            {
-                Runtime rt = Runtime.getRuntime();
-                try
-                {
-                    Process compila = rt.exec( "java Executar" );
-                }
-                catch ( Exception e )
-                {
-                }
+                case "Gerar Codigo":
+                    GerarCodigo();
+                    break;
+                case "Execucao":
+                    Runtime rt = Runtime.getRuntime();
+                    try
+                    {
+                        Process compila = rt.exec( "java Executar" );
+                    }
+                    catch ( Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
 
@@ -293,8 +298,8 @@ public class SIMULA
             else if ( source == okButtonDim )
             {
                 int cl, li;
-                cl = new Integer( colFieldDim.getText() ).intValue();
-                li = new Integer( linFieldDim.getText() ).intValue();
+                cl = Integer.parseInt( colFieldDim.getText() );
+                li = Integer.parseInt( linFieldDim.getText() );
                 if ( !(colFieldDim.getText().equals( "" )) && !(linFieldDim.getText().equals( "" )) )
                 {
                     if ( (li < 41) && (li > 0) && (cl < 41) && (cl > 0) )
@@ -348,7 +353,7 @@ public class SIMULA
                     identComp++;
                     if ( behaviorList[identComp] == null )
                     {
-                        behaviorList[identComp] = new Behavior( "", (new Integer( identComp ).toString()),
+                        behaviorList[identComp] = new Behavior( "", (Integer.toString( identComp )),
                                 "", "", "", "", "0" );
                     }
                     atualizaComportamentos();
@@ -1281,19 +1286,19 @@ public class SIMULA
         {
             tmp[0][j] = -1;
         }
-        FileDialog fd = new FileDialog( this, null, FileDialog.LOAD );
-        fd.setDirectory( "." );
-        fd.setFile( "" );
-        fd.setVisible( true );
+        SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG );
+//        fc.addChoosableFileFilter( new FileNameExtensionFilter( ".dat", ".dat", ".DAT" ) );
+//        fc.setCurrentDirectory( null );
+//        fc.setFileSelectionMode( JFileChooser.FILES_ONLY );
         try
         {
-            novasVariaveis();
-            if ( !(fd.getFile().equals( "null" )) )
+            if ( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
             {
+                novasVariaveis();
                 String thisLine;
                 try
                 {
-                    FileInputStream fin = new FileInputStream( fd.getFile() );
+                    FileInputStream fin = new FileInputStream( fc.getSelectedFile() );
                     try
                     {
                         BufferedReader input = new BufferedReader( new InputStreamReader( fin ) );
@@ -1361,94 +1366,125 @@ public class SIMULA
                                     lin = new Integer( linhas ).intValue();
                                 }
                             }
-                            file = fd.getFile();
+                            file = fc.getSelectedFile();
                             this.setTitle( "SIMULA - " + file );
                         }
                         catch ( Exception e )
                         {
+                            e.printStackTrace();
                         }
                     }
                     catch ( Exception e )
                     {
+                        e.printStackTrace();
                     }
                 }
                 catch ( Exception e )
                 {
+                    e.printStackTrace();
                 }
             }
         }
         catch ( Exception e )
         {
+            e.printStackTrace();
         }
     }
 
     public void SalvaArq()
     {
+        SalvaArq( null );
+    }
+
+    public void SalvaArq( File fileToSave )
+    {
         try
         {
-            FileOutputStream f = new FileOutputStream( file );
-            int j = 1;
-            while ( typeAgentList[j] != null )
+            if ( file == null )
             {
-                f.write( ".A.\r\n".getBytes() );
-                f.write( (typeAgentList[j].ident + "\r\n").getBytes() );
-                f.write( (typeAgentList[j].nome + "\r\n").getBytes() );
-                f.write( (typeAgentList[j].area + "\r\n").getBytes() );
-                f.write( (typeAgentList[j].nagentes + "\r\n").getBytes() );
-                f.write( (typeAgentList[j].energia + "\r\n").getBytes() );
-                f.write( (typeAgentList[j].carga + "\r\n").getBytes() );
-                for ( int l = 0; l < 256; l++ )
+                JFileChooser fc = new JFileChooser();
+                fc.addChoosableFileFilter( new FileNameExtensionFilter( ".dat", ".dat", ".DAT" ) );
+                fc.setCurrentDirectory( null );
+                fc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+
+                if ( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
                 {
-                    f.write( ((new Integer( typeAgentList[j].imagem[l] )).toString() + "\r\n").getBytes() );
+                    file = fc.getSelectedFile();
                 }
-                f.write( "\r\n".getBytes() );
-                j++;
             }
-            j = 1;
-            while ( variaveisList[j] != null )
+
+            if ( file != null )
             {
-                f.write( ".V.\r\n".getBytes() );
-                f.write( (variaveisList[j].nome + "\r\n").getBytes() );
-                f.write( (variaveisList[j].tipo + "\r\n").getBytes() );
-                f.write( (variaveisList[j].valor + "\r\n\r\n").getBytes() );
-                j++;
-            }
-            f.write( ".P.\r\n".getBytes() );
-            f.write( (critpar + "\r\n\r\n").getBytes() );
-            j = 1;
-            while ( behaviorList[j] != null )
-            {
-                if ( !behaviorList[j].agente.equals( "" ) )
+                FileOutputStream f = new FileOutputStream( file );
+                int j = 1;
+                while ( typeAgentList[j] != null )
                 {
-                    f.write( ".C.\r\n".getBytes() );
-                    f.write( (behaviorList[j].agente + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].ident + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].precond + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].acativ + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].accond + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].poscond + "\r\n").getBytes() );
-                    f.write( (behaviorList[j].priorid + "\r\n\r\n").getBytes() );
+                    f.write( ".A.\r\n".getBytes() );
+                    f.write( (typeAgentList[j].ident + "\r\n").getBytes() );
+                    f.write( (typeAgentList[j].nome + "\r\n").getBytes() );
+                    f.write( (typeAgentList[j].area + "\r\n").getBytes() );
+                    f.write( (typeAgentList[j].nagentes + "\r\n").getBytes() );
+                    f.write( (typeAgentList[j].energia + "\r\n").getBytes() );
+                    f.write( (typeAgentList[j].carga + "\r\n").getBytes() );
+                    for ( int l = 0; l < 256; l++ )
+                    {
+                        f.write( ((new Integer( typeAgentList[j].imagem[l] )).toString() + "\r\n").getBytes() );
+                    }
+                    f.write( "\r\n".getBytes() );
+                    j++;
                 }
-                j++;
+                j = 1;
+                while ( variaveisList[j] != null )
+                {
+                    f.write( ".V.\r\n".getBytes() );
+                    f.write( (variaveisList[j].nome + "\r\n").getBytes() );
+                    f.write( (variaveisList[j].tipo + "\r\n").getBytes() );
+                    f.write( (variaveisList[j].valor + "\r\n\r\n").getBytes() );
+                    j++;
+                }
+                f.write( ".P.\r\n".getBytes() );
+                f.write( (critpar + "\r\n\r\n").getBytes() );
+                j = 1;
+                while ( behaviorList[j] != null )
+                {
+                    if ( !behaviorList[j].agente.equals( "" ) )
+                    {
+                        f.write( ".C.\r\n".getBytes() );
+                        f.write( (behaviorList[j].agente + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].ident + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].precond + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].acativ + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].accond + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].poscond + "\r\n").getBytes() );
+                        f.write( (behaviorList[j].priorid + "\r\n\r\n").getBytes() );
+                    }
+                    j++;
+                }
+                j = 1;
+                while ( distList[j] != null )
+                {
+                    f.write( ".D.\r\n".getBytes() );
+                    f.write( (distList[j].nome + "\r\n").getBytes() );
+                    f.write( (distList[j].numero + "\r\n").getBytes() );
+                    f.write( (distList[j].coluna + "\r\n").getBytes() );
+                    f.write( (distList[j].linha + "\r\n\r\n").getBytes() );
+                    j++;
+                }
+                f.write( ".M.\r\n".getBytes() );
+                f.write( (colunas + "\r\n").getBytes() );
+                f.write( (linhas + "\r\n").getBytes() );
+                f.close();
             }
-            j = 1;
-            while ( distList[j] != null )
+            else
             {
-                f.write( ".D.\r\n".getBytes() );
-                f.write( (distList[j].nome + "\r\n").getBytes() );
-                f.write( (distList[j].numero + "\r\n").getBytes() );
-                f.write( (distList[j].coluna + "\r\n").getBytes() );
-                f.write( (distList[j].linha + "\r\n\r\n").getBytes() );
-                j++;
+                System.out.println( "Escolha uma arquivo para salvar. Tente novamente." );
             }
-            f.write( ".M.\r\n".getBytes() );
-            f.write( (colunas + "\r\n").getBytes() );
-            f.write( (linhas + "\r\n").getBytes() );
-            f.close();
         }
         catch ( Exception e )
         {
+            e.printStackTrace();
         }
+
     }
 
     /**
