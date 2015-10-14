@@ -1,9 +1,4 @@
-package src;
-
-
-import src.Executar;
 import java.awt.*;
-import java.awt.image.*;
 
 public class AreaCanvas extends Canvas
 {

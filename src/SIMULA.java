@@ -1,11 +1,10 @@
-package src;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import src.components.SFileChooser;
+import components.SFileChooser;
 
 public class SIMULA
         extends
@@ -162,7 +161,34 @@ public class SIMULA
                     Runtime rt = Runtime.getRuntime();
                     try
                     {
-                        Process compila = rt.exec( "java Executar" );
+                        Process p = rt.exec( "java -cp \".:SIMULA.jar\" Executar" );
+                    //linux
+//                        Process p = rt.exec( new String[]{"bash", "-c", "java -cp \"."+File.pathSeparator+"*.jar\" Executar"} );
+//                        Process p = rt.exec( new String[]{"java", "-cp \"."+File.pathSeparator+"SIMULA.jar\"", "Executar"} );
+//                        ProcessBuilder pb = new ProcessBuilder("java -cp SIMULA.jar SIMULA");
+//                        pb.directory( null );
+//                        System.out.println( pb.directory() );
+//                        Process p = pb.start();
+//                        Process p = new ProcessBuilder("java", "-cp \"."+File.pathSeparator+"SIMULA.jar\" Executar").start();
+//                    //windows
+//                        //Process p = rt.exec( new String[]{"cmd", "/c", "java -cp \".:*.jar\" Executar"} );
+////                        Process p = rt.exec( new String[]{"bash", "-c", "cd build/classes;ls -CF;java Executar"} );
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+                        StringBuilder output = new StringBuilder("-----SAIDA-----\n");
+                        String line;			
+                        while ((line = reader.readLine())!= null) {
+                                output.append(line).append("\n");
+                        }
+
+                        reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+                        output.append("\n\n-----ERROS-----\n");
+                        while ((line = reader.readLine())!= null) {
+                                output.append(line).append("\n");
+                        }
+
+                        System.out.println( output.toString() );
+                        p.waitFor();
                     }
                     catch ( Exception e )
                     {
@@ -493,7 +519,7 @@ public class SIMULA
                 else
                 {
                     agenChoiceDist.select( -1 );
-                    numFieldDist.setText( new Integer( identDist ).toString() );
+                    numFieldDist.setText( Integer.toString(identDist) );
                     linFieldDist.setText( "0" );
                     colFieldDist.setText( "0" );
                 }
@@ -1900,6 +1926,8 @@ public class SIMULA
             int aux = 1, maxagt = 1, maxdst = 1, vb = 0, vi = 0, vc = 0;
             j = 1;
             FileOutputStream f = new FileOutputStream( "Codigos.java" );
+//            FileOutputStream f = new FileOutputStream( "./src/Codigos.java" );
+//            f.write( ("import src.*; \r\n").getBytes() );
             f.write( ("import java.awt.*; \r\n").getBytes() );
             f.write( ("import java.awt.image.*; \r\n\r\n").getBytes() );
             f.write( ("class Codigos { \r\n").getBytes() );
@@ -2086,7 +2114,48 @@ public class SIMULA
             }
             f.write( (" }\r\n").getBytes() );
             f.close();
-            Process compila = rt.exec( "javac Codigos.java" );
+            
+            
+            
+            Process p2 = Runtime.getRuntime().exec("pwd");
+            BufferedReader reader2 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+            StringBuilder output2 = new StringBuilder("-----SAIDA PWD-----\n");
+            String line2 = "";			
+            while ((line2 = reader2.readLine())!= null) {
+                    output2.append(line2).append("\n");
+            }
+            reader2 = new BufferedReader(new InputStreamReader(p2.getErrorStream()));
+            output2.append("\n\n-----ERROS PWD-----\n");
+            while ((line2 = reader2.readLine())!= null) {
+                    output2.append(line2).append("\n");
+            }
+            System.out.println( output2.toString() );
+            p2.waitFor();
+            
+            
+            
+            
+            
+            Process p = rt.exec( "javac -cp SIMULA.jar Codigos.java" );
+//            Process p = rt.exec( "javac -cp SIMULA.JAR Codigos.java" );
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            StringBuilder output = new StringBuilder("-----SAIDA-----\n");
+            String line = "";			
+            while ((line = reader.readLine())!= null) {
+                    output.append(line).append("\n");
+            }
+            
+            reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            output.append("\n\n-----ERROS-----\n");
+            while ((line = reader.readLine())!= null) {
+                    output.append(line).append("\n");
+            }
+            
+            System.out.println( output.toString() );
+            p.waitFor();
+            
             criaOkDialog( "Codigo gerado." );
         }
         catch ( Exception e )

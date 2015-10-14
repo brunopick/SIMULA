@@ -1,11 +1,7 @@
-package src;
-
-import src.Executar;
 import java.awt.*;
-import java.math.*;
 import java.awt.image.*;
 
-class Metodos
+public class Metodos
 {
 
     public static final Posicao indeferido = new Posicao( -1, -1 );

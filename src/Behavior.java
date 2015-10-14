@@ -1,8 +1,4 @@
-package src;
-
-import java.awt.*;
-
-class Behavior
+public class Behavior
 {
 
     public String agente, precond, acativ, accond, poscond, ident, priorid;

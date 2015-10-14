@@ -1,6 +1,4 @@
-package src;
-
-class tipoAgente
+public class tipoAgente
 {
 
     public String nome, area, ident, nagentes, carga, energia;

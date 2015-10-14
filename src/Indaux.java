@@ -1,6 +1,4 @@
-package src;
-
-class Indaux
+public class Indaux
 {
 
     public String param;

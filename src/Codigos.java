@@ -1,6 +1,3 @@
-package src;
-
-
 /**
  * Por enquanto manter essa classe dessa maneira para compilar projeto
  * 

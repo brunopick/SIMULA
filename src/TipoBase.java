@@ -1,8 +1,6 @@
-package src;
-
 import java.awt.*;
 
-class TipoBase
+public class TipoBase
 {
 
     String nome;

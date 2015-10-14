@@ -1,6 +1,4 @@
-package src;
-
-class ItemVariable
+public class ItemVariable
 {
 
     public String nome, tipo;

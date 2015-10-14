@@ -1,6 +1,4 @@
-package src;
-
-class Posicao
+public class Posicao
 {
 
     public int x, y;

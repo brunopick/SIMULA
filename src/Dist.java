@@ -1,6 +1,4 @@
-package src;
-
-class Dist
+public class Dist
 {
 
     public String nome, numero, linha, coluna;

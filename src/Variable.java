@@ -1,6 +1,4 @@
-package src;
-
-class Variable
+public class Variable
 {
 
     public String nome, valor, tipo;

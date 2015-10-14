@@ -1,6 +1,4 @@
-package src;
-
-class tipoOrdenador
+public class tipoOrdenador
 {
 
     public String nome;

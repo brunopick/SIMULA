@@ -1,4 +1,4 @@
-package src.components;
+package components;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,7 +12,7 @@ public class SFileChooser
         JFileChooser
 {
     /**
-     * Cria um JFileChooser com diversas opções por default.
+     * Cria um JFileChooser com diversas propriedades por default.
      * 
      * @param dialogType JFileChooser.SAVE_DIALOG ou JFileChooser.OPEN_DIALOG
      */

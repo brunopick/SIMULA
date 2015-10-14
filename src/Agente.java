@@ -1,9 +1,6 @@
-package src;
-
-
 import java.awt.*;
 
-class Agente
+public class Agente
 {
 
     public String nome;
