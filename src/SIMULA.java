@@ -5,6 +5,9 @@ import java.io.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import components.SFileChooser;
+import javax.swing.JOptionPane;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
 
 public class SIMULA
         extends
@@ -158,37 +161,13 @@ public class SIMULA
                     GerarCodigo();
                     break;
                 case "Execucao":
-                    Runtime rt = Runtime.getRuntime();
                     try
                     {
-                        Process p = rt.exec( "java -cp \".:SIMULA.jar\" Executar" );
-                    //linux
-//                        Process p = rt.exec( new String[]{"bash", "-c", "java -cp \"."+File.pathSeparator+"*.jar\" Executar"} );
-//                        Process p = rt.exec( new String[]{"java", "-cp \"."+File.pathSeparator+"SIMULA.jar\"", "Executar"} );
-//                        ProcessBuilder pb = new ProcessBuilder("java -cp SIMULA.jar SIMULA");
-//                        pb.directory( null );
-//                        System.out.println( pb.directory() );
-//                        Process p = pb.start();
-//                        Process p = new ProcessBuilder("java", "-cp \"."+File.pathSeparator+"SIMULA.jar\" Executar").start();
-//                    //windows
-//                        //Process p = rt.exec( new String[]{"cmd", "/c", "java -cp \".:*.jar\" Executar"} );
-////                        Process p = rt.exec( new String[]{"bash", "-c", "cd build/classes;ls -CF;java Executar"} );
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                        String line = "java -cp \"."+File.pathSeparator+"SIMULA.jar\" Executar";
+                        CommandLine cmdLine = CommandLine.parse(line);
+                        DefaultExecutor executor = new DefaultExecutor();
+                        executor.execute(cmdLine);
 
-                        StringBuilder output = new StringBuilder("-----SAIDA-----\n");
-                        String line;			
-                        while ((line = reader.readLine())!= null) {
-                                output.append(line).append("\n");
-                        }
-
-                        reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                        output.append("\n\n-----ERROS-----\n");
-                        while ((line = reader.readLine())!= null) {
-                                output.append(line).append("\n");
-                        }
-
-                        System.out.println( output.toString() );
-                        p.waitFor();
                     }
                     catch ( Exception e )
                     {
@@ -412,7 +391,7 @@ public class SIMULA
                             tmp[ident][i] = -1;
                         }
                         typeAgentList[ident]
-                                = new tipoAgente( new Integer( ident ).toString(), "", "0", "0", "0", "0", tmp[ident] );
+                                = new tipoAgente( Integer.toString(ident), "", "0", "0", "0", "0", tmp[ident] );
                     }
                     atualizaAgentes();
                 }
@@ -693,7 +672,7 @@ public class SIMULA
         identComp = 1;
         if ( behaviorList[identComp] == null )
         {
-            behaviorList[identComp] = new Behavior( "", (new Integer( identComp ).toString()),
+            behaviorList[identComp] = new Behavior( "", Integer.toString(identComp),
                     "", "", "", "", "0" );
         }
         if ( defComportamentos == null )
@@ -1016,6 +995,7 @@ public class SIMULA
 
     /**
      * *************************************************************************
+     * @param comp
      */
     public void atualizaRegra( boolean comp )
     {
@@ -1342,7 +1322,7 @@ public class SIMULA
                                     cg = input.readLine();
                                     for ( int i = 0; i < 256; i++ )
                                     {
-                                        tmp[contA][i] = Integer.valueOf( input.readLine() ).intValue();
+                                        tmp[contA][i] = Integer.parseInt(input.readLine());
                                     }
                                     typeAgentList[contA] = new tipoAgente( id, no, ar, en, cg, nu, tmp[contA] );
                                     contA++;
@@ -1388,8 +1368,8 @@ public class SIMULA
                                     {
                                         linhas = "25";
                                     }
-                                    col = new Integer( colunas ).intValue();
-                                    lin = new Integer( linhas ).intValue();
+                                    col = Integer.parseInt(colunas);
+                                    lin = Integer.parseInt(linhas);
                                 }
                             }
                             file = fc.getSelectedFile();
@@ -1961,7 +1941,7 @@ public class SIMULA
                     {
                         f.write( ((new Integer( typeAgentList[i + 1].imagem[k] )).toString() + ",").getBytes() );
                     }
-                    f.write( (new Integer( SIMULA.typeAgentList[i + 1].imagem[255] ).toString() + "};\r\n").getBytes() );
+                    f.write( (Integer.toString(SIMULA.typeAgentList[i + 1].imagem[255]) + "};\r\n").getBytes() );
                 }
             }
             for ( int i = 0; i < maxagt; i++ )
@@ -1979,7 +1959,7 @@ public class SIMULA
                     if ( !SIMULA.distList[(i + 1)].nome.equals( "" ) )
                     {
                         f.write( ("    distribuicao[" + i + "]=new Dist(\"" + distList[i + 1].nome + "\", \""
-                                + distList[i + 1].numero + "\", \"" + ((new Integer( distList[i + 1].coluna ).intValue()) - 1) + "\", \"" + ((new Integer( SIMULA.distList[i + 1].linha ).intValue()) - 1) + "\");\r\n").getBytes() );
+                                + distList[i + 1].numero + "\", \"" + ((new Integer( distList[i + 1].coluna )) - 1) + "\", \"" + ((new Integer( SIMULA.distList[i + 1].linha )) - 1) + "\");\r\n").getBytes() );
                     }
                 }
             }
@@ -2115,48 +2095,19 @@ public class SIMULA
             f.write( (" }\r\n").getBytes() );
             f.close();
             
+            String line = "javac -cp SIMULA.jar Codigos.java";
+            CommandLine cmdLine = CommandLine.parse(line);
+            DefaultExecutor executor = new DefaultExecutor();
+            int exitValue = executor.execute(cmdLine);
             
-            
-            Process p2 = Runtime.getRuntime().exec("pwd");
-            BufferedReader reader2 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
-            StringBuilder output2 = new StringBuilder("-----SAIDA PWD-----\n");
-            String line2 = "";			
-            while ((line2 = reader2.readLine())!= null) {
-                    output2.append(line2).append("\n");
+            if ( exitValue == 0 ) 
+            {
+                JOptionPane.showMessageDialog( this, "Código gerado!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } 
+            else
+            {
+                JOptionPane.showMessageDialog( this, "Ocorreu um erro na criação do código, verifique os dados.", "Erro!", JOptionPane.ERROR_MESSAGE);
             }
-            reader2 = new BufferedReader(new InputStreamReader(p2.getErrorStream()));
-            output2.append("\n\n-----ERROS PWD-----\n");
-            while ((line2 = reader2.readLine())!= null) {
-                    output2.append(line2).append("\n");
-            }
-            System.out.println( output2.toString() );
-            p2.waitFor();
-            
-            
-            
-            
-            
-            Process p = rt.exec( "javac -cp SIMULA.jar Codigos.java" );
-//            Process p = rt.exec( "javac -cp SIMULA.JAR Codigos.java" );
-            
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            StringBuilder output = new StringBuilder("-----SAIDA-----\n");
-            String line = "";			
-            while ((line = reader.readLine())!= null) {
-                    output.append(line).append("\n");
-            }
-            
-            reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-            output.append("\n\n-----ERROS-----\n");
-            while ((line = reader.readLine())!= null) {
-                    output.append(line).append("\n");
-            }
-            
-            System.out.println( output.toString() );
-            p.waitFor();
-            
-            criaOkDialog( "Codigo gerado." );
         }
         catch ( Exception e )
         {
@@ -2751,6 +2702,7 @@ public class SIMULA
 
     /**
      * *************************************************************************
+     * @param source
      */
     public void salvaJanela( Object source )
     {
@@ -2781,68 +2733,83 @@ public class SIMULA
         }
     }
 
+    @Override
     public void windowActivated( WindowEvent evt )
     {
         atualizaJanela( evt.getSource() );
     }
 
+    @Override
     public void windowDeactivated( WindowEvent evt )
     {
         salvaJanela( evt.getSource() );
     }
 
+    @Override
     public void windowOpened( WindowEvent evt )
     {
         atualizaJanela( evt.getSource() );
     }
 
+    @Override
     public void windowClosing( WindowEvent evt )
     {
         fechaJanela( evt.getSource() );
     }
 
+    @Override
     public void windowClosed( WindowEvent evt )
     {
     }
 
+    @Override
     public void windowIconified( WindowEvent evt )
     {
     }
 
+    @Override
     public void windowDeiconified( WindowEvent evt )
     {
     }
 
+    @Override
     public void mouseClicked( MouseEvent e )
     {
     }
 
-    public void mouseEntered( MouseEvent e )
+    @Override
+   public void mouseEntered( MouseEvent e )
     {
     }
 
+    @Override
     public void mouseExited( MouseEvent e )
     {
     }
 
+    @Override
     public void mouseReleased( MouseEvent e )
     {
     }
 
+    @Override
     public void mousePressed( MouseEvent evt )
     {
         gridCanvas.selecionaCor( cor, evt.getX(), evt.getY() );
         canvas1.alteraImagem( gridCanvas.pixels );
     }
 
+    @Override
     public void keyPressed( KeyEvent evt )
     {
     }
 
+    @Override
     public void keyReleased( KeyEvent evt )
     {
     }
 
+    @Override
     public void keyTyped( KeyEvent evt )
     {
         char c = evt.getKeyChar();
@@ -2852,6 +2819,7 @@ public class SIMULA
         }
     }
 
+    @Override
     public void adjustmentValueChanged( AdjustmentEvent evt )
     {
         Object source = evt.getSource();
@@ -2865,6 +2833,7 @@ public class SIMULA
         }
     }
 
+    @Override
     public void itemStateChanged( ItemEvent evt )
     {
         int item = corChoice.getSelectedIndex();
@@ -2916,6 +2885,6 @@ public class SIMULA
 
     public static void main( String args[] )
     {
-        new SIMULA();
+        SIMULA simula = new SIMULA();
     }
 }
