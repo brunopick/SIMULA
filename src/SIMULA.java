@@ -134,6 +134,11 @@ public class SIMULA
                     if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
                     {
                         fileToSave = fc.getSelectedFile();
+                        String file_name = fileToSave.toString();
+                        if ( !(file_name.endsWith( ".dat" ) || file_name.endsWith(".DAT") ) )
+                        {
+                            fileToSave = new File( file_name + ".dat" );
+                        }
                     }
 
                     if ( fileToSave != null )
@@ -141,10 +146,6 @@ public class SIMULA
                         SalvaArq();
                         this.setTitle( "SIMULA - " + fileToSave );
                         file = fileToSave;
-                    }
-                    else
-                    {
-                        System.out.println( "Escolha um arquivo para salvar. Tente novamente." );
                     }
                     break;
                 case "Sair":
@@ -1408,14 +1409,17 @@ public class SIMULA
         {
             if ( file == null )
             {
-                JFileChooser fc = new JFileChooser();
-                fc.addChoosableFileFilter( new FileNameExtensionFilter( ".dat", ".dat", ".DAT" ) );
-                fc.setCurrentDirectory( null );
-                fc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+                SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG );
 
-                if ( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
+                if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
                 {
                     file = fc.getSelectedFile();
+                    String file_name = file.toString();
+                    if ( !(file_name.endsWith( ".dat" ) || file_name.endsWith(".DAT") ) )
+                    {
+                        file = new File( file_name + ".dat" );
+                    }
+                    
                 }
             }
 
@@ -1480,10 +1484,8 @@ public class SIMULA
                 f.write( (colunas + "\r\n").getBytes() );
                 f.write( (linhas + "\r\n").getBytes() );
                 f.close();
-            }
-            else
-            {
-                System.out.println( "Escolha uma arquivo para salvar. Tente novamente." );
+                
+                this.setTitle( "SIMULA - " + file );
             }
         }
         catch ( Exception e )
