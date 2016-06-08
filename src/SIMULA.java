@@ -1,18 +1,48 @@
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+
+
+//import java.awt.*;
+//import java.awt.event.*;
+//import java.io.*;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import components.SFileChooser;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Label;
+import java.awt.List;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.Panel;
+import java.awt.Scrollbar;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
 
 public class SIMULA
-        extends
+    extends
         Frame
-        implements
+    implements
         ActionListener, WindowListener, ItemListener, KeyListener, MouseListener,
         AdjustmentListener
 {
@@ -126,27 +156,10 @@ public class SIMULA
                     this.setTitle( "SIMULA" );
                     break;
                 case "Salvar":
-                    SalvaArq();
+                    SalvaArq(file);
                     break;
                 case "Salvar Como":
-                    SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG );
-                    File fileToSave = null;
-                    if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
-                    {
-                        fileToSave = fc.getSelectedFile();
-                        String file_name = fileToSave.toString();
-                        if ( !(file_name.endsWith( ".dat" ) || file_name.endsWith(".DAT") ) )
-                        {
-                            fileToSave = new File( file_name + ".dat" );
-                        }
-                    }
-
-                    if ( fileToSave != null )
-                    {
-                        SalvaArq();
-                        this.setTitle( "SIMULA - " + fileToSave );
-                        file = fileToSave;
-                    }
+                    SalvaArq();
                     break;
                 case "Sair":
                     dispose();
@@ -162,13 +175,10 @@ public class SIMULA
                     GerarCodigo();
                     break;
                 case "Execucao":
+                    Runtime rt = Runtime.getRuntime();
                     try
                     {
-                        String line = "java -cp \"."+File.pathSeparator+"SIMULA.jar\" Executar";
-                        CommandLine cmdLine = CommandLine.parse(line);
-                        DefaultExecutor executor = new DefaultExecutor();
-                        executor.execute(cmdLine);
-
+                        Process compila = rt.exec( "java Executar" );
                     }
                     catch ( Exception e )
                     {
@@ -596,8 +606,8 @@ public class SIMULA
             {
                 if ( paraString.length() > 0 )
                 {
-                    int aux = retornaCompUltPalavra( paraString );
-                    paraString = paraString.substring( 0, (paraString.length() - aux) );
+                    int compUltPalavra = retornaCompUltPalavra( paraString );
+                    paraString = paraString.substring( 0, (paraString.length() - compUltPalavra) );
                     atualizaRegra( false );
                 }
             }
@@ -605,8 +615,8 @@ public class SIMULA
             {
                 if ( regraString.length() > 0 )
                 {
-                    int aux = retornaCompUltPalavra( regraString );
-                    regraString = regraString.substring( 0, (regraString.length() - aux) );
+                    int compUltPalavra = retornaCompUltPalavra( regraString );
+                    regraString = regraString.substring( 0, (regraString.length() - compUltPalavra) );
                     atualizaRegra( true );
                 }
             }
@@ -1293,10 +1303,7 @@ public class SIMULA
         {
             tmp[0][j] = -1;
         }
-        SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG );
-//        fc.addChoosableFileFilter( new FileNameExtensionFilter( ".dat", ".dat", ".DAT" ) );
-//        fc.setCurrentDirectory( null );
-//        fc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+        SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG, file );
         try
         {
             if ( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
@@ -1407,25 +1414,25 @@ public class SIMULA
     {
         try
         {
-            if ( file == null )
+            if ( fileToSave == null )
             {
-                SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG );
+                SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG, file );
 
                 if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
                 {
-                    file = fc.getSelectedFile();
-                    String file_name = file.toString();
+                    fileToSave = fc.getSelectedFile();
+                    String file_name = fileToSave.toString();
                     if ( !(file_name.endsWith( ".dat" ) || file_name.endsWith(".DAT") ) )
                     {
-                        file = new File( file_name + ".dat" );
+                        fileToSave = new File( file_name + ".dat" );
                     }
                     
                 }
             }
 
-            if ( file != null )
+            if ( fileToSave != null )
             {
-                FileOutputStream f = new FileOutputStream( file );
+                FileOutputStream f = new FileOutputStream( fileToSave );
                 int j = 1;
                 while ( typeAgentList[j] != null )
                 {
@@ -1485,6 +1492,7 @@ public class SIMULA
                 f.write( (linhas + "\r\n").getBytes() );
                 f.close();
                 
+                file = fileToSave;
                 this.setTitle( "SIMULA - " + file );
             }
         }
@@ -2097,10 +2105,9 @@ public class SIMULA
             f.write( (" }\r\n").getBytes() );
             f.close();
             
-            String line = "javac -cp SIMULA.jar Codigos.java";
-            CommandLine cmdLine = CommandLine.parse(line);
-            DefaultExecutor executor = new DefaultExecutor();
-            int exitValue = executor.execute(cmdLine);
+            Process compila = rt.exec( "javac Codigos.java" );
+            compila.waitFor();
+            int exitValue = compila.exitValue();
             
             if ( exitValue == 0 ) 
             {
