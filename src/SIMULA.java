@@ -1589,10 +1589,10 @@ public class SIMULA
         baseAgentes.add( areaLabel );
         enerLabelAgent = new Label( "Energia:" );
         enerLabelAgent.setBounds( 10, 130, 130, 20 );
-        baseAgentes.add( enerLabelAgent );
+//        baseAgentes.add( enerLabelAgent );
         cargLabelAgent = new Label( "Carga:" );
         cargLabelAgent.setBounds( 10, 160, 130, 20 );
-        baseAgentes.add( cargLabelAgent );
+//        baseAgentes.add( cargLabelAgent );
         corLabel = new Label( "Cor Selecionada:" );
         corLabel.setBounds( 10, 200, 115, 20 );
         baseAgentes.add( corLabel );
@@ -1612,11 +1612,11 @@ public class SIMULA
         areaField.addKeyListener( this );
         energFieldAgent = new TextField();
         energFieldAgent.setBounds( 160, 130, 50, 20 );
-        baseAgentes.add( energFieldAgent );
+//        baseAgentes.add( energFieldAgent );
         energFieldAgent.addKeyListener( this );
         cargFieldAgent = new TextField();
         cargFieldAgent.setBounds( 160, 160, 50, 20 );
-        baseAgentes.add( cargFieldAgent );
+//        baseAgentes.add( cargFieldAgent );
         cargFieldAgent.addKeyListener( this );
         corChoice = new Choice();
         corChoice.add( "Branco" );
