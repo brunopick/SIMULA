@@ -736,7 +736,7 @@ public class SIMULA
             baseComportamentos.add( ativLabelComp );
             conLabelComp = new Label( "Ação Condicional:" );
             conLabelComp.setBounds( 20, 180, 115, 20 );
-            baseComportamentos.add( conLabelComp );
+//            baseComportamentos.add( conLabelComp );
             posLabelComp = new Label( "Pós-Condição:" );
             posLabelComp.setBounds( 20, 210, 100, 20 );
             baseComportamentos.add( posLabelComp );
@@ -752,7 +752,7 @@ public class SIMULA
             baseComportamentos.add( ativLabelComp2 );
             conLabelComp2 = new Label();
             conLabelComp2.setBounds( 140, 180, 280, 20 );
-            baseComportamentos.add( conLabelComp2 );
+//            baseComportamentos.add( conLabelComp2 );
             posLabelComp2 = new Label();
             posLabelComp2.setBounds( 140, 210, 280, 20 );
             baseComportamentos.add( posLabelComp2 );
@@ -766,7 +766,7 @@ public class SIMULA
             ativButtonComp.addActionListener( this );
             conButtonComp = new Button( "Alterar" );
             conButtonComp.setBounds( 440, 180, 80, 20 );
-            baseComportamentos.add( conButtonComp );
+//            baseComportamentos.add( conButtonComp );
             conButtonComp.addActionListener( this );
             posButtonComp = new Button( "Alterar" );
             posButtonComp.setBounds( 440, 210, 80, 20 );
