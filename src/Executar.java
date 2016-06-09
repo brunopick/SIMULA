@@ -65,7 +65,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         p = new Panel();
         p.setLayout( null );
         p.setSize( getInsets().left + getInsets().right + 665, getInsets().top + getInsets().bottom + 460 );
-        label1 = new Label( "Vari�vel:" );
+        label1 = new Label( "Variável:" );
         label1.setBounds( getInsets().left + 478, getInsets().top + 24, 84, 26 );
         p.add( label1 );
         choice1 = new Choice();
@@ -78,7 +78,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         label3 = new Label( "Valor:" );
         label3.setBounds( getInsets().left + 478, getInsets().top + 96, 72, 24 );
         p.add( label3 );
-        label4 = new Label( "N�mero total:" );
+        label4 = new Label( "Número total:" );
         label4.setBounds( getInsets().left + 478, getInsets().top + 204, 96, 24 );
         p.add( label4 );
         choice2 = new Choice();

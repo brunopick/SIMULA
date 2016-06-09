@@ -728,16 +728,16 @@ public class SIMULA
             priorLabelComp = new Label( "Prioridade:" );
             priorLabelComp.setBounds( 20, 80, 75, 20 );
             baseComportamentos.add( priorLabelComp );
-            preLabelComp = new Label( "Pr�-Condi��o:" );
+            preLabelComp = new Label( "Pré-Condição:" );
             preLabelComp.setBounds( 20, 120, 100, 20 );
             baseComportamentos.add( preLabelComp );
-            ativLabelComp = new Label( "A��o Ativada:" );
+            ativLabelComp = new Label( "Ação Ativada:" );
             ativLabelComp.setBounds( 20, 150, 100, 20 );
             baseComportamentos.add( ativLabelComp );
-            conLabelComp = new Label( "A��o Condicional:" );
+            conLabelComp = new Label( "Ação Condicional:" );
             conLabelComp.setBounds( 20, 180, 115, 20 );
             baseComportamentos.add( conLabelComp );
-            posLabelComp = new Label( "P�s-Condi��o:" );
+            posLabelComp = new Label( "Pós-Condição:" );
             posLabelComp.setBounds( 20, 210, 100, 20 );
             baseComportamentos.add( posLabelComp );
             priorFieldComp = new TextField();
@@ -804,13 +804,13 @@ public class SIMULA
             agenteLabelDialogComp = new Label( "Agente Objetivo:" );
             agenteLabelDialogComp.setBounds( 24, 35, 120, 20 );
             baseDialogComportamentos.add( agenteLabelDialogComp );
-            varLabelDialogComp = new Label( "Vari�vel:" );
+            varLabelDialogComp = new Label( "Variável:" );
             varLabelDialogComp.setBounds( 24, 60, 120, 20 );
             baseDialogComportamentos.add( varLabelDialogComp );
             operLabelDialogComp = new Label( "Operador:" );
             operLabelDialogComp.setBounds( 24, 85, 120, 20 );
             baseDialogComportamentos.add( operLabelDialogComp );
-            paramLabelDialogComp = new Label( "Par�metro Compara��o:" );
+            paramLabelDialogComp = new Label( "Parâmetro Comparação:" );
             paramLabelDialogComp.setBounds( 24, 110, 150, 20 );
             baseDialogComportamentos.add( paramLabelDialogComp );
             regraLabelDialogComp = new Label( "Regra:" );
@@ -875,7 +875,7 @@ public class SIMULA
             paramFieldDialogComp = new TextField();
             paramFieldDialogComp.setBounds( 180, 110, 180, 20 );
             baseDialogComportamentos.add( paramFieldDialogComp );
-            iniBlocoButtonDialogComp = new Button( "In�cio de Bloco" );
+            iniBlocoButtonDialogComp = new Button( "Início de Bloco" );
             iniBlocoButtonDialogComp.setBounds( 36, 240, 123, 26 );
             baseDialogComportamentos.add( iniBlocoButtonDialogComp );
             (iniBlocoButtonDialogComp).addActionListener( this );
@@ -915,8 +915,8 @@ public class SIMULA
             listComp.add( "atinge_agente(agente a ser atingido)" );
             listComp.add( "percebe_pista()" );
             listComp.add( "atinge_pista(agente que deixou a pista)" );
-            listComp.add( "atinge_tempo_de_vida(tempo m�ximo de vida)" );
-            listComp.add( "tempo_de_fertilidade(tempo de vida f�rtil)" );
+            listComp.add( "atinge_tempo_de_vida(tempo máximo de vida)" );
+            listComp.add( "tempo_de_fertilidade(tempo de vida fértil)" );
             listComp.add( "atinge_vida_adulta(tempo de vida para tornar-se adulto)" );
             listComp.add( "tipo_sexo(sexo,taxa de nascimento)" );
             listComp.add( "taxa_de_sucesso(taxa)" );
@@ -1043,7 +1043,7 @@ public class SIMULA
             int valor = paraString.length(), aux = regraScrollDialogPar.getValue();
 
             // Alterado 16/10/2005 para corrigir um bug no valor da
-            // variavel "aux" no menu "Crit�rio de parada"
+            // variavel "aux" no menu "Critério de parada"
             if ( aux < 0 )
             {
                 aux = 0;
@@ -1090,7 +1090,7 @@ public class SIMULA
             agenChoiceDist = new Choice();
             baseDistrib.add( agenChoiceDist );
             agenChoiceDist.setBounds( 190, 20, 200, 20 );
-            numLabelDist = new Label( "N�mero do Agente:" );
+            numLabelDist = new Label( "Número do Agente:" );
             numLabelDist.setBounds( 20, 50, 130, 20 );
             baseDistrib.add( numLabelDist );
             numFieldDist = new TextField();
@@ -1186,13 +1186,13 @@ public class SIMULA
             idLabelVar = new Label();
             idLabelVar.setBounds( 180, 20, 50, 20 );
             baseVariaveis.add( idLabelVar );
-            nomeLabelVar = new Label( "Nome da Vari�vel:" );
+            nomeLabelVar = new Label( "Nome da Variável:" );
             nomeLabelVar.setBounds( 40, 50, 120, 20 );
             baseVariaveis.add( nomeLabelVar );
             nomeFieldVar = new TextField( "" );
             nomeFieldVar.setBounds( 180, 50, 280, 20 );
             baseVariaveis.add( nomeFieldVar );
-            tipoLabelVar = new Label( "Tipo da Vari�vel:" );
+            tipoLabelVar = new Label( "Tipo da Variável:" );
             tipoLabelVar.setBounds( 40, 80, 120, 20 );
             baseVariaveis.add( tipoLabelVar );
             tipoChoiceVar = new Choice();
@@ -1515,14 +1515,14 @@ public class SIMULA
             baseDimensoes = new Panel();
             baseDimensoes.setLayout( null );
             baseDimensoes.setSize( getInsets().left + getInsets().right + 230, getInsets().top + getInsets().bottom + 90 );
-            colLabelDim = new Label( "N�mero de Colunas:" );
+            colLabelDim = new Label( "Número de Colunas:" );
             colLabelDim.setBounds( 20, 20, 130, 20 );
             baseDimensoes.add( colLabelDim );
             colFieldDim = new TextField();
             baseDimensoes.add( colFieldDim );
             colFieldDim.setBounds( 150, 20, 50, 20 );
             (colFieldDim).addKeyListener( this );
-            linLabelDim = new Label( "N�mero de Linhas:" );
+            linLabelDim = new Label( "Número de Linhas:" );
             linLabelDim.setBounds( 20, 50, 130, 20 );
             baseDimensoes.add( linLabelDim );
             linFieldDim = new TextField();
@@ -1577,10 +1577,10 @@ public class SIMULA
         agenLabel = new Label( "Nome do Agente:" );
         agenLabel.setBounds( 10, 40, 120, 20 );
         baseAgentes.add( agenLabel );
-        numLabel = new Label( "N�mero de Agentes:" );
+        numLabel = new Label( "Número de Agentes:" );
         numLabel.setBounds( 10, 70, 130, 20 );
         baseAgentes.add( numLabel );
-        areaLabel = new Label( "�rea de Percep��o:" );
+        areaLabel = new Label( "Área de Percepção:" );
         areaLabel.setBounds( 10, 100, 130, 20 );
         baseAgentes.add( areaLabel );
         enerLabelAgent = new Label( "Energia:" );
@@ -1729,13 +1729,13 @@ public class SIMULA
             baseDialogParada = new Panel();
             baseDialogParada.setLayout( null );
             baseDialogParada.setSize( getInsets().left + getInsets().right + 500, getInsets().top + getInsets().bottom + 265 );
-            varLabelDialogPar = new Label( "Vari�vel:" );
+            varLabelDialogPar = new Label( "Variável:" );
             varLabelDialogPar.setBounds( 24, 20, 120, 20 );
             baseDialogParada.add( varLabelDialogPar );
             operLabelDialogPar = new Label( "Operador:" );
             operLabelDialogPar.setBounds( 24, 50, 120, 20 );
             baseDialogParada.add( operLabelDialogPar );
-            paramLabelDialogPar = new Label( "Par�metro Compara��o:" );
+            paramLabelDialogPar = new Label( "Parâmetro Comparação:" );
             paramLabelDialogPar.setBounds( 24, 80, 150, 20 );
             baseDialogParada.add( paramLabelDialogPar );
             regraLabelDialogPar = new Label( "Criterio de Parada:" );
@@ -1785,7 +1785,7 @@ public class SIMULA
             remAntButtonDialogPar.setBounds( 324, 210, 123, 26 );
             baseDialogParada.add( remAntButtonDialogPar );
             (remAntButtonDialogPar).addActionListener( this );
-            iniBlocoButtonDialogPar = new Button( "In�cio de Bloco" );
+            iniBlocoButtonDialogPar = new Button( "Início de Bloco" );
             iniBlocoButtonDialogPar.setBounds( 36, 210, 123, 26 );
             baseDialogParada.add( iniBlocoButtonDialogPar );
             (iniBlocoButtonDialogPar).addActionListener( this );
