@@ -110,17 +110,17 @@ public class SIMULA
         FileMenu.addSeparator();
         FileMenu.add( new MenuItem( "Sair" ) );
         programMenuBar.add( FileMenu );
-        SettingsMenu = new Menu( "Configuracoes" );
-        SettingsMenu.add( new MenuItem( "Definicao de Agentes" ) );
-        SettingsMenu.add( new MenuItem( "Definicao de Variaveis" ) );
+        SettingsMenu = new Menu( "Configurações" );
+        SettingsMenu.add( new MenuItem( "Definição de Agentes" ) );
+        SettingsMenu.add( new MenuItem( "Definição de Variáveis" ) );
         SettingsMenu.add( new MenuItem( "Regras de Comportamento" ) );
-        SettingsMenu.add( new MenuItem( "Criterio de Parada" ) );
-        SettingsMenu.add( new MenuItem( "Dimensao do Ambiente" ) );
-        SettingsMenu.add( new MenuItem( "Distribuicao de Agentes" ) );
+        SettingsMenu.add( new MenuItem( "Critério de Parada" ) );
+        SettingsMenu.add( new MenuItem( "Dimensão do Ambiente" ) );
+        SettingsMenu.add( new MenuItem( "Distribuição de Agentes" ) );
         programMenuBar.add( SettingsMenu );
         CompileMenu = new Menu( "Executar" );
-        CompileMenu.add( new MenuItem( "Gerar Codigo" ) );
-        CompileMenu.add( new MenuItem( "Execucao" ) );
+        CompileMenu.add( new MenuItem( "Gerar Código" ) );
+        CompileMenu.add( new MenuItem( "Execução" ) );
         programMenuBar.add( CompileMenu );
         HelpMenu = new Menu( "Ajuda" );
         HelpMenu.add( new MenuItem( "Ajuda" ) );
@@ -171,10 +171,10 @@ public class SIMULA
         {
             switch ( parametro )
             {
-                case "Gerar Codigo":
+                case "Gerar Código":
                     GerarCodigo();
                     break;
-                case "Execucao":
+                case "Execução":
                     Runtime rt = Runtime.getRuntime();
                     try
                     {
@@ -644,11 +644,11 @@ public class SIMULA
 
         else if ( source == SettingsMenu )
         {
-            if ( "Definicao de Agentes".equals( parametro ) )
+            if ( "Definição de Agentes".equals( parametro ) )
             {
                 criaDefAgentes();
             }
-            else if ( ("Definicao de Variaveis").equals( parametro ) )
+            else if ( ("Definição de Variáveis").equals( parametro ) )
             {
                 criaDefVariaveis();
             }
@@ -656,15 +656,15 @@ public class SIMULA
             {
                 criaDefComportamentos();
             }
-            else if ( ("Criterio de Parada").equals( parametro ) )
+            else if ( ("Critério de Parada").equals( parametro ) )
             {
                 criaDialogParada();
             }
-            else if ( ("Dimensao do Ambiente").equals( parametro ) )
+            else if ( ("Dimensão do Ambiente").equals( parametro ) )
             {
                 criaDimensoesDialog();
             }
-            else if ( ("Distribuicao de Agentes").equals( parametro ) )
+            else if ( ("Distribuição de Agentes").equals( parametro ) )
             {
                 criaDistribAgentes();
             }
@@ -773,7 +773,7 @@ public class SIMULA
             baseComportamentos.add( posButtonComp );
             posButtonComp.addActionListener( this );
             defComportamentos.add( "Center", baseComportamentos );
-            defComportamentos.setTitle( "Definicao de Comportamentos" );
+            defComportamentos.setTitle( "Definição de Comportamentos" );
             defComportamentos.pack();
             defComportamentos.setResizable( false );
         }
@@ -923,7 +923,7 @@ public class SIMULA
             baseDialogComportamentos.add( listComp );
             defDialogComportamentos.add( "Center", baseDialogComportamentos );
             defDialogComportamentos.pack();
-            defDialogComportamentos.setTitle( "Definicao de Comportamentos" );
+            defDialogComportamentos.setTitle( "Definição de Comportamentos" );
             defDialogComportamentos.setResizable( false );
         }
         if ( choice != ch )
@@ -1133,7 +1133,7 @@ public class SIMULA
             canButtonDist.addActionListener( this );
             distDialog.add( "Center", baseDistrib );
             distDialog.pack();
-            distDialog.setTitle( "Distribuicao de Agentes" );
+            distDialog.setTitle( "Distribuição de Agentes" );
             distDialog.setResizable( false );
         }
         agenChoiceDist.removeAll();
@@ -1232,7 +1232,7 @@ public class SIMULA
             defVariaveis.pack();
             defVariaveis.setResizable( false );
             defVariaveis.addWindowListener( this );
-            defVariaveis.setTitle( "Definicao de Variaveis" );
+            defVariaveis.setTitle( "Definição de Variáveis" );
         }
         atualizaVariaveis();
         defVariaveis.setVisible( true );
@@ -1522,6 +1522,8 @@ public class SIMULA
             baseDimensoes.add( colFieldDim );
             colFieldDim.setBounds( 150, 20, 50, 20 );
             (colFieldDim).addKeyListener( this );
+            colFieldDim.setEditable( false );
+            colFieldDim.setEnabled( false );
             linLabelDim = new Label( "Número de Linhas:" );
             linLabelDim.setBounds( 20, 50, 130, 20 );
             baseDimensoes.add( linLabelDim );
@@ -1529,6 +1531,8 @@ public class SIMULA
             baseDimensoes.add( linFieldDim );
             linFieldDim.setBounds( 150, 50, 50, 20 );
             (linFieldDim).addKeyListener( this );
+            linFieldDim.setEditable( false );
+            linFieldDim.setEnabled( false );
             okButtonDim = new Button( "OK" );
             okButtonDim.setBounds( 30, 90, 80, 25 );
             baseDimensoes.add( okButtonDim );
@@ -1563,7 +1567,7 @@ public class SIMULA
         }
         defAgentes = new Dialog( this, true );
         baseAgentes = new Panel();
-        defAgentes.setTitle( "Definicao de Agentes" );
+        defAgentes.setTitle( "Definição de Agentes" );
         defAgentes.setLayout( new BorderLayout() );
         baseAgentes.setLayout( null );
         baseAgentes.setBounds( getInsets().left + 12, getInsets().top + 12, 480, 350 );
@@ -1738,7 +1742,7 @@ public class SIMULA
             paramLabelDialogPar = new Label( "Parâmetro Comparação:" );
             paramLabelDialogPar.setBounds( 24, 80, 150, 20 );
             baseDialogParada.add( paramLabelDialogPar );
-            regraLabelDialogPar = new Label( "Criterio de Parada:" );
+            regraLabelDialogPar = new Label( "Critério de Parada:" );
             regraLabelDialogPar.setBounds( 24, 120, 120, 20 );
             baseDialogParada.add( regraLabelDialogPar );
             regra2LabelDialogPar = new Label();
@@ -1803,7 +1807,7 @@ public class SIMULA
             (canButtonDialogPar).addActionListener( this );
             defDialogParada.add( "Center", baseDialogParada );
             defDialogParada.pack();
-            defDialogParada.setTitle( "Definicao do Criterio de Parada" );
+            defDialogParada.setTitle( "Definição do Critério de Parada" );
             defDialogParada.setResizable( false );
         }
         varChoiceDialogPar.removeAll();
