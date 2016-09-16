@@ -94,6 +94,7 @@ public class SIMULA
     static int tmp[][] = new int[1000][256];
     public static Indaux[] vetorIndex = new Indaux[100];
     public static final String variaveis = "(), <>!=&|+-/*;";
+    public static final String[] variaveis_array = {"(",")",","," ","<",">","!","=","&","|","+","-","/","*",";"};
     public static boolean acao = false;
 
     public SIMULA()
@@ -859,8 +860,8 @@ public class SIMULA
             operChoiceDialogComp.add( "&&" );
             operChoiceDialogComp.add( "||" );
             operChoiceDialogComp.add( "!" );
-            operChoiceDialogComp.add( "<=" );
-            operChoiceDialogComp.add( ">=" );
+//            operChoiceDialogComp.add( "<=" );
+//            operChoiceDialogComp.add( ">=" );
             operChoiceDialogComp.add( "!=" );
             operChoiceDialogComp.add( "=" );
             operChoiceDialogComp.add( "<" );
@@ -1774,8 +1775,8 @@ public class SIMULA
             operChoiceDialogPar.add( "&&" );
             operChoiceDialogPar.add( "||" );
             operChoiceDialogPar.add( "!" );
-            operChoiceDialogPar.add( "<=" );
-            operChoiceDialogPar.add( ">=" );
+//            operChoiceDialogPar.add( "<=" );
+//            operChoiceDialogPar.add( ">=" );
             operChoiceDialogPar.add( "!=" );
             operChoiceDialogPar.add( "=" );
             operChoiceDialogPar.add( "<" );
@@ -2109,9 +2110,7 @@ public class SIMULA
             f.write( (" }\r\n").getBytes() );
             f.close();
             
-            Process compila = rt.exec( "javac Codigos.java" );
-            compila.waitFor();
-            int exitValue = compila.exitValue();
+            int exitValue = compilaCodigo(rt);
             
             if ( exitValue == 0 ) 
             {
@@ -2126,6 +2125,34 @@ public class SIMULA
         {
             e.printStackTrace();
         }
+    }
+    
+    private int compilaCodigo(Runtime rt) {
+        try {
+            Process p = rt.exec("javac Codigos.java");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            StringBuilder output = new StringBuilder("-----SAIDA-----\n");
+            String line;			
+            while ((line = reader.readLine())!= null) {
+                    output.append(line).append("\n");
+            }
+            
+            reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            output.append("\n\n-----ERROS-----\n");
+            while ((line = reader.readLine())!= null) {
+                    output.append(line).append("\n");
+            }
+            
+            System.out.println( output.toString() );
+            p.waitFor();
+            return p.exitValue();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return 1;
     }
 
     public void adicionaComponente( int cod, String param )
@@ -2156,12 +2183,12 @@ public class SIMULA
         {
             if ( op == 4 )
             {
-                adicionaComponente( 5, "<=" );
+//                adicionaComponente( 5, "<=" );
                 posicao++;
             }
             else if ( op == 5 )
             {
-                adicionaComponente( 5, ">=" );
+//                adicionaComponente( 5, ">=" );
                 posicao++;
             }
             else if ( op == 6 )
@@ -2305,7 +2332,11 @@ public class SIMULA
                 achou = false;
                 for ( int i = 0; i < 15; i++ )
                 {
-                    if ( condicao.charAt( posicao ) == variaveis.charAt( i ) )
+                    if ( posicao+1<=aux &&( (condicao.charAt( posicao ) + condicao.charAt( posicao )) == variaveis.charAt( i ) ) )
+                    {
+                        
+                    }
+                    else if ( condicao.charAt( posicao ) == variaveis.charAt( i ) )
                     {
                         adicionaOperador( i, posicao );
                         achou = true;
