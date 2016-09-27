@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import utils.Logger;
 
 public class Executar extends Frame implements WindowListener, MouseListener,
         ActionListener, Runnable, ItemListener, AdjustmentListener
@@ -13,12 +16,13 @@ public class Executar extends Frame implements WindowListener, MouseListener,
     public static AreaCanvas ambiente;
     public static Image pista/*, tiro*/;
     static Choice choice1, choice2;
-    static Label label8, label5, label7;
+    static Label label8, label5, label7, status;
     Button button1, button2, button3, button4, button5;
-    static int lin, col, amostra = 1;
+    static int lin, col, amostra;
     public static int[][] ambtmp = new int[40][40];
     public static Codigos codigos = new Codigos();
     public static Scrollbar horScroll, verScroll;
+    public Posicao orig;
     static final int img[] =
     {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -53,18 +57,21 @@ public class Executar extends Frame implements WindowListener, MouseListener,
 
     public Executar()
     {
-        super( "Execucao" );
+        super( "Execução" );
         Panel p;
         Label label1, label2, label3, label4, label6;
         int i = 0, aux;
         Codigos.inicializaTipos();
         setBackground( Color.lightGray );
         execThread = new Thread( this );
-        setTitle( "Execucao" );
+        setTitle( "Execução" );
         setLayout( new BorderLayout() );
         p = new Panel();
         p.setLayout( null );
         p.setSize( getInsets().left + getInsets().right + 665, getInsets().top + getInsets().bottom + 460 );
+        status = new Label("");
+        status.setBounds(getInsets().left + 15,getInsets().top + 445,409,20);
+        p.add(status);
         label1 = new Label( "Variável:" );
         label1.setBounds( getInsets().left + 478, getInsets().top + 24, 84, 26 );
         p.add( label1 );
@@ -98,22 +105,27 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         button1.setBounds( getInsets().left + 478, getInsets().top + 288, 72, 36 );
         p.add( button1 );
         (button1).addActionListener( this );
+        (button1).addMouseListener(this);
         button2 = new Button( "Reiniciar" );
         button2.setBounds( getInsets().left + 478, getInsets().top + 336, 72, 36 );
         p.add( button2 );
         (button2).addActionListener( this );
+        (button2).addMouseListener(this);
         button3 = new Button( "Parar" );
         button3.setBounds( getInsets().left + 562, getInsets().top + 288, 72, 36 );
         p.add( button3 );
         (button3).addActionListener( this );
+        (button3).addMouseListener(this);
         button4 = new Button( "Passo" );
         button4.setBounds( getInsets().left + 562, getInsets().top + 336, 72, 36 );
         p.add( button4 );
         (button4).addActionListener( this );
+        (button4).addMouseListener(this);
         button5 = new Button( "Sair" );
         button5.setBounds( getInsets().left + 495, getInsets().top + 382, 120, 36 );
         p.add( button5 );
         (button5).addActionListener( this );
+        (button5).addMouseListener(this);
         label8 = new Label();
         label8.setBounds( getInsets().left + 586, getInsets().top + 96, 36, 24 );
         p.add( label8 );
@@ -346,6 +358,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         }
         ambiente.repaint();
         atualizaAmostra();
+        Logger.log("Ciclo " + tempo);
     }
 
     public void fechaJanela()
@@ -379,15 +392,34 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         }
     }
 
-    /*  public int selecionaAgente(int posx, int posy) {
-     int lin,col,agente;
-     if((posx>0)&&(posy>0)&&(posx<400)&&(posy<400)) {
-     col = posx/16;
-     lin = posy/16;
-     agente = ambiente.agentes[col][lin];
-     if(agente!=-1) {
-     return agente; } }
-     return amostra; } */
+    public int selecionaAgente(int posx, int posy) {
+        int lin,col,agente;
+        if((posx>0) && (posy>0) && (posx<400) && (posy<400)) {
+            col = posx/16;
+            lin = posy/16;
+            agente = ambiente.agentes[col][lin];
+
+            if(agente != -1) {
+                return agente;
+            }
+        }
+        return -1;
+    }
+
+    public int selecionaPista(int posx, int posy) {
+        int lin,col,pst;
+        if((posx>0) && (posy>0) && (posx<400) && (posy<400)) {
+            col = posx/16;
+            lin = posy/16;
+            pst = ambiente.pistas[col][lin];
+
+            if(pst!=-1) {
+                return pst;
+            }
+        }
+        return -1;
+    }
+
     public static void terminaExecucao()
     {
         execThread.suspend();
@@ -405,11 +437,16 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         else if ( parametro.equals( "Sair" ) )
         {
             fechaJanela();
+            Logger.log("Fim da simulação");
+            Logger.log("Tempo da simulação: "+label7.getText()+" ciclos.");
         }
         else if ( parametro.equals( "Iniciar" ) )
         {
             execThread.resume();
-        }
+            if (tempo==0) {
+                Logger.log("Início da simulação");
+            }
+        } 
         else if ( parametro.equals( "Passo" ) )
         {
             if ( !Codigos.atingiuCondicaoParada() )
@@ -425,6 +462,23 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         {
             atualizaAmostra();
         }
+        else if(parametro.equals("Mover")){
+            setCursor(HAND_CURSOR);
+        }
+        else if(parametro.equals("Excluir")){
+            Metodos.morteDeAgente(agentes[amostra]);
+            ambiente.repaint();
+            atualizaAmostra();
+        }
+        else if(parametro.equals("Pista")){
+            ambiente.pistas[orig.x][orig.y] = 1;
+            ambiente.repaint();
+            atualizaAmostra();
+        }
+        else if(parametro.equals("Exclui")){
+            ambiente.pistas[orig.x][orig.y] = -1;
+            ambiente.repaint();
+            atualizaAmostra(); }
     }
 
     public void itemStateChanged( ItemEvent evt )
@@ -439,27 +493,89 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         ambiente.repaint();
     }
 
-    public void mouseClicked( MouseEvent e )
-    {
+    public void mouseClicked(MouseEvent e) {
+        if (e.getComponent()==ambiente) {
+            JPopupMenu popup;
+            JMenuItem menuItem;
+            popup = new JPopupMenu();
+            orig = new Posicao((e.getX()-4)/16,(e.getY()-4)/16);
+            if (ambiente.pistas[orig.x][orig.y]==1) {
+                menuItem = new JMenuItem("Exclui");
+                menuItem.addActionListener(this);
+                popup.add(menuItem);
+            }
+            else if (Metodos.posicaoVaga(orig)) {
+                menuItem = new JMenuItem("Pista");
+                menuItem.addActionListener(this);
+                popup.add(menuItem);
+            }
+            else {
+                menuItem = new JMenuItem("Mover");
+                menuItem.addActionListener(this);
+                popup.add(menuItem);
+                menuItem = new JMenuItem("Excluir");
+                menuItem.addActionListener(this);
+                popup.add(menuItem);
+            }
+
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                amostra = selecionaAgente(e.getX()-4,e.getY()-4);
+                popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+
+            if (getCursorType()==(HAND_CURSOR)){
+                Posicao dest = new Posicao((e.getX()-4)/16,(e.getY()-4)/16);
+                if (Metodos.posicaoVaga(dest)) {
+                    Metodos.atualizaPosicao((agentes[amostra]),(dest));
+                    ambiente.repaint();
+                    atualizaAmostra();
+                    setCursor(DEFAULT_CURSOR);
+                }
+            }
+        }
     }
 
     public void mouseEntered( MouseEvent e )
     {
+        if(e.getComponent()==button1){
+            status.setText("Inicia a simulação");
+        }
+        if(e.getComponent()==button2){
+            status.setText("Reinicia a simulação");
+        }
+        if(e.getComponent()==button3){
+            status.setText("Pausa a simulação");
+        }
+        if(e.getComponent()==button4){
+            status.setText("Executa a simulação passo a passo");
+        }
+        if(e.getComponent()==button5){
+            status.setText("Sai da simulação");
+        }
     }
 
     public void mouseExited( MouseEvent e )
     {
+        status.setText(null);
     }
 
     public void mouseReleased( MouseEvent e )
     {
+        //TODO: verificar, já estava comentado
+//    Posicao pos = new Posicao((e.getX()-4)/16,(e.getY()-4)/16);
+//    if (Metodos.posicaoVaga(pos)) {
+//      Metodos.atualizaPosicao((agentes[amostra]),(pos));
+//      ambiente.repaint();
+//      atualizaAmostra();
     }
 
     public void mousePressed( MouseEvent evt )
     {
+        //TODO: verificar, já estava comentado
+//    JOptionPane.showMessageDialog(null, String.valueOf("Posição do agente: ("+evt.getX()+","+evt.getY()+")"));
+   // amostra = selecionaAgente(evt.getX()-4,evt.getY()-4);
+//    JOptionPane.showMessageDialog(null, amostra);
     }
-//    amostra = selecionaAgente(evt.getX()-4,evt.getY()-4);
-//    atualizaAmostra(); }
 
     public void windowActivated( WindowEvent evt )
     {

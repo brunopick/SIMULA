@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.image.*;
+import utils.Logger;
 
 public class Metodos
 {
@@ -28,8 +29,7 @@ public class Metodos
 
     public static boolean posicaoVaga( Posicao pos )
     {
-        if ( Executar.ambiente.agentes[pos.x][pos.y] == -1 )
-        {
+        if( (Executar.ambiente.agentes[pos.x][pos.y] == -1) && (Executar.ambiente.pistas[pos.x][pos.y] == -1) ) {
             return true;
         }
         return false;
@@ -45,12 +45,18 @@ public class Metodos
 
     public static void movimentoRandomico( Agente agente )
     {
-        int direcao;
-        do
-        {
-            direcao = (int) (Math.random() * 10);
+        int direcao, mem=0;
+        do {
+            direcao = (int)(Math.random() * 10); 
+        } while( (direcao<1) || (direcao>8) );
+        
+        if(mem==direcao){
+            do {
+                direcao = (int)(Math.random() * 10); 
+            } while( (direcao<1) || (direcao>8) ); 
         }
-        while ( (direcao < 1) || (direcao > 8) );
+        mem=direcao;  
+        Logger.log(agente.nome+" executa movimento randômico");
         movimentaPara( agente, direcao );
     }
 
@@ -91,11 +97,13 @@ public class Metodos
             num++;
         }
         Executar.ambiente.pistas[agente.coluna][agente.linha] = num;
+        Logger.log(agente.nome+" deixa pista");
     }
 
     public static void removePista( Agente agente )
     {
         Executar.ambiente.pistas[agente.coluna][agente.linha] = -1;
+        Logger.log(agente.nome+" remove pista");
     }
 
     public static void mataAgente( Agente agente, String alvo )
@@ -109,6 +117,7 @@ public class Metodos
             Executar.ambiente.agentes[pos.x][pos.y] = -1;
             Executar.vetorQtd[aux]--;
         }
+        Logger.log(agente.nome+" matou "+alvo);
     }
 
     public static void morteDeAgente( Agente agente )
@@ -117,6 +126,7 @@ public class Metodos
         Executar.ambiente.agentes[agente.coluna][agente.linha] = -1;
         Executar.agentes[agente.ncriacao] = null;
         Executar.vetorQtd[aux]--;
+        Logger.log(agente.nome+" morreu");
     }
 
     public static void mataAgenteDir( Agente agente, int direcao )
@@ -225,6 +235,7 @@ public class Metodos
         Posicao pos = percebePistaNoRaio( agente, alvo );
         if ( pos != indeferido )
         {
+            Logger.log(agente.nome+" percebe pista de "+alvo);
             return true;
         }
         return false;
@@ -269,6 +280,7 @@ public class Metodos
         Posicao pos = percebePistaNoRaio( agente, alvo );
         if ( pos != indeferido )
         {
+            Logger.log(agente.nome+" segue pista");
             movimentaPara( agente, pos );
         }
     }
@@ -278,6 +290,7 @@ public class Metodos
         Posicao pos = percebeAgenteNoRaio( agente, alvo );
         if ( pos != indeferido )
         {
+            Logger.log(agente.nome+" segue "+alvo);
             movimentaPara( agente, pos );
         }
     }
@@ -287,6 +300,7 @@ public class Metodos
         Posicao pos = percebeAgenteNoRaio( agente, alvo );
         if ( pos != indeferido )
         {
+            Logger.log(agente.nome+" percebe "+alvo);
             return true;
         }
         return false;
@@ -459,6 +473,7 @@ public class Metodos
         Posicao pos = percebeAgenteNoRaio( agente, seguidor );
         if ( pos != indeferido )
         {
+            Logger.log(agente.nome+" foge de "+seguidor);
             direcao = calculaDirecao( agente, pos );
             direcao = inverteDirecao( direcao );
             movimentaPara( agente, direcao );
@@ -542,6 +557,7 @@ public class Metodos
         Posicao pos = (new Posicao( agente.coluna, agente.linha ));
         if ( percebeAgente( 1, pos, alvo ) != indeferido )
         {
+            Logger.log(agente.nome+" atingiu "+alvo);
             return true;
         }
         else
@@ -555,6 +571,7 @@ public class Metodos
         Posicao pos = new Posicao( agente.coluna, agente.linha );
         if ( Executar.ambiente.pistas[pos.x][pos.y] != -1 )
         {
+            Logger.log(agente.nome+" atingiu pista");
             return true;
         }
         else
@@ -674,6 +691,7 @@ public class Metodos
             pos = encontraPosicaoVaga( agente );
             if ( pos != indeferido )
             {
+                Logger.log(agente.nome+" reproduziu "+tipo);
                 criaAgente( tipo, pos );
             }
         }
@@ -826,7 +844,9 @@ public class Metodos
     public static void transformaAgente( Agente agente, String novotipo )
     {
         int aux = retornaNumTipoAgente( agente.nome );
+        String partialLog = agente.nome+" transformou-se em ";
         Agente tipo = retornaUltimoAgente( novotipo );
+        Logger.log(partialLog+novotipo);
         Executar.agentes[agente.ncriacao].nome = novotipo;
         Executar.agentes[agente.ncriacao].imagem = tipo.imagem;
         Executar.agentes[agente.ncriacao].numero = tipo.numero + 1;

@@ -163,8 +163,10 @@ public class SIMULA
                     SalvaArq();
                     break;
                 case "Sair":
-                    dispose();
-                    System.exit( 0 );
+                    if (JOptionPane.showConfirmDialog(null, "Deseja sair do SIMULA?", "Sair", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        dispose();
+                        System.exit( 0 );
+                    }
             }
         }
 
