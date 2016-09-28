@@ -39,21 +39,6 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         -65536, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
     };
-    /*  static final int img2[] = {
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-16777216,-8355712,
-     -8355712,-8355712,-8355712,-8355712,-8355712,-16777216,-1,-1,-1,-1,-1,-1,-1,-1,
-     -16777216,-16777216,-16777216,-16777216,-16777216,-16777216,-8355712,-8355712,-16777216,
-     -1,-1,-1,-1,-1,-1,-1,-16777216,-16777216,-16777216,-16777216,-16777216,-16777216,-8355712,
-     -8355712,-8355712,-16777216,-1,-1,-1,-1,-1,-1,-16777216,-16777216,-16777216,-16777216,
-     -16777216,-16777216,-8355712,-8355712,-16777216,-1,-1,-1,-1,-1,-1,-1,-16777216,-8355712,
-     -8355712,-8355712,-8355712,-8355712,-8355712,-16777216,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
-     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-     */
 
     public Executar()
     {
@@ -133,20 +118,6 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         ambiente.setBounds( getInsets().left + 15, getInsets().top + 10, 409, 409 );
         (ambiente).addMouseListener( this );
         p.add( ambiente );
-        horScroll = new Scrollbar( Scrollbar.HORIZONTAL );
-        horScroll.setBounds( getInsets().left + 15, getInsets().top + 420, 409, 20 );
-        horScroll.setMinimum( 0 );
-        horScroll.setMaximum( 0 );
-        horScroll.setUnitIncrement( 1 );
-        horScroll.addAdjustmentListener( this );
-        p.add( horScroll );
-        verScroll = new Scrollbar( Scrollbar.VERTICAL );
-        verScroll.setBounds( getInsets().left + 425, getInsets().top + 10, 20, 409 );
-        verScroll.setMinimum( 0 );
-        verScroll.setMaximum( 0 );
-        verScroll.setUnitIncrement( 1 );
-        verScroll.addAdjustmentListener( this );
-        p.add( verScroll );
         add( "Center", p );
         while ( agentes[i] != null )
         {
@@ -298,23 +269,6 @@ public class Executar extends Frame implements WindowListener, MouseListener,
     public static void inicializaAmbiente()
     {
         int aux = Codigos.colunas - 25;
-        if ( aux >= 0 )
-        {
-            horScroll.setMaximum( aux + 1 );
-        }
-        else
-        {
-            horScroll.setVisible( false );
-        }
-        aux = Codigos.linhas - 25;
-        if ( aux >= 0 )
-        {
-            verScroll.setMaximum( aux + 1 );
-        }
-        else
-        {
-            verScroll.setVisible( false );
-        }
         for ( int i = 0; i < 40; i++ )
         {
             for ( int j = 0; j < 40; j++ )
@@ -488,9 +442,6 @@ public class Executar extends Frame implements WindowListener, MouseListener,
 
     public void adjustmentValueChanged( AdjustmentEvent evt )
     {
-        Posicao origem = new Posicao( horScroll.getValue(), verScroll.getValue() );
-        ambiente.selecionaArea( origem );
-        ambiente.repaint();
     }
 
     public void mouseClicked(MouseEvent e) {

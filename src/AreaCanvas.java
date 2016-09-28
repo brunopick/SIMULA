@@ -67,7 +67,7 @@ public class AreaCanvas extends Canvas
         int lin, col;
         Posicao limite = new Posicao( 0, 0 );
         int tamx = cl * 16, tamy = li * 16;
-        g.setColor( Color.white );
+        g.setColor( Color.white ); //TODO: choose simulation background color
         for ( int i = 0; i < 25; i++ )
         {
             for ( int j = 0; j < 25; j++ )
