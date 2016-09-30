@@ -1,11 +1,31 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
+//import java.awt.*;
+//import java.awt.event.*;
+//import java.awt.image.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.image.MemoryImageSource;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import utils.Logger;
 
-public class Executar extends Frame implements WindowListener, MouseListener,
+public class Executar extends JFrame implements WindowListener, MouseListener,
         ActionListener, Runnable, ItemListener, AdjustmentListener
 {
 
@@ -15,18 +35,17 @@ public class Executar extends Frame implements WindowListener, MouseListener,
     public static Agente[] agentes = new Agente[1600];
     public static AreaCanvas ambiente;
     public static Image pista/*, tiro*/;
-    static Choice choice1, choice2;
-    static Label label8, label5, label7, status;
-    Button button1, button2, button3, button4, button5;
+    static JComboBox variaveisComboBox, agentesComboBox;
+    static JLabel label8, label5, label7, status;
+    JButton button1, button2, button3, button4, button5;
     static int lin, col, amostra;
     public static int[][] ambtmp = new int[40][40];
     public static Codigos codigos = new Codigos();
-    public static Scrollbar horScroll, verScroll;
     public Posicao orig;
     static final int img[] =
     {
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000,
         -1, -1, -1, -1, -65536, -65536, -1, -65536, -1, -65536, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -65536, -65536, -65536, -65536, -65536, -65536, -65536, -1, -1, -1, -1, -1, -1, -1, -1, -1,
         -65536, -65536, -65536, -65536, -65536, -65536, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -43,75 +62,75 @@ public class Executar extends Frame implements WindowListener, MouseListener,
     public Executar()
     {
         super( "Execução" );
-        Panel p;
-        Label label1, label2, label3, label4, label6;
+        JPanel p;
+        JLabel label1, label2, label3, label4, label6;
         int i = 0, aux;
         Codigos.inicializaTipos();
         setBackground( Color.lightGray );
         execThread = new Thread( this );
         setTitle( "Execução" );
         setLayout( new BorderLayout() );
-        p = new Panel();
+        p = new JPanel();
         p.setLayout( null );
         p.setSize( getInsets().left + getInsets().right + 665, getInsets().top + getInsets().bottom + 460 );
-        status = new Label("");
+        status = new JLabel("");
         status.setBounds(getInsets().left + 15,getInsets().top + 445,409,20);
         p.add(status);
-        label1 = new Label( "Variável:" );
+        label1 = new JLabel( "Variável:" );
         label1.setBounds( getInsets().left + 478, getInsets().top + 24, 84, 26 );
         p.add( label1 );
-        choice1 = new Choice();
-        p.add( choice1 );
-        choice1.setBounds( getInsets().left + 478, getInsets().top + 60, 158, 21 );
-        choice1.addItemListener( this );
-        label2 = new Label( "Agentes:" );
+        variaveisComboBox = new JComboBox();
+        p.add( variaveisComboBox );
+        variaveisComboBox.setBounds( getInsets().left + 478, getInsets().top + 60, 158, 21 );
+        variaveisComboBox.addItemListener( this );
+        label2 = new JLabel( "Agentes:" );
         label2.setBounds( getInsets().left + 478, getInsets().top + 132, 72, 24 );
         p.add( label2 );
-        label3 = new Label( "Valor:" );
+        label3 = new JLabel( "Valor:" );
         label3.setBounds( getInsets().left + 478, getInsets().top + 96, 72, 24 );
         p.add( label3 );
-        label4 = new Label( "Número total:" );
+        label4 = new JLabel( "Número total:" );
         label4.setBounds( getInsets().left + 478, getInsets().top + 204, 96, 24 );
         p.add( label4 );
-        choice2 = new Choice();
-        p.add( choice2 );
-        choice2.setBounds( getInsets().left + 478, getInsets().top + 168, 158, 21 );
-        choice2.addItemListener( this );
-        label5 = new Label();
+        agentesComboBox = new JComboBox();
+        p.add( agentesComboBox );
+        agentesComboBox.setBounds( getInsets().left + 478, getInsets().top + 168, 158, 21 );
+        agentesComboBox.addItemListener( this );
+        label5 = new JLabel();
         label5.setBounds( getInsets().left + 586, getInsets().top + 204, 36, 24 );
         p.add( label5 );
-        label6 = new Label( "Tempo(ciclos):" );
+        label6 = new JLabel( "Tempo(ciclos):" );
         label6.setBounds( getInsets().left + 478, getInsets().top + 240, 108, 27 );
         p.add( label6 );
-        label7 = new Label();
+        label7 = new JLabel();
         label7.setBounds( getInsets().left + 586, getInsets().top + 240, 36, 24 );
         p.add( label7 );
-        button1 = new Button( "Iniciar" );
+        button1 = new JButton( "Iniciar" );
         button1.setBounds( getInsets().left + 478, getInsets().top + 288, 72, 36 );
         p.add( button1 );
         (button1).addActionListener( this );
         (button1).addMouseListener(this);
-        button2 = new Button( "Reiniciar" );
+        button2 = new JButton( "Reiniciar" );
         button2.setBounds( getInsets().left + 478, getInsets().top + 336, 72, 36 );
         p.add( button2 );
         (button2).addActionListener( this );
         (button2).addMouseListener(this);
-        button3 = new Button( "Parar" );
+        button3 = new JButton( "Parar" );
         button3.setBounds( getInsets().left + 562, getInsets().top + 288, 72, 36 );
         p.add( button3 );
         (button3).addActionListener( this );
         (button3).addMouseListener(this);
-        button4 = new Button( "Passo" );
+        button4 = new JButton( "Passo" );
         button4.setBounds( getInsets().left + 562, getInsets().top + 336, 72, 36 );
         p.add( button4 );
         (button4).addActionListener( this );
         (button4).addMouseListener(this);
-        button5 = new Button( "Sair" );
+        button5 = new JButton( "Sair" );
         button5.setBounds( getInsets().left + 495, getInsets().top + 382, 120, 36 );
         p.add( button5 );
         (button5).addActionListener( this );
         (button5).addMouseListener(this);
-        label8 = new Label();
+        label8 = new JLabel();
         label8.setBounds( getInsets().left + 586, getInsets().top + 96, 36, 24 );
         p.add( label8 );
         ambiente = new AreaCanvas();
@@ -123,15 +142,15 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         {
             agentes[i] = null;
         }
-        choice1.add( "" );
-        choice2.add( "" );
+        variaveisComboBox.addItem( "" );
+        agentesComboBox.addItem( "" );
         inicializaAmbiente();
         aux = 1;
         while ( Codigos.indice[aux] != null )
         {
             if ( !Codigos.indice[aux].nome.equals( "" ) )
             {
-                choice1.add( Codigos.indice[aux].nome );
+                variaveisComboBox.addItem( Codigos.indice[aux].nome );
             }
             aux++;
         }
@@ -140,13 +159,14 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         {
             if ( !Codigos.agentes[aux].nome.equals( "" ) )
             {
-                choice2.add( Codigos.agentes[aux].nome );
+                agentesComboBox.addItem( Codigos.agentes[aux].nome );
             }
             aux++;
         }
         ambiente.calculaDeslocamento( Codigos.colunas, Codigos.linhas );
-        pack();
-        setResizable( false );
+//        pack();
+//        setResizable( false );
+setSize(800, 600);
         setVisible( true );
         addWindowListener( this );
         execThread.start();
@@ -155,7 +175,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
 
     public static void atualizaAmostra()
     {
-        int aux = 1, pos = choice1.getSelectedIndex();
+        int aux = 1, pos = variaveisComboBox.getSelectedIndex();
         if ( pos != 0 )
         {
             if ( Codigos.indice[pos].tipo.equals( "int" ) )
@@ -178,9 +198,9 @@ public class Executar extends Frame implements WindowListener, MouseListener,
                 label8.setText( new Integer( Codigos.vetorChar[Codigos.indice[pos].index] ).toString() );
             }
         }
-        if ( choice2.getSelectedIndex() != 0 )
+        if ( agentesComboBox.getSelectedIndex() > 0 )
         {
-            label5.setText( new Integer( vetorQtd[choice2.getSelectedIndex()] ).toString() );
+            label5.setText( new Integer( vetorQtd[agentesComboBox.getSelectedIndex()] ).toString() );
         }
         label7.setText( new Integer( tempo ).toString() );
     }
@@ -412,7 +432,7 @@ public class Executar extends Frame implements WindowListener, MouseListener,
         {
             terminaExecucao();
         }
-        else if ( (source == choice1) || (source == choice2) )
+        else if ( (source == variaveisComboBox) || (source == agentesComboBox) )
         {
             atualizaAmostra();
         }

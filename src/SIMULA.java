@@ -1,25 +1,11 @@
 
-
-
-//import java.awt.*;
-//import java.awt.event.*;
-//import java.io.*;
+import com.alee.laf.WebLookAndFeel;
+import components.SColorChooserButton;
+import components.SColorChooserButton.ColorChangedListener;
 import javax.swing.JFileChooser;
 import components.SFileChooser;
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Choice;
 import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Label;
-import java.awt.List;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-import java.awt.Panel;
-import java.awt.Scrollbar;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -37,11 +23,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JTextField;
+import parts.MenuBar;
 
 public class SIMULA
     extends
-        Frame
+        JFrame
     implements
         ActionListener, WindowListener, ItemListener, KeyListener, MouseListener,
         AdjustmentListener
@@ -60,37 +59,39 @@ public class SIMULA
     public int index = 1, posicao;
     Color cor = Color.white;
     public GridCanvas gridCanvas;
-    public TextField colFieldDist, linFieldDist, numFieldDist, condFieldPar, nomeField, numField, areaField, paramFieldDialogComp;
-    public TextField nomeFieldVar, valFieldVar, priorFieldComp, colFieldDim, linFieldDim, paramFieldDialogPar;
-    public TextField energFieldAgent, cargFieldAgent;
-    public Panel baseAgentes, baseComportamentos, baseVariaveis, baseDimensoes, baseDistrib, baseDialogParada;
-    public Label idLabel, idenLabel, agenLabel, numLabel, areaLabel, corLabel, imgLabel;
-    public Label compLabelDialogComp, agenteLabelDialogComp, paramLabelDialogComp, varLabelDialogComp, operLabelDialogComp;
-    public Label paramLabelDialogPar, varLabelDialogPar, operLabelDialogPar;
-    public Label idLabelVar, nomeLabelVar, idenLabelVar, tipoLabelVar, valLabelVar;
-    public Label regraLabelComp, idLabelComp, priorLabelComp, preLabelComp, ativLabelComp, agenLabelComp;
-    public Label regraLabelDialogComp, regra2LabelDialogComp;
-    public Label enerLabelAgent, cargLabelAgent;
-    public Label regraLabelDialogPar, regra2LabelDialogPar, colLabelDim, linLabelDim;
-    public Label conLabelComp, posLabelComp, preLabelComp2, ativLabelComp2, conLabelComp2, posLabelComp2;
-    public Label agenLabelDist, numLabelDist, colLabelDist, linLabelDist;
-    public Button okButton, proxButton, antButton, excButton, canButton;
-    public Button okButtonDialogComp, canButtonDialogComp, okButtonDialogPar, canButtonDialogPar;
-    public Button okButtonComp, proxButtonComp, antButtonComp, excButtonComp, canButtonComp;
-    public Button preButtonComp, ativButtonComp, conButtonComp, posButtonComp;
-    public Button okButtonVar, proxButtonVar, antButtonVar, excButtonVar, canButtonVar;
-    public Button okButtonDim, canButtonDim, okDialogButton;
-    public Button okButtonDist, proxButtonDist, antButtonDist, excButtonDist, canButtonDist;
-    public Button remAntButtonDialogComp, iniBlocoButtonDialogComp, fimBlocoButtonDialogComp;
-    public Button compButtonDialogComp, agenteButtonDialogComp, varButtonDialogComp, operButtonDialogComp, paramButtonDialogComp;
-    public Button remAntButtonDialogPar, iniBlocoButtonDialogPar, fimBlocoButtonDialogPar;
-    public Button varButtonDialogPar, operButtonDialogPar, paramButtonDialogPar;
-    public Choice corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
-    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
-    public Dialog defAgentes, defComportamentos, defVariaveis, defDialogComportamentos;
-    public Dialog critParadaDialog, dimensoesDialog, distDialog, defDialogParada, okDialog;
-    public Menu FileMenu, SettingsMenu, CompileMenu, HelpMenu;
-    public Scrollbar regraScrollDialogComp, regraScrollDialogPar;
+    public JTextField colFieldDist, linFieldDist, numFieldDist, condFieldPar, nomeField, numField, areaField, paramFieldDialogComp;
+    public JTextField nomeFieldVar, valFieldVar, priorFieldComp, colFieldDim, linFieldDim, paramFieldDialogPar;
+    public JTextField energFieldAgent, cargFieldAgent;
+    public JPanel baseAgentes, baseComportamentos, baseVariaveis, baseDimensoes, baseDistrib, baseDialogParada;
+    public JLabel idLabel, idenLabel, agenLabel, numLabel, areaLabel, corLabel, imgLabel;
+    public JLabel compLabelDialogComp, agenteLabelDialogComp, paramLabelDialogComp, varLabelDialogComp, operLabelDialogComp;
+    public JLabel paramLabelDialogPar, varLabelDialogPar, operLabelDialogPar;
+    public JLabel idLabelVar, nomeLabelVar, idenLabelVar, tipoLabelVar, valLabelVar;
+    public JLabel regraLabelComp, idLabelComp, priorLabelComp, preLabelComp, ativLabelComp, agenLabelComp;
+    public JLabel regraLabelDialogComp, regra2LabelDialogComp;
+    public JLabel enerLabelAgent, cargLabelAgent;
+    public JLabel regraLabelDialogPar, regra2LabelDialogPar, colLabelDim, linLabelDim;
+    public JLabel conLabelComp, posLabelComp, preLabelComp2, ativLabelComp2, conLabelComp2, posLabelComp2;
+    public JLabel agenLabelDist, numLabelDist, colLabelDist, linLabelDist;
+    public JButton okButton, proxButton, antButton, excButton, canButton;
+    public JButton okButtonDialogComp, canButtonDialogComp, okButtonDialogPar, canButtonDialogPar;
+    public JButton okButtonComp, proxButtonComp, antButtonComp, excButtonComp, canButtonComp;
+    public JButton preButtonComp, ativButtonComp, conButtonComp, posButtonComp;
+    public JButton okButtonVar, proxButtonVar, antButtonVar, excButtonVar, canButtonVar;
+    public JButton okButtonDim, canButtonDim, okDialogButton;
+    public JButton okButtonDist, proxButtonDist, antButtonDist, excButtonDist, canButtonDist;
+    public JButton remAntButtonDialogComp, iniBlocoButtonDialogComp, fimBlocoButtonDialogComp;
+    public JButton compButtonDialogComp, agenteButtonDialogComp, varButtonDialogComp, operButtonDialogComp, paramButtonDialogComp;
+    public JButton remAntButtonDialogPar, iniBlocoButtonDialogPar, fimBlocoButtonDialogPar;
+    public JButton varButtonDialogPar, operButtonDialogPar, paramButtonDialogPar;
+//    public Choice corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
+//    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
+    public JComboBox corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
+    public JComboBox varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
+    public JComboBox testeCombo;
+    public JDialog defAgentes, defComportamentos, defVariaveis, defDialogComportamentos;
+    public JDialog critParadaDialog, dimensoesDialog, distDialog, defDialogParada, okDialog;
+    public JScrollBar regraScrollDialogComp, regraScrollDialogPar;
     static int tmp[][] = new int[1000][256];
     public static Indaux[] vetorIndex = new Indaux[100];
     public static final String variaveis = "(), <>!=&|+-/*;";
@@ -100,43 +101,14 @@ public class SIMULA
     public SIMULA()
     {
         super( "SIMULA" );
-        setTitle( "SIMULA" );
-        MenuBar programMenuBar = new MenuBar();
-        setMenuBar( programMenuBar );
-        FileMenu = new Menu( "Arquivo" );
-        FileMenu.add( new MenuItem( "Novo" ) );
-        FileMenu.add( new MenuItem( "Abrir" ) );
-        FileMenu.add( new MenuItem( "Salvar" ) );
-        FileMenu.add( new MenuItem( "Salvar Como" ) );
-        FileMenu.addSeparator();
-        FileMenu.add( new MenuItem( "Sair" ) );
-        programMenuBar.add( FileMenu );
-        SettingsMenu = new Menu( "Configurações" );
-        SettingsMenu.add( new MenuItem( "Definição de Agentes" ) );
-        SettingsMenu.add( new MenuItem( "Definição de Variáveis" ) );
-        SettingsMenu.add( new MenuItem( "Regras de Comportamento" ) );
-        SettingsMenu.add( new MenuItem( "Critério de Parada" ) );
-        SettingsMenu.add( new MenuItem( "Dimensão do Ambiente" ) );
-        SettingsMenu.add( new MenuItem( "Distribuição de Agentes" ) );
-        programMenuBar.add( SettingsMenu );
-        CompileMenu = new Menu( "Executar" );
-        CompileMenu.add( new MenuItem( "Gerar Código" ) );
-        CompileMenu.add( new MenuItem( "Execução" ) );
-        programMenuBar.add( CompileMenu );
-        HelpMenu = new Menu( "Ajuda" );
-        HelpMenu.add( new MenuItem( "Ajuda" ) );
-        HelpMenu.add( new MenuItem( "Sobre" ) );
-        programMenuBar.add( HelpMenu );
-        (FileMenu).addActionListener( this );
-        (SettingsMenu).addActionListener( this );
-        (CompileMenu).addActionListener( this );
-        (HelpMenu).addActionListener( this );
-        setLayout( new BorderLayout() );
-        add( "Center", (new LogoCanvas()) );
-        setResizable( false );
-        setSize( 400, 250 );
-        setVisible( true );
-        addWindowListener( this );
+        this.setTitle( "SIMULA" );
+        this.setLayout( new BorderLayout() );
+        this.setJMenuBar(new MenuBar(this));
+        this.add( "Center", (new LogoCanvas()) );
+        this.setResizable( false );
+        this.setSize( 400, 250 );
+        this.setVisible( true );
+        this.addWindowListener( this );
     }
 
     @Override
@@ -144,54 +116,86 @@ public class SIMULA
     {
         String parametro = evt.getActionCommand();
         Object source = evt.getSource();
-        if ( source == FileMenu )
-        {
-            switch ( parametro )
-            {
-                case "Abrir":
+        
+        if ( source instanceof JMenuItem ) {
+            switch ( parametro ) {
+                case MenuBar.AC_ARQUIVO_ABRIR:
                     abrirArquivo();
                     break;
-                case "Novo":
+                case MenuBar.AC_ARQUIVO_NOVO:
                     novasVariaveis();
                     file = null;
                     this.setTitle( "SIMULA" );
                     break;
-                case "Salvar":
+                case MenuBar.AC_ARQUIVO_SALVAR:
                     SalvaArq(file);
                     break;
-                case "Salvar Como":
+                case MenuBar.AC_ARQUIVO_SALVAR_COMO:
                     SalvaArq();
                     break;
-                case "Sair":
+                case MenuBar.AC_ARQUIVO_SAIR:
                     if (JOptionPane.showConfirmDialog(null, "Deseja sair do SIMULA?", "Sair", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         dispose();
                         System.exit( 0 );
                     }
-            }
-        }
-
-        else if ( source == CompileMenu )
-        {
-            switch ( parametro )
-            {
-                case "Gerar Código":
+                    break;
+                case MenuBar.AC_CONFIGURACOES_DEFINICAO_AGENTES:
+                    criaDefAgentes();
+                    break;
+                case MenuBar.AC_CONFIGURACOES_DEFINICAO_VARIAVEIS:
+                    criaDefVariaveis();
+                    break;
+                case MenuBar.AC_CONFIGURACOES_REGRAS_COMPORTAMENTO:
+                    criaDefComportamentos();
+                    break;
+                case MenuBar.AC_CONFIGURACOES_CRITERIO_PARADA:
+                    criaDialogParada();
+                    break;
+                case MenuBar.AC_CONFIGURACOES_DISTRIBUICAO_AGENTES:
+                    criaDistribAgentes();
+                    break;
+                case MenuBar.AC_EXECUTAR_GERAR_CODIGO:
                     GerarCodigo();
                     break;
-                case "Execução":
+                case MenuBar.AC_EXECUTAR_EXECUCAO:
                     Runtime rt = Runtime.getRuntime();
                     try
                     {
                         Process compila = rt.exec( "java Executar" );
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(compila.getInputStream()));
+
+                        StringBuilder output = new StringBuilder("-----SAIDA-----\n");
+                        String line;			
+                        while ((line = reader.readLine())!= null) {
+                                output.append(line).append("\n");
+                        }
+
+                        reader = new BufferedReader(new InputStreamReader(compila.getErrorStream()));
+                        output.append("\n\n-----ERROS-----\n");
+                        while ((line = reader.readLine())!= null) {
+                                output.append(line).append("\n");
+                        }
+
+                        System.out.println( output.toString() );
                     }
                     catch ( Exception e )
                     {
                         e.printStackTrace();
                     }
                     break;
+                case MenuBar.AC_AJUDA_AJUDA:
+                    JOptionPane.showMessageDialog(null, "Ajuda>Ajuda");
+                    break;
+                case MenuBar.AC_AJUDA_SOBRE:
+                    JOptionPane.showMessageDialog(null, "Ajuda>Sobre");
+                    break;
+                default:
+                    break;
             }
+        
         }
 
-        else if ( parametro.equals( "Cancela" ) )
+        if ( parametro.equals( "Cancela" ) )
         {
             if ( source == canButtonVar )
             {
@@ -511,7 +515,7 @@ public class SIMULA
                 }
                 else
                 {
-                    agenChoiceDist.select( -1 );
+                    agenChoiceDist.setSelectedIndex(-1);
                     numFieldDist.setText( Integer.toString(identDist) );
                     linFieldDist.setText( "0" );
                     colFieldDist.setText( "0" );
@@ -532,7 +536,7 @@ public class SIMULA
                 else
                 {
                     nomeFieldVar.setText( "" );
-                    tipoChoiceVar.select( 0 );
+                    tipoChoiceVar.setSelectedIndex(0);
                     valFieldVar.setText( "0" );
                 }
             }
@@ -644,37 +648,6 @@ public class SIMULA
             paraString = paraString + ")";
             atualizaRegra( false );
         }
-
-        else if ( source == SettingsMenu )
-        {
-            if ( "Definição de Agentes".equals( parametro ) )
-            {
-                criaDefAgentes();
-            }
-            else if ( ("Definição de Variáveis").equals( parametro ) )
-            {
-                criaDefVariaveis();
-            }
-            else if ( ("Regras de Comportamento").equals( parametro ) )
-            {
-                criaDefComportamentos();
-            }
-            else if ( ("Critério de Parada").equals( parametro ) )
-            {
-                criaDialogParada();
-            }
-            else if ( ("Dimensão do Ambiente").equals( parametro ) )
-            {
-                criaDimensoesDialog();
-            }
-            else if ( ("Distribuição de Agentes").equals( parametro ) )
-            {
-                criaDistribAgentes();
-            }
-        }
-        else if ( source == HelpMenu )
-        {
-        }
     }
 
     /**
@@ -691,99 +664,99 @@ public class SIMULA
         }
         if ( defComportamentos == null )
         {
-            defComportamentos = new Dialog( this, true );
+            defComportamentos = new JDialog( this, true );
             defComportamentos.setLayout( new BorderLayout() );
-            baseComportamentos = new Panel();
+            baseComportamentos = new JPanel();
             baseComportamentos.setSize( getInsets().left + getInsets().right + 540, getInsets().top + getInsets().bottom + 250 );
             baseComportamentos.setLayout( null );
-            okButtonComp = new Button( "OK" );
+            okButtonComp = new JButton( "OK" );
             okButtonComp.setBounds( 30, 250, 80, 25 );
             baseComportamentos.add( okButtonComp );
             okButtonComp.addActionListener( this );
-            proxButtonComp = new Button( "Proximo" );
+            proxButtonComp = new JButton( "Proximo" );
             proxButtonComp.setBounds( 130, 250, 80, 25 );
             baseComportamentos.add( proxButtonComp );
             proxButtonComp.addActionListener( this );
-            antButtonComp = new Button( "Anterior" );
+            antButtonComp = new JButton( "Anterior" );
             antButtonComp.setBounds( 230, 250, 80, 25 );
             baseComportamentos.add( antButtonComp );
             antButtonComp.addActionListener( this );
-            excButtonComp = new Button( "Exclui" );
+            excButtonComp = new JButton( "Exclui" );
             excButtonComp.setBounds( 330, 250, 80, 25 );
             baseComportamentos.add( excButtonComp );
             excButtonComp.addActionListener( this );
-            canButtonComp = new Button( "Cancela" );
+            canButtonComp = new JButton( "Cancela" );
             canButtonComp.setBounds( 430, 250, 80, 25 );
             baseComportamentos.add( canButtonComp );
             canButtonComp.addActionListener( this );
-            agenChoiceComp = new Choice();
+            agenChoiceComp = new JComboBox();
             baseComportamentos.add( agenChoiceComp );
             agenChoiceComp.setBounds( 110, 50, 200, 21 );
-            agenLabelComp = new Label( "Agente:" );
+            agenLabelComp = new JLabel( "Agente:" );
             agenLabelComp.setBounds( 20, 50, 70, 20 );
             baseComportamentos.add( agenLabelComp );
-            regraLabelComp = new Label( "Regra:" );
+            regraLabelComp = new JLabel( "Regra:" );
             regraLabelComp.setBounds( 20, 20, 70, 20 );
             baseComportamentos.add( regraLabelComp );
-            idLabelComp = new Label( "1" );
+            idLabelComp = new JLabel( "1" );
             idLabelComp.setBounds( 110, 20, 50, 20 );
             baseComportamentos.add( idLabelComp );
-            priorLabelComp = new Label( "Prioridade:" );
+            priorLabelComp = new JLabel( "Prioridade:" );
             priorLabelComp.setBounds( 20, 80, 75, 20 );
             baseComportamentos.add( priorLabelComp );
-            preLabelComp = new Label( "Pré-Condição:" );
+            preLabelComp = new JLabel( "Pré-Condição:" );
             preLabelComp.setBounds( 20, 120, 100, 20 );
             baseComportamentos.add( preLabelComp );
-            ativLabelComp = new Label( "Ação Ativada:" );
+            ativLabelComp = new JLabel( "Ação Ativada:" );
             ativLabelComp.setBounds( 20, 150, 100, 20 );
             baseComportamentos.add( ativLabelComp );
-            conLabelComp = new Label( "Ação Condicional:" );
+            conLabelComp = new JLabel( "Ação Condicional:" );
             conLabelComp.setBounds( 20, 180, 115, 20 );
 //            baseComportamentos.add( conLabelComp );
-            posLabelComp = new Label( "Pós-Condição:" );
+            posLabelComp = new JLabel( "Pós-Condição:" );
             posLabelComp.setBounds( 20, 210, 100, 20 );
             baseComportamentos.add( posLabelComp );
-            priorFieldComp = new TextField();
+            priorFieldComp = new JTextField();
             baseComportamentos.add( priorFieldComp );
             priorFieldComp.setBounds( 110, 80, 50, 20 );
             (priorFieldComp).addKeyListener( this );
-            preLabelComp2 = new Label();
+            preLabelComp2 = new JLabel();
             preLabelComp2.setBounds( 140, 120, 280, 20 );
             baseComportamentos.add( preLabelComp2 );
-            ativLabelComp2 = new Label();
+            ativLabelComp2 = new JLabel();
             ativLabelComp2.setBounds( 140, 150, 280, 20 );
             baseComportamentos.add( ativLabelComp2 );
-            conLabelComp2 = new Label();
+            conLabelComp2 = new JLabel();
             conLabelComp2.setBounds( 140, 180, 280, 20 );
 //            baseComportamentos.add( conLabelComp2 );
-            posLabelComp2 = new Label();
+            posLabelComp2 = new JLabel();
             posLabelComp2.setBounds( 140, 210, 280, 20 );
             baseComportamentos.add( posLabelComp2 );
-            preButtonComp = new Button( "Alterar" );
+            preButtonComp = new JButton( "Alterar" );
             preButtonComp.setBounds( 440, 120, 80, 20 );
             baseComportamentos.add( preButtonComp );
             preButtonComp.addActionListener( this );
-            ativButtonComp = new Button( "Alterar" );
+            ativButtonComp = new JButton( "Alterar" );
             ativButtonComp.setBounds( 440, 150, 80, 20 );
             baseComportamentos.add( ativButtonComp );
             ativButtonComp.addActionListener( this );
-            conButtonComp = new Button( "Alterar" );
+            conButtonComp = new JButton( "Alterar" );
             conButtonComp.setBounds( 440, 180, 80, 20 );
 //            baseComportamentos.add( conButtonComp );
             conButtonComp.addActionListener( this );
-            posButtonComp = new Button( "Alterar" );
+            posButtonComp = new JButton( "Alterar" );
             posButtonComp.setBounds( 440, 210, 80, 20 );
             baseComportamentos.add( posButtonComp );
             posButtonComp.addActionListener( this );
             defComportamentos.add( "Center", baseComportamentos );
             defComportamentos.setTitle( "Definição de Comportamentos" );
-            defComportamentos.pack();
+            defComportamentos.setSize(480,320);
             defComportamentos.setResizable( false );
         }
-        agenChoiceComp.add( "" );
+        agenChoiceComp.addItem( "" );
         while ( (typeAgentList[j] != null) && (!(typeAgentList[j].nome.equals( "" ))) )
         {
-            agenChoiceComp.add( typeAgentList[j].nome );
+            agenChoiceComp.addItem( typeAgentList[j].nome );
             j++;
         }
         atualizaComportamentos();
@@ -792,140 +765,140 @@ public class SIMULA
 
     public void criaDialogComportamentos( int ch, String strtmp )
     {
-        Panel baseDialogComportamentos;
+        JPanel baseDialogComportamentos;
         int j = 0;
         if ( defDialogComportamentos == null )
         {
-            defDialogComportamentos = new Dialog( this, true );
+            defDialogComportamentos = new JDialog( this, true );
             defDialogComportamentos.setLayout( new BorderLayout() );
-            baseDialogComportamentos = new Panel();
+            baseDialogComportamentos = new JPanel();
             baseDialogComportamentos.setLayout( null );
             baseDialogComportamentos.setSize( getInsets().left + getInsets().right + 500, getInsets().top + getInsets().bottom + 370 );
-            compLabelDialogComp = new Label( "Comportamento:" );
+            compLabelDialogComp = new JLabel( "Comportamento:" );
             compLabelDialogComp.setBounds( 24, 10, 120, 20 );
             baseDialogComportamentos.add( compLabelDialogComp );
-            agenteLabelDialogComp = new Label( "Agente Objetivo:" );
+            agenteLabelDialogComp = new JLabel( "Agente Objetivo:" );
             agenteLabelDialogComp.setBounds( 24, 35, 120, 20 );
             baseDialogComportamentos.add( agenteLabelDialogComp );
-            varLabelDialogComp = new Label( "Variável:" );
+            varLabelDialogComp = new JLabel( "Variável:" );
             varLabelDialogComp.setBounds( 24, 60, 120, 20 );
             baseDialogComportamentos.add( varLabelDialogComp );
-            operLabelDialogComp = new Label( "Operador:" );
+            operLabelDialogComp = new JLabel( "Operador:" );
             operLabelDialogComp.setBounds( 24, 85, 120, 20 );
             baseDialogComportamentos.add( operLabelDialogComp );
-            paramLabelDialogComp = new Label( "Parâmetro Comparação:" );
+            paramLabelDialogComp = new JLabel( "Parâmetro Comparação:" );
             paramLabelDialogComp.setBounds( 24, 110, 150, 20 );
             baseDialogComportamentos.add( paramLabelDialogComp );
-            regraLabelDialogComp = new Label( "Regra:" );
+            regraLabelDialogComp = new JLabel( "Regra:" );
             regraLabelDialogComp.setBounds( 24, 144, 120, 20 );
             baseDialogComportamentos.add( regraLabelDialogComp );
-            regra2LabelDialogComp = new Label();
+            regra2LabelDialogComp = new JLabel();
             regra2LabelDialogComp.setBounds( 12, 180, 468, 20 );
             baseDialogComportamentos.add( regra2LabelDialogComp );
-            regraScrollDialogComp = new Scrollbar( Scrollbar.HORIZONTAL );
+            regraScrollDialogComp = new JScrollBar( JScrollBar.HORIZONTAL );
             regraScrollDialogComp.setBounds( 12, 204, 468, 17 );
             regraScrollDialogComp.setMinimum( 0 );
             regraScrollDialogComp.setMaximum( 0 );
             regraScrollDialogComp.setUnitIncrement( 1 );
             regraScrollDialogComp.addAdjustmentListener( this );
             baseDialogComportamentos.add( regraScrollDialogComp );
-            compButtonDialogComp = new Button( "Adicionar" );
+            compButtonDialogComp = new JButton( "Adicionar" );
             compButtonDialogComp.setBounds( 396, 10, 90, 20 );
             baseDialogComportamentos.add( compButtonDialogComp );
             (compButtonDialogComp).addActionListener( this );
-            agenteButtonDialogComp = new Button( "Adicionar" );
+            agenteButtonDialogComp = new JButton( "Adicionar" );
             agenteButtonDialogComp.setBounds( 396, 35, 90, 20 );
             baseDialogComportamentos.add( agenteButtonDialogComp );
             (agenteButtonDialogComp).addActionListener( this );
-            varButtonDialogComp = new Button( "Adicionar" );
+            varButtonDialogComp = new JButton( "Adicionar" );
             varButtonDialogComp.setBounds( 396, 60, 90, 20 );
             baseDialogComportamentos.add( varButtonDialogComp );
             (varButtonDialogComp).addActionListener( this );
-            operButtonDialogComp = new Button( "Adicionar" );
+            operButtonDialogComp = new JButton( "Adicionar" );
             operButtonDialogComp.setBounds( 396, 85, 90, 20 );
             baseDialogComportamentos.add( operButtonDialogComp );
             (operButtonDialogComp).addActionListener( this );
-            paramButtonDialogComp = new Button( "Adicionar" );
+            paramButtonDialogComp = new JButton( "Adicionar" );
             paramButtonDialogComp.setBounds( 396, 110, 90, 20 );
             baseDialogComportamentos.add( paramButtonDialogComp );
             (paramButtonDialogComp).addActionListener( this );
-            compChoiceDialogComp = new Choice();
+            compChoiceDialogComp = new JComboBox();
             baseDialogComportamentos.add( compChoiceDialogComp );
             compChoiceDialogComp.setBounds( 156, 10, 200, 19 );
-            agenteChoiceDialogComp = new Choice();
+            agenteChoiceDialogComp = new JComboBox();
             baseDialogComportamentos.add( agenteChoiceDialogComp );
             agenteChoiceDialogComp.setBounds( 156, 35, 200, 19 );
-            varChoiceDialogComp = new Choice();
+            varChoiceDialogComp = new JComboBox();
             baseDialogComportamentos.add( varChoiceDialogComp );
             varChoiceDialogComp.setBounds( 156, 60, 200, 19 );
-            operChoiceDialogComp = new Choice();
-            operChoiceDialogComp.add( "&&" );
-            operChoiceDialogComp.add( "||" );
-            operChoiceDialogComp.add( "!" );
-//            operChoiceDialogComp.add( "<=" );
-//            operChoiceDialogComp.add( ">=" );
-            operChoiceDialogComp.add( "!=" );
-            operChoiceDialogComp.add( "=" );
-            operChoiceDialogComp.add( "<" );
-            operChoiceDialogComp.add( ">" );
-            operChoiceDialogComp.add( "," );
-            operChoiceDialogComp.add( "-" );
-            operChoiceDialogComp.add( "+" );
-            operChoiceDialogComp.add( "/" );
-            operChoiceDialogComp.add( "*" );
+            operChoiceDialogComp = new JComboBox();
+            operChoiceDialogComp.addItem( "&&" );
+            operChoiceDialogComp.addItem( "||" );
+            operChoiceDialogComp.addItem( "!" );
+//            operChoiceDialogComp.addItem( "<=" );
+//            operChoiceDialogComp.addItem( ">=" );
+            operChoiceDialogComp.addItem( "!=" );
+            operChoiceDialogComp.addItem( "=" );
+            operChoiceDialogComp.addItem( "<" );
+            operChoiceDialogComp.addItem( ">" );
+            operChoiceDialogComp.addItem( "," );
+            operChoiceDialogComp.addItem( "-" );
+            operChoiceDialogComp.addItem( "+" );
+            operChoiceDialogComp.addItem( "/" );
+            operChoiceDialogComp.addItem( "*" );
             baseDialogComportamentos.add( operChoiceDialogComp );
             operChoiceDialogComp.setBounds( 156, 85, 50, 19 );
-            paramFieldDialogComp = new TextField();
+            paramFieldDialogComp = new JTextField();
             paramFieldDialogComp.setBounds( 180, 110, 180, 20 );
             baseDialogComportamentos.add( paramFieldDialogComp );
-            iniBlocoButtonDialogComp = new Button( "Início de Bloco" );
+            iniBlocoButtonDialogComp = new JButton( "Início de Bloco" );
             iniBlocoButtonDialogComp.setBounds( 36, 240, 123, 26 );
             baseDialogComportamentos.add( iniBlocoButtonDialogComp );
             (iniBlocoButtonDialogComp).addActionListener( this );
-            fimBlocoButtonDialogComp = new Button( "Fim de Bloco" );
+            fimBlocoButtonDialogComp = new JButton( "Fim de Bloco" );
             fimBlocoButtonDialogComp.setBounds( 180, 240, 123, 26 );
             baseDialogComportamentos.add( fimBlocoButtonDialogComp );
             (fimBlocoButtonDialogComp).addActionListener( this );
-            remAntButtonDialogComp = new Button( "Remover Anterior" );
+            remAntButtonDialogComp = new JButton( "Remover Anterior" );
             remAntButtonDialogComp.setBounds( 324, 240, 123, 26 );
             baseDialogComportamentos.add( remAntButtonDialogComp );
             (remAntButtonDialogComp).addActionListener( this );
-            okButtonDialogComp = new Button( "OK" );
+            okButtonDialogComp = new JButton( "OK" );
             okButtonDialogComp.setBounds( 350, 300, 123, 26 );
             baseDialogComportamentos.add( okButtonDialogComp );
             (okButtonDialogComp).addActionListener( this );
-            canButtonDialogComp = new Button( "Cancela" );
+            canButtonDialogComp = new JButton( "Cancela" );
             canButtonDialogComp.setBounds( 350, 340, 123, 26 );
             baseDialogComportamentos.add( canButtonDialogComp );
             (canButtonDialogComp).addActionListener( this );
-            List listComp = new List( 8, false );
-            listComp.setBounds( 20, 290, 310, 100 );
-            listComp.add( "movimento_randomico()" );
-            listComp.add( "movimento_direcionado(direcao(N,S,L,O,NO,NE,SO,SE), n. posicoes)" );
-            listComp.add( "deixa_pista()" );
-            listComp.add( "remove_pista()" );
-            listComp.add( "segue_pista()" );
-            listComp.add( "segue_maior_gradiente(agente que emite)" );
-            listComp.add( "segue_menor_gradiente(agente que emite)" );
-            listComp.add( "segue_agente(agente seguindo)" );
-            listComp.add( "foge_de_agente(agente que persegue)" );
-            listComp.add( "mata_agente(agente a matar)" );
-            listComp.add( "morte()" );
-            listComp.add( "reproduz(quantidade, tipo de agente)" );
-            listComp.add( "transforma(novo agente)" );
-            listComp.add( "evita_obstaculo()" );
-            listComp.add( "percebe_agente(agente a ser percebido)" );
-            listComp.add( "atinge_agente(agente a ser atingido)" );
-            listComp.add( "percebe_pista()" );
-            listComp.add( "atinge_pista(agente que deixou a pista)" );
-            listComp.add( "atinge_tempo_de_vida(tempo máximo de vida)" );
-            listComp.add( "tempo_de_fertilidade(tempo de vida fértil)" );
-            listComp.add( "atinge_vida_adulta(tempo de vida para tornar-se adulto)" );
-            listComp.add( "tipo_sexo(sexo,taxa de nascimento)" );
-            listComp.add( "taxa_de_sucesso(taxa)" );
-            baseDialogComportamentos.add( listComp );
+            JComboBox comportamentosComboBox = new JComboBox();
+            comportamentosComboBox.setBounds( 20, 290, 310, 100 );
+            comportamentosComboBox.addItem( "movimento_randomico()" );
+            comportamentosComboBox.addItem( "movimento_direcionado(direcao(N,S,L,O,NO,NE,SO,SE), n. posicoes)" );
+            comportamentosComboBox.addItem( "deixa_pista()" );
+            comportamentosComboBox.addItem( "remove_pista()" );
+            comportamentosComboBox.addItem( "segue_pista()" );
+            comportamentosComboBox.addItem( "segue_maior_gradiente(agente que emite)" );
+            comportamentosComboBox.addItem( "segue_menor_gradiente(agente que emite)" );
+            comportamentosComboBox.addItem( "segue_agente(agente seguindo)" );
+            comportamentosComboBox.addItem( "foge_de_agente(agente que persegue)" );
+            comportamentosComboBox.addItem( "mata_agente(agente a matar)" );
+            comportamentosComboBox.addItem( "morte()" );
+            comportamentosComboBox.addItem( "reproduz(quantidade, tipo de agente)" );
+            comportamentosComboBox.addItem( "transforma(novo agente)" );
+            comportamentosComboBox.addItem( "evita_obstaculo()" );
+            comportamentosComboBox.addItem( "percebe_agente(agente a ser percebido)" );
+            comportamentosComboBox.addItem( "atinge_agente(agente a ser atingido)" );
+            comportamentosComboBox.addItem( "percebe_pista()" );
+            comportamentosComboBox.addItem( "atinge_pista(agente que deixou a pista)" );
+            comportamentosComboBox.addItem( "atinge_tempo_de_vida(tempo máximo de vida)" );
+            comportamentosComboBox.addItem( "tempo_de_fertilidade(tempo de vida fértil)" );
+            comportamentosComboBox.addItem( "atinge_vida_adulta(tempo de vida para tornar-se adulto)" );
+            comportamentosComboBox.addItem( "tipo_sexo(sexo,taxa de nascimento)" );
+            comportamentosComboBox.addItem( "taxa_de_sucesso(taxa)" );
+            baseDialogComportamentos.add( comportamentosComboBox );
             defDialogComportamentos.add( "Center", baseDialogComportamentos );
-            defDialogComportamentos.pack();
+            defDialogComportamentos.setSize(640, 480);
             defDialogComportamentos.setTitle( "Definição de Comportamentos" );
             defDialogComportamentos.setResizable( false );
         }
@@ -935,49 +908,49 @@ public class SIMULA
             compChoiceDialogComp.removeAll();
             if ( (choice == 1) || (choice == 3) )
             {
-                compChoiceDialogComp.add( "percebe_agente" );
-                compChoiceDialogComp.add( "percebe_pista" );
-                compChoiceDialogComp.add( "atinge_agente" );
-                compChoiceDialogComp.add( "atinge_pista" );
-                compChoiceDialogComp.add( "atinge_tempo_de_vida" );
-                compChoiceDialogComp.add( "atinge_vida_adulta" );
-                compChoiceDialogComp.add( "tipo_sexo" );
-                compChoiceDialogComp.add( "taxa_sucesso" );
+                compChoiceDialogComp.addItem( "percebe_agente" );
+                compChoiceDialogComp.addItem( "percebe_pista" );
+                compChoiceDialogComp.addItem( "atinge_agente" );
+                compChoiceDialogComp.addItem( "atinge_pista" );
+                compChoiceDialogComp.addItem( "atinge_tempo_de_vida" );
+                compChoiceDialogComp.addItem( "atinge_vida_adulta" );
+                compChoiceDialogComp.addItem( "tipo_sexo" );
+                compChoiceDialogComp.addItem( "taxa_sucesso" );
             }
             else if ( choice == 2 )
             {
-                compChoiceDialogComp.add( "movimento_randomico" );
-                compChoiceDialogComp.add( "movimento_direcionado" );
-                compChoiceDialogComp.add( "deixa_pista" );
-                compChoiceDialogComp.add( "segue_pista" );
-                compChoiceDialogComp.add( "remove_pista" );
-                compChoiceDialogComp.add( "segue_maior_gradiente" );
-                compChoiceDialogComp.add( "segue_menor_gradiente" );
-                compChoiceDialogComp.add( "segue_agente" );
-                compChoiceDialogComp.add( "foge_de_agente" );
-                compChoiceDialogComp.add( "mata_agente" );
-                compChoiceDialogComp.add( "morte" );
-                compChoiceDialogComp.add( "reproduz" );
-                compChoiceDialogComp.add( "transforma" );
+                compChoiceDialogComp.addItem( "movimento_randomico" );
+                compChoiceDialogComp.addItem( "movimento_direcionado" );
+                compChoiceDialogComp.addItem( "deixa_pista" );
+                compChoiceDialogComp.addItem( "segue_pista" );
+                compChoiceDialogComp.addItem( "remove_pista" );
+                compChoiceDialogComp.addItem( "segue_maior_gradiente" );
+                compChoiceDialogComp.addItem( "segue_menor_gradiente" );
+                compChoiceDialogComp.addItem( "segue_agente" );
+                compChoiceDialogComp.addItem( "foge_de_agente" );
+                compChoiceDialogComp.addItem( "mata_agente" );
+                compChoiceDialogComp.addItem( "morte" );
+                compChoiceDialogComp.addItem( "reproduz" );
+                compChoiceDialogComp.addItem( "transforma" );
             }
         }
         varChoiceDialogComp.removeAll();
-        varChoiceDialogComp.add( "" );
+        varChoiceDialogComp.addItem( "" );
         j = 1;
         while ( (variaveisList[j] != null) && (!(variaveisList[j].nome.equals( "" ))) )
         {
-            varChoiceDialogComp.add( variaveisList[j].nome );
+            varChoiceDialogComp.addItem( variaveisList[j].nome );
             j++;
         }
-        varChoiceDialogComp.add( "sucesso" );
-        varChoiceDialogComp.add( "energia" );
-        varChoiceDialogComp.add( "carga" );
+        varChoiceDialogComp.addItem( "sucesso" );
+        varChoiceDialogComp.addItem( "energia" );
+        varChoiceDialogComp.addItem( "carga" );
         j = 1;
         agenteChoiceDialogComp.removeAll();
-        agenteChoiceDialogComp.add( "" );
+        agenteChoiceDialogComp.addItem( "" );
         while ( (typeAgentList[j] != null) && (!(typeAgentList[j].nome.equals( "" ))) )
         {
-            agenteChoiceDialogComp.add( typeAgentList[j].nome );
+            agenteChoiceDialogComp.addItem( typeAgentList[j].nome );
             j++;
         }
         regraString = strtmp;
@@ -988,7 +961,7 @@ public class SIMULA
     public void atualizaComportamentos()
     {
         idLabelComp.setText( (new Integer( identComp )).toString() );
-        agenChoiceComp.select( behaviorList[identComp].agente );
+        agenChoiceComp.setSelectedItem( behaviorList[identComp].agente );
         preLabelComp2.setText( behaviorList[identComp].precond );
         ativLabelComp2.setText( behaviorList[identComp].acativ );
         conLabelComp2.setText( behaviorList[identComp].accond );
@@ -999,7 +972,7 @@ public class SIMULA
     public void salvaComportamentos()
     {
         behaviorList[identComp].ident = idLabelComp.getText();
-        behaviorList[identComp].agente = agenChoiceComp.getSelectedItem();
+        behaviorList[identComp].agente = agenChoiceComp.getSelectedItem().toString();
         behaviorList[identComp].precond = preLabelComp2.getText();
         behaviorList[identComp].acativ = ativLabelComp2.getText();
         behaviorList[identComp].accond = conLabelComp2.getText();
@@ -1082,68 +1055,68 @@ public class SIMULA
         }
         if ( distDialog == null )
         {
-            distDialog = new Dialog( this, true );
+            distDialog = new JDialog( this, true );
             distDialog.setLayout( new BorderLayout() );
-            baseDistrib = new Panel();
+            baseDistrib = new JPanel();
             baseDistrib.setLayout( null );
             baseDistrib.setSize( getInsets().left + getInsets().right + 480, getInsets().top + getInsets().bottom + 150 );
-            agenLabelDist = new Label( "Nome do Agente:" );
+            agenLabelDist = new JLabel( "Nome do Agente:" );
             agenLabelDist.setBounds( 20, 20, 120, 20 );
             baseDistrib.add( agenLabelDist );
-            agenChoiceDist = new Choice();
+            agenChoiceDist = new JComboBox();
             baseDistrib.add( agenChoiceDist );
             agenChoiceDist.setBounds( 190, 20, 200, 20 );
-            numLabelDist = new Label( "Número do Agente:" );
+            numLabelDist = new JLabel( "Número do Agente:" );
             numLabelDist.setBounds( 20, 50, 130, 20 );
             baseDistrib.add( numLabelDist );
-            numFieldDist = new TextField();
+            numFieldDist = new JTextField();
             baseDistrib.add( numFieldDist );
             numFieldDist.setBounds( 190, 50, 50, 20 );
             numFieldDist.addKeyListener( this );
-            colLabelDist = new Label( "Coluna do Agente:" );
+            colLabelDist = new JLabel( "Coluna do Agente:" );
             colLabelDist.setBounds( 20, 80, 130, 20 );
             baseDistrib.add( colLabelDist );
-            colFieldDist = new TextField();
+            colFieldDist = new JTextField();
             baseDistrib.add( colFieldDist );
             colFieldDist.setBounds( 190, 80, 50, 20 );
             colFieldDist.addKeyListener( this );
-            linLabelDist = new Label( "Linha do Agente:" );
+            linLabelDist = new JLabel( "Linha do Agente:" );
             linLabelDist.setBounds( 20, 110, 120, 20 );
             baseDistrib.add( linLabelDist );
-            linFieldDist = new TextField();
+            linFieldDist = new JTextField();
             baseDistrib.add( linFieldDist );
             linFieldDist.setBounds( 190, 110, 50, 20 );
             linFieldDist.addKeyListener( this );
-            okButtonDist = new Button( "OK" );
+            okButtonDist = new JButton( "OK" );
             okButtonDist.setBounds( 20, 150, 80, 25 );
             baseDistrib.add( okButtonDist );
             okButtonDist.addActionListener( this );
-            proxButtonDist = new Button( "Proximo" );
+            proxButtonDist = new JButton( "Proximo" );
             proxButtonDist.setBounds( 110, 150, 80, 25 );
             baseDistrib.add( proxButtonDist );
             proxButtonDist.addActionListener( this );
-            antButtonDist = new Button( "Anterior" );
+            antButtonDist = new JButton( "Anterior" );
             antButtonDist.setBounds( 200, 150, 80, 25 );
             baseDistrib.add( antButtonDist );
             antButtonDist.addActionListener( this );
-            excButtonDist = new Button( "Exclui" );
+            excButtonDist = new JButton( "Exclui" );
             excButtonDist.setBounds( 290, 150, 80, 25 );
             baseDistrib.add( excButtonDist );
             excButtonDist.addActionListener( this );
-            canButtonDist = new Button( "Cancela" );
+            canButtonDist = new JButton( "Cancela" );
             canButtonDist.setBounds( 380, 150, 80, 25 );
             baseDistrib.add( canButtonDist );
             canButtonDist.addActionListener( this );
             distDialog.add( "Center", baseDistrib );
-            distDialog.pack();
+            distDialog.setSize(480,320);
             distDialog.setTitle( "Distribuição de Agentes" );
             distDialog.setResizable( false );
         }
         agenChoiceDist.removeAll();
-        agenChoiceDist.add( "" );
+        agenChoiceDist.addItem( "" );
         while ( (typeAgentList[j] != null) && (!(typeAgentList[j].nome.equals( "" ))) )
         {
-            agenChoiceDist.add( typeAgentList[j].nome );
+            agenChoiceDist.addItem( typeAgentList[j].nome );
             j++;
         }
         atualizaDistribuicao();
@@ -1152,7 +1125,7 @@ public class SIMULA
 
     public void salvaDistribuicao()
     {
-        distList[identDist].nome = agenChoiceDist.getSelectedItem();
+        distList[identDist].nome = agenChoiceDist.getSelectedItem().toString();
         distList[identDist].numero = numFieldDist.getText();
         distList[identDist].linha = linFieldDist.getText();
         distList[identDist].coluna = colFieldDist.getText();
@@ -1160,7 +1133,7 @@ public class SIMULA
 
     public void atualizaDistribuicao()
     {
-        agenChoiceDist.select( distList[identDist].nome );
+        agenChoiceDist.setSelectedItem( distList[identDist].nome );
         numFieldDist.setText( distList[identDist].numero );
         linFieldDist.setText( distList[identDist].linha );
         colFieldDist.setText( distList[identDist].coluna );
@@ -1178,61 +1151,61 @@ public class SIMULA
         }
         if ( defVariaveis == null )
         {
-            defVariaveis = new Dialog( this, true );
+            defVariaveis = new JDialog( this, true );
             defVariaveis.setLayout( new BorderLayout() );
-            baseVariaveis = new Panel();
+            baseVariaveis = new JPanel();
             baseVariaveis.setBounds( getInsets().left + getInsets().right + 12, getInsets().top + getInsets().bottom + +12, 520, 200 );
             baseVariaveis.setLayout( null );
-            idenLabelVar = new Label( "Identificador:" );
+            idenLabelVar = new JLabel( "Identificador:" );
             idenLabelVar.setBounds( 40, 20, 100, 20 );
             baseVariaveis.add( idenLabelVar );
-            idLabelVar = new Label();
+            idLabelVar = new JLabel();
             idLabelVar.setBounds( 180, 20, 50, 20 );
             baseVariaveis.add( idLabelVar );
-            nomeLabelVar = new Label( "Nome da Variável:" );
+            nomeLabelVar = new JLabel( "Nome da Variável:" );
             nomeLabelVar.setBounds( 40, 50, 120, 20 );
             baseVariaveis.add( nomeLabelVar );
-            nomeFieldVar = new TextField( "" );
+            nomeFieldVar = new JTextField( "" );
             nomeFieldVar.setBounds( 180, 50, 280, 20 );
             baseVariaveis.add( nomeFieldVar );
-            tipoLabelVar = new Label( "Tipo da Variável:" );
+            tipoLabelVar = new JLabel( "Tipo da Variável:" );
             tipoLabelVar.setBounds( 40, 80, 120, 20 );
             baseVariaveis.add( tipoLabelVar );
-            tipoChoiceVar = new Choice();
-            tipoChoiceVar.add( "int" );
-            tipoChoiceVar.add( "string" );
-            tipoChoiceVar.add( "char" );
+            tipoChoiceVar = new JComboBox();
+            tipoChoiceVar.addItem( "int" );
+            tipoChoiceVar.addItem( "string" );
+            tipoChoiceVar.addItem( "char" );
             baseVariaveis.add( tipoChoiceVar );
             tipoChoiceVar.setBounds( 180, 80, 100, 19 );
-            valLabelVar = new Label( "Valor Inicial:" );
+            valLabelVar = new JLabel( "Valor Inicial:" );
             valLabelVar.setBounds( 40, 110, 100, 20 );
             baseVariaveis.add( valLabelVar );
-            valFieldVar = new TextField( "" );
+            valFieldVar = new JTextField( "" );
             valFieldVar.setBounds( 180, 110, 50, 20 );
             baseVariaveis.add( valFieldVar );
             valFieldVar.addKeyListener( this );
-            canButtonVar = new Button( "Cancela" );
+            canButtonVar = new JButton( "Cancela" );
             canButtonVar.setBounds( 420, 155, 80, 25 );
             baseVariaveis.add( canButtonVar );
             canButtonVar.addActionListener( this );
-            excButtonVar = new Button( "Exclui" );
+            excButtonVar = new JButton( "Exclui" );
             excButtonVar.setBounds( 320, 155, 80, 25 );
             baseVariaveis.add( excButtonVar );
             excButtonVar.addActionListener( this );
-            antButtonVar = new Button( "Anterior" );
+            antButtonVar = new JButton( "Anterior" );
             antButtonVar.setBounds( 220, 155, 80, 25 );
             baseVariaveis.add( antButtonVar );
             antButtonVar.addActionListener( this );
-            proxButtonVar = new Button( "Proximo" );
+            proxButtonVar = new JButton( "Proximo" );
             proxButtonVar.setBounds( 120, 155, 80, 25 );
             baseVariaveis.add( proxButtonVar );
             proxButtonVar.addActionListener( this );
-            okButtonVar = new Button( "OK" );
+            okButtonVar = new JButton( "OK" ); 
             okButtonVar.setBounds( 20, 155, 80, 25 );
             baseVariaveis.add( okButtonVar );
             okButtonVar.addActionListener( this );
             defVariaveis.add( "Center", baseVariaveis );
-            defVariaveis.pack();
+            defVariaveis.setSize(480,320);
             defVariaveis.setResizable( false );
             defVariaveis.addWindowListener( this );
             defVariaveis.setTitle( "Definição de Variáveis" );
@@ -1244,7 +1217,7 @@ public class SIMULA
     public void salvaVariaveis()
     {
         variaveisList[identVar].nome = nomeFieldVar.getText();
-        variaveisList[identVar].tipo = tipoChoiceVar.getSelectedItem();
+        variaveisList[identVar].tipo = tipoChoiceVar.getSelectedItem().toString();
         variaveisList[identVar].valor = valFieldVar.getText();
     }
 
@@ -1252,7 +1225,7 @@ public class SIMULA
     {
         idLabelVar.setText( (new Integer( identVar )).toString() );
         nomeFieldVar.setText( variaveisList[identVar].nome );
-        tipoChoiceVar.select( variaveisList[identVar].tipo );
+        tipoChoiceVar.setSelectedItem( variaveisList[identVar].tipo );
         valFieldVar.setText( (new Integer( variaveisList[identVar].valor )).toString() );
     }
 
@@ -1509,55 +1482,6 @@ public class SIMULA
     /**
      * *************************************************************************
      */
-    public void criaDimensoesDialog()
-    {
-        if ( dimensoesDialog == null )
-        {
-            dimensoesDialog = new Dialog( this, true );
-            dimensoesDialog.setLayout( new BorderLayout() );
-            baseDimensoes = new Panel();
-            baseDimensoes.setLayout( null );
-            baseDimensoes.setSize( getInsets().left + getInsets().right + 230, getInsets().top + getInsets().bottom + 90 );
-            colLabelDim = new Label( "Número de Colunas:" );
-            colLabelDim.setBounds( 20, 20, 130, 20 );
-            baseDimensoes.add( colLabelDim );
-            colFieldDim = new TextField();
-            baseDimensoes.add( colFieldDim );
-            colFieldDim.setBounds( 150, 20, 50, 20 );
-            (colFieldDim).addKeyListener( this );
-            colFieldDim.setEditable( false );
-            colFieldDim.setEnabled( false );
-            linLabelDim = new Label( "Número de Linhas:" );
-            linLabelDim.setBounds( 20, 50, 130, 20 );
-            baseDimensoes.add( linLabelDim );
-            linFieldDim = new TextField();
-            baseDimensoes.add( linFieldDim );
-            linFieldDim.setBounds( 150, 50, 50, 20 );
-            (linFieldDim).addKeyListener( this );
-            linFieldDim.setEditable( false );
-            linFieldDim.setEnabled( false );
-            okButtonDim = new Button( "OK" );
-            okButtonDim.setBounds( 30, 90, 80, 25 );
-            baseDimensoes.add( okButtonDim );
-            okButtonDim.addActionListener( this );
-            canButtonDim = new Button( "Cancela" );
-            canButtonDim.setBounds( 130, 90, 80, 25 );
-            baseDimensoes.add( canButtonDim );
-            canButtonDim.addActionListener( this );
-            dimensoesDialog.add( "Center", baseDimensoes );
-            dimensoesDialog.pack();
-            dimensoesDialog.addWindowListener( this );
-            dimensoesDialog.setResizable( false );
-            dimensoesDialog.setTitle( "Dimensoes do Ambiente" );
-        }
-        colFieldDim.setText( colunas );
-        linFieldDim.setText( linhas );
-        dimensoesDialog.setVisible( true );
-    }
-
-    /**
-     * *************************************************************************
-     */
     public void criaDefAgentes()
     {
         if ( typeAgentList[1] == null )
@@ -1568,91 +1492,91 @@ public class SIMULA
             }
             typeAgentList[ident] = new tipoAgente( "1", "", "0", "0", "0", "0", tmp[ident] );
         }
-        defAgentes = new Dialog( this, true );
-        baseAgentes = new Panel();
+        defAgentes = new JDialog( this, true );
+        baseAgentes = new JPanel();
         defAgentes.setTitle( "Definição de Agentes" );
         defAgentes.setLayout( new BorderLayout() );
         baseAgentes.setLayout( null );
         baseAgentes.setBounds( getInsets().left + 12, getInsets().top + 12, 480, 350 );
         defAgentes.add( "Center", baseAgentes );
-        idenLabel = new Label( "Identificador:" );
+        idenLabel = new JLabel( "Identificador:" );
         idenLabel.setBounds( 10, 10, 100, 20 );
         baseAgentes.add( idenLabel );
-        idLabel = new Label( "n" );
+        idLabel = new JLabel( "n" );
         idLabel.setBounds( 160, 10, 50, 20 );
         baseAgentes.add( idLabel );
-        agenLabel = new Label( "Nome do Agente:" );
+        agenLabel = new JLabel( "Nome do Agente:" );
         agenLabel.setBounds( 10, 40, 120, 20 );
         baseAgentes.add( agenLabel );
-        numLabel = new Label( "Número de Agentes:" );
+        numLabel = new JLabel( "Número de Agentes:" );
         numLabel.setBounds( 10, 70, 130, 20 );
         baseAgentes.add( numLabel );
-        areaLabel = new Label( "Área de Percepção:" );
+        areaLabel = new JLabel( "Área de Percepção:" );
         areaLabel.setBounds( 10, 100, 130, 20 );
         baseAgentes.add( areaLabel );
-        enerLabelAgent = new Label( "Energia:" );
+        enerLabelAgent = new JLabel( "Energia:" );
         enerLabelAgent.setBounds( 10, 130, 130, 20 );
 //        baseAgentes.add( enerLabelAgent );
-        cargLabelAgent = new Label( "Carga:" );
+        cargLabelAgent = new JLabel( "Carga:" );
         cargLabelAgent.setBounds( 10, 160, 130, 20 );
 //        baseAgentes.add( cargLabelAgent );
-        corLabel = new Label( "Cor Selecionada:" );
+        corLabel = new JLabel( "Cor Selecionada:" );
         corLabel.setBounds( 10, 200, 115, 20 );
         baseAgentes.add( corLabel );
-        imgLabel = new Label( "Imagem:" );
+        imgLabel = new JLabel( "Imagem:" );
         imgLabel.setBounds( 10, 230, 70, 20 );
         baseAgentes.add( imgLabel );
-        nomeField = new TextField();
+        nomeField = new JTextField();
         nomeField.setBounds( 160, 40, 300, 20 );
         baseAgentes.add( nomeField );
-        numField = new TextField();
+        numField = new JTextField();
         numField.setBounds( 160, 70, 50, 20 );
         baseAgentes.add( numField );
         numField.addKeyListener( this );
-        areaField = new TextField();
+        areaField = new JTextField();
         areaField.setBounds( 160, 100, 50, 20 );
         baseAgentes.add( areaField );
         areaField.addKeyListener( this );
-        energFieldAgent = new TextField();
+        energFieldAgent = new JTextField();
         energFieldAgent.setBounds( 160, 130, 50, 20 );
 //        baseAgentes.add( energFieldAgent );
         energFieldAgent.addKeyListener( this );
-        cargFieldAgent = new TextField();
+        cargFieldAgent = new JTextField();
         cargFieldAgent.setBounds( 160, 160, 50, 20 );
 //        baseAgentes.add( cargFieldAgent );
         cargFieldAgent.addKeyListener( this );
-        corChoice = new Choice();
-        corChoice.add( "Branco" );
-        corChoice.add( "Amarelo" );
-        corChoice.add( "Azul" );
-        corChoice.add( "Verde" );
-        corChoice.add( "Laranja" );
-        corChoice.add( "Rosa" );
-        corChoice.add( "Vermelho" );
-        corChoice.add( "Magenta" );
-        corChoice.add( "Ciano" );
-        corChoice.add( "Cinza" );
-        corChoice.add( "Preto" );
+        corChoice = new JComboBox();
+        corChoice.addItem( "Branco" );
+        corChoice.addItem( "Amarelo" );
+        corChoice.addItem( "Azul" );
+        corChoice.addItem( "Verde" );
+        corChoice.addItem( "Laranja" );
+        corChoice.addItem( "Rosa" );
+        corChoice.addItem( "Vermelho" );
+        corChoice.addItem( "Magenta" );
+        corChoice.addItem( "Ciano" );
+        corChoice.addItem( "Cinza" );
+        corChoice.addItem( "Preto" );
         baseAgentes.add( corChoice );
         corChoice.setBounds( 160, 200, 80, 21 );
         corChoice.addItemListener( this );
-        okButton = new Button( "OK" );
+        okButton = new JButton( "OK" );
         okButton.setBounds( 10, 305, 80, 25 );
         baseAgentes.add( okButton );
         okButton.addActionListener( this );
-        proxButton = new Button( "Proximo" );
+        proxButton = new JButton( "Proximo" );
         proxButton.setBounds( 105, 305, 80, 25 );
         baseAgentes.add( proxButton );
         proxButton.addActionListener( this );
-        antButton = new Button( "Anterior" );
+        antButton = new JButton( "Anterior" );
         antButton.setBounds( 200, 305, 80, 25 );
         baseAgentes.add( antButton );
         antButton.addActionListener( this );
-        excButton = new Button( "Exclui" );
+        excButton = new JButton( "Exclui" );
         excButton.setBounds( 295, 305, 80, 25 );
         baseAgentes.add( excButton );
         excButton.addActionListener( this );
-        canButton = new Button( "Cancela" );
+        canButton = new JButton( "Cancela" );
         canButton.setBounds( 385, 305, 80, 25 );
         baseAgentes.add( canButton );
         canButton.addActionListener( this );
@@ -1664,7 +1588,7 @@ public class SIMULA
         (gridCanvas).addMouseListener( this );
         baseAgentes.add( gridCanvas );
         defAgentes.add( "Center", baseAgentes );
-        defAgentes.pack();
+        defAgentes.setSize(480,320);
         defAgentes.addWindowListener( this );
         defAgentes.setResizable( false );
         atualizaAgentes();
@@ -1699,28 +1623,7 @@ public class SIMULA
      */
     public void criaOkDialog( String msg )
     {
-        Panel baseOkDialog;
-        Label mensagem = new Label();
-        if ( okDialog == null )
-        {
-            baseOkDialog = new Panel();
-            okDialog = new Dialog( this, true );
-            okDialog.setTitle( "Atencao" );
-            okDialog.setLayout( new BorderLayout() );
-            baseOkDialog.setBounds( getInsets().left + 10, getInsets().top + 10, 240, 110 );
-            okDialogButton = new Button( "OK" );
-            baseOkDialog.setLayout( null );
-            baseOkDialog.add( mensagem );
-            mensagem.setBounds( 35, 20, 200, 40 );
-            baseOkDialog.add( okDialogButton );
-            okDialogButton.setBounds( 70, 70, 80, 25 );
-            okDialogButton.addActionListener( this );
-            okDialog.add( "Center", baseOkDialog );
-            okDialog.addWindowListener( this );
-            okDialog.pack();
-        }
-        mensagem.setText( msg );
-        okDialog.setVisible( true );
+        JOptionPane.showMessageDialog(null, msg, "Atenção", JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -1731,93 +1634,93 @@ public class SIMULA
         int j = 1;
         if ( defDialogParada == null )
         {
-            defDialogParada = new Dialog( this, true );
+            defDialogParada = new JDialog( this, true );
             defDialogParada.setLayout( new BorderLayout() );
-            baseDialogParada = new Panel();
+            baseDialogParada = new JPanel();
             baseDialogParada.setLayout( null );
             baseDialogParada.setSize( getInsets().left + getInsets().right + 500, getInsets().top + getInsets().bottom + 265 );
-            varLabelDialogPar = new Label( "Variável:" );
+            varLabelDialogPar = new JLabel( "Variável:" );
             varLabelDialogPar.setBounds( 24, 20, 120, 20 );
             baseDialogParada.add( varLabelDialogPar );
-            operLabelDialogPar = new Label( "Operador:" );
+            operLabelDialogPar = new JLabel( "Operador:" );
             operLabelDialogPar.setBounds( 24, 50, 120, 20 );
             baseDialogParada.add( operLabelDialogPar );
-            paramLabelDialogPar = new Label( "Parâmetro Comparação:" );
+            paramLabelDialogPar = new JLabel( "Parâmetro Comparação:" );
             paramLabelDialogPar.setBounds( 24, 80, 150, 20 );
             baseDialogParada.add( paramLabelDialogPar );
-            regraLabelDialogPar = new Label( "Critério de Parada:" );
+            regraLabelDialogPar = new JLabel( "Critério de Parada:" );
             regraLabelDialogPar.setBounds( 24, 120, 120, 20 );
             baseDialogParada.add( regraLabelDialogPar );
-            regra2LabelDialogPar = new Label();
+            regra2LabelDialogPar = new JLabel();
             regra2LabelDialogPar.setBounds( 12, 150, 468, 20 );
             baseDialogParada.add( regra2LabelDialogPar );
-            regraScrollDialogPar = new Scrollbar( Scrollbar.HORIZONTAL );
+            regraScrollDialogPar = new JScrollBar( JScrollBar.HORIZONTAL );
             regraScrollDialogPar.setBounds( 12, 180, 468, 17 );
             regraScrollDialogPar.setMinimum( 0 );
             regraScrollDialogPar.setMaximum( 0 );
             regraScrollDialogPar.setUnitIncrement( 1 );
             regraScrollDialogPar.addAdjustmentListener( this );
             baseDialogParada.add( regraScrollDialogPar );
-            varButtonDialogPar = new Button( "Adicionar" );
+            varButtonDialogPar = new JButton( "Adicionar" );
             varButtonDialogPar.setBounds( 396, 20, 90, 20 );
             baseDialogParada.add( varButtonDialogPar );
             (varButtonDialogPar).addActionListener( this );
-            operButtonDialogPar = new Button( "Adicionar" );
+            operButtonDialogPar = new JButton( "Adicionar" );
             operButtonDialogPar.setBounds( 396, 50, 90, 20 );
             baseDialogParada.add( operButtonDialogPar );
             (operButtonDialogPar).addActionListener( this );
-            paramButtonDialogPar = new Button( "Adicionar" );
+            paramButtonDialogPar = new JButton( "Adicionar" );
             paramButtonDialogPar.setBounds( 396, 80, 90, 20 );
             baseDialogParada.add( paramButtonDialogPar );
             (paramButtonDialogPar).addActionListener( this );
-            varChoiceDialogPar = new Choice();
+            varChoiceDialogPar = new JComboBox();
             baseDialogParada.add( varChoiceDialogPar );
             varChoiceDialogPar.setBounds( 156, 20, 200, 21 );
-            operChoiceDialogPar = new Choice();
-            operChoiceDialogPar.add( "&&" );
-            operChoiceDialogPar.add( "||" );
-            operChoiceDialogPar.add( "!" );
-//            operChoiceDialogPar.add( "<=" );
-//            operChoiceDialogPar.add( ">=" );
-            operChoiceDialogPar.add( "!=" );
-            operChoiceDialogPar.add( "=" );
-            operChoiceDialogPar.add( "<" );
-            operChoiceDialogPar.add( ">" );
+            operChoiceDialogPar = new JComboBox();
+            operChoiceDialogPar.addItem( "&&" );
+            operChoiceDialogPar.addItem( "||" );
+            operChoiceDialogPar.addItem( "!" );
+//            operChoiceDialogPar.addItem( "<=" );
+//            operChoiceDialogPar.addItem( ">=" );
+            operChoiceDialogPar.addItem( "!=" );
+            operChoiceDialogPar.addItem( "=" );
+            operChoiceDialogPar.addItem( "<" );
+            operChoiceDialogPar.addItem( ">" );
             baseDialogParada.add( operChoiceDialogPar );
             operChoiceDialogPar.setBounds( 156, 50, 50, 21 );
-            paramFieldDialogPar = new TextField();
+            paramFieldDialogPar = new JTextField();
             paramFieldDialogPar.setBounds( 180, 80, 180, 20 );
             baseDialogParada.add( paramFieldDialogPar );
-            remAntButtonDialogPar = new Button( "Remover Anterior" );
+            remAntButtonDialogPar = new JButton( "Remover Anterior" );
             remAntButtonDialogPar.setBounds( 324, 210, 123, 26 );
             baseDialogParada.add( remAntButtonDialogPar );
             (remAntButtonDialogPar).addActionListener( this );
-            iniBlocoButtonDialogPar = new Button( "Início de Bloco" );
+            iniBlocoButtonDialogPar = new JButton( "Início de Bloco" );
             iniBlocoButtonDialogPar.setBounds( 36, 210, 123, 26 );
             baseDialogParada.add( iniBlocoButtonDialogPar );
             (iniBlocoButtonDialogPar).addActionListener( this );
-            fimBlocoButtonDialogPar = new Button( "Fim de Bloco" );
+            fimBlocoButtonDialogPar = new JButton( "Fim de Bloco" );
             fimBlocoButtonDialogPar.setBounds( 180, 210, 123, 26 );
             baseDialogParada.add( fimBlocoButtonDialogPar );
             (fimBlocoButtonDialogPar).addActionListener( this );
-            okButtonDialogPar = new Button( "OK" );
+            okButtonDialogPar = new JButton( "OK" );
             okButtonDialogPar.setBounds( 100, 250, 123, 26 );
             baseDialogParada.add( okButtonDialogPar );
             (okButtonDialogPar).addActionListener( this );
-            canButtonDialogPar = new Button( "Cancela" );
+            canButtonDialogPar = new JButton( "Cancela" );
             canButtonDialogPar.setBounds( 280, 250, 123, 26 );
             baseDialogParada.add( canButtonDialogPar );
             (canButtonDialogPar).addActionListener( this );
             defDialogParada.add( "Center", baseDialogParada );
-            defDialogParada.pack();
+            defDialogParada.setSize(480,320);
             defDialogParada.setTitle( "Definição do Critério de Parada" );
             defDialogParada.setResizable( false );
         }
         varChoiceDialogPar.removeAll();
-        varChoiceDialogPar.add( "" );
+        varChoiceDialogPar.addItem( "" );
         while ( (variaveisList[j] != null) && (!(variaveisList[j].nome.equals( "" ))) )
         {
-            varChoiceDialogPar.add( variaveisList[j].nome );
+            varChoiceDialogPar.addItem( variaveisList[j].nome );
             j++;
         }
         j = 1;
@@ -2931,6 +2834,7 @@ public class SIMULA
 
     public static void main( String args[] )
     {
+        WebLookAndFeel.install ();
         SIMULA simula = new SIMULA();
     }
 }
