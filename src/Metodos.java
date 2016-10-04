@@ -45,17 +45,13 @@ public class Metodos
 
     public static void movimentoRandomico( Agente agente )
     {
-        int direcao, mem=0;
-        do {
-            direcao = (int)(Math.random() * 10); 
-        } while( (direcao<1) || (direcao>8) );
+        int direcao, mem=agente.memoria;
         
-        if(mem==direcao){
-            do {
-                direcao = (int)(Math.random() * 10); 
-            } while( (direcao<1) || (direcao>8) ); 
-        }
-        mem=direcao;  
+        do {
+            direcao = (int)1 + (int)(Math.random() * ((8 - 1) + 1)); 
+        } while( mem == direcao ); 
+        
+        agente.memoria=direcao;  
         Logger.log(agente.nome+" executa movimento randômico");
         movimentaPara( agente, direcao );
     }

@@ -4,7 +4,7 @@ public class Agente
 {
 
     public String nome;
-    public int numero, sexo, linha, coluna, area, tempovida, sucesso, ncriacao, energia, carga;
+    public int numero, sexo, linha, coluna, area, tempovida, sucesso, ncriacao, energia, carga, memoria;
     public Image imagem;
 
     public Agente( String no, int nu, int sx, int col, int li, int ar, int tpvd,
@@ -22,5 +22,6 @@ public class Agente
         carga = cg;
         imagem = img;
         ncriacao = ncri;
+        memoria = -1;
     }
 }
