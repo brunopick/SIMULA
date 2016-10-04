@@ -88,7 +88,6 @@ public class SIMULA
 //    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
     public JComboBox corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
     public JComboBox varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
-    public JComboBox testeCombo;
     public JDialog defAgentes, defComportamentos, defVariaveis, defDialogComportamentos;
     public JDialog critParadaDialog, dimensoesDialog, distDialog, defDialogParada, okDialog;
     public JScrollBar regraScrollDialogComp, regraScrollDialogPar;
@@ -161,7 +160,7 @@ public class SIMULA
                     Runtime rt = Runtime.getRuntime();
                     try
                     {
-                        Process compila = rt.exec( "java Executar" );
+                        Process compila = rt.exec( "java -cp .:weblaf-complete-1.29.jar Executar" );
                         BufferedReader reader = new BufferedReader(new InputStreamReader(compila.getInputStream()));
 
                         StringBuilder output = new StringBuilder("-----SAIDA-----\n");
@@ -311,7 +310,7 @@ public class SIMULA
             }
             else if ( source == okButtonDist )
             {
-                if ( !(agenChoiceDist.getSelectedItem().equals( "" )) )
+                if ( agenChoiceDist.getSelectedItem() != null && !(agenChoiceDist.getSelectedItem().equals( "" )) )
                 {
                     salvaDistribuicao();
                 }
@@ -384,7 +383,7 @@ public class SIMULA
             }
             else if ( source == proxButtonDist )
             {
-                if ( !(agenChoiceDist.getSelectedItem().equals( "" )) )
+                if ( agenChoiceDist.getSelectedItem()!= null && !(agenChoiceDist.getSelectedItem().equals( "" )) )
                 {
                     salvaDistribuicao();
                     identDist++;
@@ -750,7 +749,7 @@ public class SIMULA
             posButtonComp.addActionListener( this );
             defComportamentos.add( "Center", baseComportamentos );
             defComportamentos.setTitle( "Definição de Comportamentos" );
-            defComportamentos.setSize(480,320);
+            defComportamentos.setSize(540,280);
             defComportamentos.setResizable( false );
         }
         agenChoiceComp.addItem( "" );
@@ -872,7 +871,7 @@ public class SIMULA
             baseDialogComportamentos.add( canButtonDialogComp );
             (canButtonDialogComp).addActionListener( this );
             JComboBox comportamentosComboBox = new JComboBox();
-            comportamentosComboBox.setBounds( 20, 290, 310, 100 );
+            comportamentosComboBox.setBounds( 20, 290, 310, 20 );
             comportamentosComboBox.addItem( "movimento_randomico()" );
             comportamentosComboBox.addItem( "movimento_direcionado(direcao(N,S,L,O,NO,NE,SO,SE), n. posicoes)" );
             comportamentosComboBox.addItem( "deixa_pista()" );
@@ -898,7 +897,7 @@ public class SIMULA
             comportamentosComboBox.addItem( "taxa_de_sucesso(taxa)" );
             baseDialogComportamentos.add( comportamentosComboBox );
             defDialogComportamentos.add( "Center", baseDialogComportamentos );
-            defDialogComportamentos.setSize(640, 480);
+            defDialogComportamentos.setSize(500, 380);
             defDialogComportamentos.setTitle( "Definição de Comportamentos" );
             defDialogComportamentos.setResizable( false );
         }
@@ -1108,7 +1107,7 @@ public class SIMULA
             baseDistrib.add( canButtonDist );
             canButtonDist.addActionListener( this );
             distDialog.add( "Center", baseDistrib );
-            distDialog.setSize(480,320);
+            distDialog.setSize(470,186);
             distDialog.setTitle( "Distribuição de Agentes" );
             distDialog.setResizable( false );
         }
@@ -1205,7 +1204,7 @@ public class SIMULA
             baseVariaveis.add( okButtonVar );
             okButtonVar.addActionListener( this );
             defVariaveis.add( "Center", baseVariaveis );
-            defVariaveis.setSize(480,320);
+            defVariaveis.setSize(520,200);
             defVariaveis.setResizable( false );
             defVariaveis.addWindowListener( this );
             defVariaveis.setTitle( "Definição de Variáveis" );
@@ -1588,7 +1587,7 @@ public class SIMULA
         (gridCanvas).addMouseListener( this );
         baseAgentes.add( gridCanvas );
         defAgentes.add( "Center", baseAgentes );
-        defAgentes.setSize(480,320);
+        defAgentes.setSize(480,340);
         defAgentes.addWindowListener( this );
         defAgentes.setResizable( false );
         atualizaAgentes();
@@ -1680,8 +1679,6 @@ public class SIMULA
             operChoiceDialogPar.addItem( "&&" );
             operChoiceDialogPar.addItem( "||" );
             operChoiceDialogPar.addItem( "!" );
-//            operChoiceDialogPar.addItem( "<=" );
-//            operChoiceDialogPar.addItem( ">=" );
             operChoiceDialogPar.addItem( "!=" );
             operChoiceDialogPar.addItem( "=" );
             operChoiceDialogPar.addItem( "<" );
@@ -1712,7 +1709,7 @@ public class SIMULA
             baseDialogParada.add( canButtonDialogPar );
             (canButtonDialogPar).addActionListener( this );
             defDialogParada.add( "Center", baseDialogParada );
-            defDialogParada.setSize(480,320);
+            defDialogParada.setSize(500,290);
             defDialogParada.setTitle( "Definição do Critério de Parada" );
             defDialogParada.setResizable( false );
         }
@@ -2786,49 +2783,42 @@ public class SIMULA
     public void itemStateChanged( ItemEvent evt )
     {
         int item = corChoice.getSelectedIndex();
-        if ( item == 0 )
-        {
-            cor = Color.white;
-        }
-        else if ( item == 1 )
-        {
-            cor = Color.yellow;
-        }
-        else if ( item == 2 )
-        {
-            cor = Color.blue;
-        }
-        else if ( item == 3 )
-        {
-            cor = Color.green;
-        }
-        else if ( item == 4 )
-        {
-            cor = Color.orange;
-        }
-        else if ( item == 5 )
-        {
-            cor = Color.magenta;
-        }
-        else if ( item == 6 )
-        {
-            cor = Color.red;
-        }
-        else if ( item == 7 )
-        {
-            cor = Color.pink;
-        }
-        else if ( item == 8 )
-        {
-            cor = Color.cyan;
-        }
-        else if ( item == 9 )
-        {
-            cor = Color.gray;
-        }
-        else if ( item == 10 )
-        {
-            cor = Color.black;
+        switch (item) {
+            case 0:
+                cor = Color.white;
+                break;
+            case 1:
+                cor = Color.yellow;
+                break;
+            case 2:
+                cor = Color.blue;
+                break;
+            case 3:
+                cor = Color.green;
+                break;
+            case 4:
+                cor = Color.orange;
+                break;
+            case 5:
+                cor = Color.magenta;
+                break;
+            case 6:
+                cor = Color.red;
+                break;
+            case 7:
+                cor = Color.pink;
+                break;
+            case 8:
+                cor = Color.cyan;
+                break;
+            case 9:
+                cor = Color.gray;
+                break;
+            case 10:
+                cor = Color.black;
+                break;
+            default:
+                break;
         }
     }
 

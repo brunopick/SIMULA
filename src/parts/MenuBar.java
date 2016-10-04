@@ -80,11 +80,11 @@ public class MenuBar extends JMenuBar {
         
         executarMenu = new JMenu( "Executar" );
         executarGerarCodigo.setText( "Gerar Código" );
+        executarGerarCodigo.setActionCommand( AC_EXECUTAR_GERAR_CODIGO );
         executarExecucao.setText( "Execução" );
+        executarExecucao.setActionCommand( AC_EXECUTAR_EXECUCAO );
         executarMenu.add( executarGerarCodigo ).addActionListener(listener);
-        executarMenu.setActionCommand( AC_EXECUTAR_GERAR_CODIGO );
         executarMenu.add( executarExecucao ).addActionListener(listener);
-        executarMenu.setActionCommand( AC_EXECUTAR_EXECUCAO );
         this.add( executarMenu );
         
         ajudaMenu = new JMenu( "Ajuda" );

@@ -1,6 +1,7 @@
 //import java.awt.*;
 //import java.awt.event.*;
 //import java.awt.image.*;
+import com.alee.laf.WebLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -164,9 +165,8 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
             aux++;
         }
         ambiente.calculaDeslocamento( Codigos.colunas, Codigos.linhas );
-//        pack();
-//        setResizable( false );
-setSize(800, 600);
+        setResizable( false );
+        setSize(650, 440);
         setVisible( true );
         addWindowListener( this );
         execThread.start();
@@ -581,6 +581,7 @@ setSize(800, 600);
 
     public static void main( String args[] )
     {
+        WebLookAndFeel.install();
         new Executar();
     }
 }
