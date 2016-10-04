@@ -24,6 +24,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import utils.Logger;
 
 public class Executar extends JFrame implements WindowListener, MouseListener,
@@ -31,14 +34,15 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
 {
 
     public static int[] vetorInt = new int[1000], vetorQtd = new int[1000];
-    public static int compInt, atribuicao = 3, indiceCritParada = -1, tempo = 0;
+    public static int compInt, atribuicao = 3, indiceCritParada = -1, tempo = 0, intervaloCiclos=200;
     static Thread execThread;
     public static Agente[] agentes = new Agente[1600];
     public static AreaCanvas ambiente;
     public static Image pista/*, tiro*/;
     static JComboBox variaveisComboBox, agentesComboBox;
-    static JLabel label8, label5, label7, status;
+    static JLabel label8, label5, label7, status, tempoLabel;
     JButton button1, button2, button3, button4, button5;
+    public static JSlider tempoSlider;
     static int lin, col, amostra;
     public static int[][] ambtmp = new int[40][40];
     public static Codigos codigos = new Codigos();
@@ -131,6 +135,28 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
         p.add( button5 );
         (button5).addActionListener( this );
         (button5).addMouseListener(this);
+        
+        tempoLabel = new JLabel( "200 Milisegundos/ciclo" );
+        tempoLabel.setBounds( getInsets().left + 478, getInsets().top + 430, 160, 27 );
+        p.add( tempoLabel );
+        tempoSlider = new JSlider(10, 4000, 200);
+        tempoSlider.setMajorTickSpacing(1995);
+        tempoSlider.setPaintTicks(true);
+        tempoSlider.setPaintLabels(true);
+        tempoSlider.setBounds( getInsets().left + 470, getInsets().top + 460, 166, 35 );
+        p.add( tempoSlider );
+        
+        tempoSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider)e.getSource();
+                tempoLabel.setText((int)source.getValue() + " Milisegundos/ciclo");
+                if (!source.getValueIsAdjusting()) {
+                    intervaloCiclos = (int)source.getValue();
+                }
+            }
+        });
+        
         label8 = new JLabel();
         label8.setBounds( getInsets().left + 586, getInsets().top + 96, 36, 24 );
         p.add( label8 );
@@ -166,7 +192,7 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
         }
         ambiente.calculaDeslocamento( Codigos.colunas, Codigos.linhas );
         setResizable( false );
-        setSize(650, 440);
+        setSize(650, 500);
         setVisible( true );
         addWindowListener( this );
         execThread.start();
@@ -349,7 +375,7 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
         {
             try
             {
-                execThread.sleep( 200 );
+                execThread.sleep( intervaloCiclos );
             }
             catch ( Exception e )
             {
