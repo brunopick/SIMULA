@@ -192,7 +192,7 @@ public class Executar extends JFrame implements WindowListener, MouseListener,
         }
         ambiente.calculaDeslocamento( Codigos.colunas, Codigos.linhas );
         setResizable( false );
-        setSize(650, 500);
+        setSize(650, 525);
         setVisible( true );
         addWindowListener( this );
         execThread.start();

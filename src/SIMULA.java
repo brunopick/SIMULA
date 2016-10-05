@@ -160,10 +160,13 @@ public class SIMULA
                     Runtime rt = Runtime.getRuntime();
                     try
                     {
-                        Process compila = rt.exec( "java -cp .:weblaf-complete-1.29.jar Executar" );
+                        Process compila = rt.exec( "java "
+                                + "-cp ." + File.pathSeparator + "weblaf-complete-1.29.jar "
+                                + "Executar" );
+                        
                         BufferedReader reader = new BufferedReader(new InputStreamReader(compila.getInputStream()));
 
-                        StringBuilder output = new StringBuilder("-----SAIDA-----\n");
+                        StringBuilder output = new StringBuilder("Executar simulação VVVV \n -----SAIDA-----\n");
                         String line;			
                         while ((line = reader.readLine())!= null) {
                                 output.append(line).append("\n");
@@ -749,7 +752,7 @@ public class SIMULA
             posButtonComp.addActionListener( this );
             defComportamentos.add( "Center", baseComportamentos );
             defComportamentos.setTitle( "Definição de Comportamentos" );
-            defComportamentos.setSize(540,280);
+            defComportamentos.setSize(540,310);
             defComportamentos.setResizable( false );
         }
         agenChoiceComp.addItem( "" );
@@ -863,11 +866,11 @@ public class SIMULA
             baseDialogComportamentos.add( remAntButtonDialogComp );
             (remAntButtonDialogComp).addActionListener( this );
             okButtonDialogComp = new JButton( "OK" );
-            okButtonDialogComp.setBounds( 350, 300, 123, 26 );
+            okButtonDialogComp.setBounds( 350, 290, 123, 26 );
             baseDialogComportamentos.add( okButtonDialogComp );
             (okButtonDialogComp).addActionListener( this );
             canButtonDialogComp = new JButton( "Cancela" );
-            canButtonDialogComp.setBounds( 350, 340, 123, 26 );
+            canButtonDialogComp.setBounds( 350, 330, 123, 26 );
             baseDialogComportamentos.add( canButtonDialogComp );
             (canButtonDialogComp).addActionListener( this );
             JComboBox comportamentosComboBox = new JComboBox();
@@ -897,7 +900,7 @@ public class SIMULA
             comportamentosComboBox.addItem( "taxa_de_sucesso(taxa)" );
             baseDialogComportamentos.add( comportamentosComboBox );
             defDialogComportamentos.add( "Center", baseDialogComportamentos );
-            defDialogComportamentos.setSize(500, 380);
+            defDialogComportamentos.setSize(500, 390);
             defDialogComportamentos.setTitle( "Definição de Comportamentos" );
             defDialogComportamentos.setResizable( false );
         }
@@ -1107,7 +1110,7 @@ public class SIMULA
             baseDistrib.add( canButtonDist );
             canButtonDist.addActionListener( this );
             distDialog.add( "Center", baseDistrib );
-            distDialog.setSize(470,186);
+            distDialog.setSize(470,210);
             distDialog.setTitle( "Distribuição de Agentes" );
             distDialog.setResizable( false );
         }
@@ -1204,7 +1207,7 @@ public class SIMULA
             baseVariaveis.add( okButtonVar );
             okButtonVar.addActionListener( this );
             defVariaveis.add( "Center", baseVariaveis );
-            defVariaveis.setSize(520,200);
+            defVariaveis.setSize(520,210);
             defVariaveis.setResizable( false );
             defVariaveis.addWindowListener( this );
             defVariaveis.setTitle( "Definição de Variáveis" );
@@ -1587,7 +1590,7 @@ public class SIMULA
         (gridCanvas).addMouseListener( this );
         baseAgentes.add( gridCanvas );
         defAgentes.add( "Center", baseAgentes );
-        defAgentes.setSize(480,340);
+        defAgentes.setSize(480,360);
         defAgentes.addWindowListener( this );
         defAgentes.setResizable( false );
         atualizaAgentes();
@@ -1709,7 +1712,7 @@ public class SIMULA
             baseDialogParada.add( canButtonDialogPar );
             (canButtonDialogPar).addActionListener( this );
             defDialogParada.add( "Center", baseDialogParada );
-            defDialogParada.setSize(500,290);
+            defDialogParada.setSize(500,310);
             defDialogParada.setTitle( "Definição do Critério de Parada" );
             defDialogParada.setResizable( false );
         }
