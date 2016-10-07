@@ -15,7 +15,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
@@ -29,20 +28,19 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
+import javax.swing.event.MouseInputAdapter;
 import parts.MenuBar;
 
 public class SIMULA
     extends
         JFrame
     implements
-        ActionListener, WindowListener, ItemListener, KeyListener, MouseListener,
+        ActionListener, WindowListener, ItemListener, KeyListener,
         AdjustmentListener
 {
 
@@ -1587,7 +1585,23 @@ public class SIMULA
         baseAgentes.add( canvas1 );
         gridCanvas = new GridCanvas();
         gridCanvas.setBounds( 260, 105, 161, 161 );
-        (gridCanvas).addMouseListener( this );
+        
+        MouseInputAdapter mouseInputAdapter = new MouseInputAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                gridCanvas.selecionaCor( cor, e.getX(), e.getY() );
+                canvas1.alteraImagem( gridCanvas.pixels );
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                gridCanvas.selecionaCor( cor, e.getX(), e.getY() );
+                canvas1.alteraImagem( gridCanvas.pixels );
+            }
+        };
+        
+        gridCanvas.addMouseMotionListener(mouseInputAdapter);
+        gridCanvas.addMouseListener(mouseInputAdapter);
         baseAgentes.add( gridCanvas );
         defAgentes.add( "Center", baseAgentes );
         defAgentes.setSize(480,360);
@@ -2719,33 +2733,6 @@ public class SIMULA
     @Override
     public void windowDeiconified( WindowEvent evt )
     {
-    }
-
-    @Override
-    public void mouseClicked( MouseEvent e )
-    {
-    }
-
-    @Override
-   public void mouseEntered( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mouseExited( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mouseReleased( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mousePressed( MouseEvent evt )
-    {
-        gridCanvas.selecionaCor( cor, evt.getX(), evt.getY() );
-        canvas1.alteraImagem( gridCanvas.pixels );
     }
 
     @Override
