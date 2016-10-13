@@ -584,14 +584,7 @@ public class Metodos
 
     public static boolean taxaSucesso( Agente agente, int taxa )
     {
-        if ( agente.sucesso >= taxa )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return agente.sucesso >= taxa;
     }
 
     public static boolean atingeVidaAdulta( Agente agente, int tempo )

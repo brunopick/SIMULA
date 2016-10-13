@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -33,8 +34,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.PlainDocument;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
 import parts.MenuBar;
+import utils.TextFormatterRegex;
 
 public class SIMULA
     extends
@@ -850,6 +862,7 @@ public class SIMULA
             operChoiceDialogComp.setBounds( 156, 85, 50, 19 );
             paramFieldDialogComp = new JTextField();
             paramFieldDialogComp.setBounds( 180, 110, 180, 20 );
+            TextFormatterRegex.makeFormatter(paramFieldDialogComp, TextFormatterRegex.REGEX_PARAMETER_VALUE);
             baseDialogComportamentos.add( paramFieldDialogComp );
             iniBlocoButtonDialogComp = new JButton( "Início de Bloco" );
             iniBlocoButtonDialogComp.setBounds( 36, 240, 123, 26 );
@@ -915,7 +928,7 @@ public class SIMULA
                 compChoiceDialogComp.addItem( "atinge_tempo_de_vida" );
                 compChoiceDialogComp.addItem( "atinge_vida_adulta" );
                 compChoiceDialogComp.addItem( "tipo_sexo" );
-                compChoiceDialogComp.addItem( "taxa_sucesso" );
+                compChoiceDialogComp.addItem( "taxa_de_sucesso" );
             }
             else if ( choice == 2 )
             {
@@ -943,8 +956,6 @@ public class SIMULA
             j++;
         }
         varChoiceDialogComp.addItem( "sucesso" );
-        varChoiceDialogComp.addItem( "energia" );
-        varChoiceDialogComp.addItem( "carga" );
         j = 1;
         agenteChoiceDialogComp.removeAll();
         agenteChoiceDialogComp.addItem( "" );
@@ -1166,6 +1177,7 @@ public class SIMULA
             nomeLabelVar.setBounds( 40, 50, 120, 20 );
             baseVariaveis.add( nomeLabelVar );
             nomeFieldVar = new JTextField( "" );
+            TextFormatterRegex.makeFormatter(nomeFieldVar, TextFormatterRegex.REGEX_VAR );
             nomeFieldVar.setBounds( 180, 50, 280, 20 );
             baseVariaveis.add( nomeFieldVar );
             tipoLabelVar = new JLabel( "Tipo da Variável:" );
@@ -1528,6 +1540,7 @@ public class SIMULA
         baseAgentes.add( imgLabel );
         nomeField = new JTextField();
         nomeField.setBounds( 160, 40, 300, 20 );
+        TextFormatterRegex.makeFormatter(nomeField, TextFormatterRegex.REGEX_VAR);
         baseAgentes.add( nomeField );
         numField = new JTextField();
         numField.setBounds( 160, 70, 50, 20 );
@@ -1704,6 +1717,7 @@ public class SIMULA
             operChoiceDialogPar.setBounds( 156, 50, 50, 21 );
             paramFieldDialogPar = new JTextField();
             paramFieldDialogPar.setBounds( 180, 80, 180, 20 );
+            TextFormatterRegex.makeFormatter(paramFieldDialogPar, TextFormatterRegex.REGEX_PARAMETER_VALUE);
             baseDialogParada.add( paramFieldDialogPar );
             remAntButtonDialogPar = new JButton( "Remover Anterior" );
             remAntButtonDialogPar.setBounds( 324, 210, 123, 26 );
