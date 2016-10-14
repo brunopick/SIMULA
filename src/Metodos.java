@@ -584,7 +584,7 @@ public class Metodos
 
     public static boolean taxaSucesso( Agente agente, int taxa )
     {
-        return agente.sucesso >= taxa;
+        return agente.sucesso >= (int)Math.floor(Math.random()*101);
     }
 
     public static boolean atingeVidaAdulta( Agente agente, int tempo )
