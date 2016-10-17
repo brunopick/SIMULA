@@ -79,7 +79,7 @@ public class SIMULA
     public JButton compButtonDialogComp, agenteButtonDialogComp, varButtonDialogComp, operButtonDialogComp, paramButtonDialogComp;
     public JButton remAntButtonDialogPar, iniBlocoButtonDialogPar, fimBlocoButtonDialogPar;
     public JButton varButtonDialogPar, operButtonDialogPar, paramButtonDialogPar;
-    public JButton duplicarRegra;
+    public JButton duplicarRegraJButton;
 //    public Choice corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
 //    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
     public JComboBox agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
@@ -192,6 +192,24 @@ public class SIMULA
                     break;
             }
         
+        }
+        
+        if (source == duplicarRegraJButton) {
+            int i = 1;
+            while (behaviorList[i] != null) {
+                i++;
+            }
+            behaviorList[i] = new Behavior( "", (Integer.toString( i )),
+                                "", "", "", "", "0" );
+            behaviorList[i].ident = idLabelComp.getText();
+            behaviorList[i].agente = agenChoiceComp.getSelectedItem().toString();
+            behaviorList[i].precond = preLabelComp2.getText();
+            behaviorList[i].acativ = ativLabelComp2.getText();
+            behaviorList[i].accond = conLabelComp2.getText();
+            behaviorList[i].poscond = posLabelComp2.getText();
+            behaviorList[i].priorid = priorFieldComp.getText();
+            identComp = i;
+            atualizaComportamentos();
         }
 
         if ( parametro.equals( "Cancela" ) )
@@ -668,26 +686,37 @@ public class SIMULA
             baseComportamentos = new JPanel();
             baseComportamentos.setSize( getInsets().left + getInsets().right + 540, getInsets().top + getInsets().bottom + 250 );
             baseComportamentos.setLayout( null );
+            
             okButtonComp = new JButton( "OK" );
-            okButtonComp.setBounds( 30, 250, 80, 25 );
+            okButtonComp.setBounds( 20, 250, 80, 25 );
             baseComportamentos.add( okButtonComp );
             okButtonComp.addActionListener( this );
+            
             antButtonComp = new JButton( "Anterior" );
-            antButtonComp.setBounds( 130, 250, 80, 25 );
+            antButtonComp.setBounds( 100, 250, 80, 25 );
             baseComportamentos.add( antButtonComp );
             antButtonComp.addActionListener( this );
+            
             proxButtonComp = new JButton( "Proximo" );
-            proxButtonComp.setBounds( 230, 250, 80, 25 );
+            proxButtonComp.setBounds( 180, 250, 80, 25 );
             baseComportamentos.add( proxButtonComp );
             proxButtonComp.addActionListener( this );
+            
+            duplicarRegraJButton = new JButton( "Duplicar Regra" );
+            duplicarRegraJButton.setBounds( 260, 250, 100, 25 );
+            baseComportamentos.add( duplicarRegraJButton );
+            duplicarRegraJButton.addActionListener( this );
+            
             excButtonComp = new JButton( "Exclui" );
-            excButtonComp.setBounds( 330, 250, 80, 25 );
+            excButtonComp.setBounds( 360, 250, 80, 25 );
             baseComportamentos.add( excButtonComp );
             excButtonComp.addActionListener( this );
+            
             canButtonComp = new JButton( "Cancela" );
-            canButtonComp.setBounds( 430, 250, 80, 25 );
+            canButtonComp.setBounds( 440, 250, 80, 25 );
             baseComportamentos.add( canButtonComp );
             canButtonComp.addActionListener( this );
+            
             agenChoiceComp = new JComboBox();
             baseComportamentos.add( agenChoiceComp );
             agenChoiceComp.setBounds( 110, 50, 200, 21 );
