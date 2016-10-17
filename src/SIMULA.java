@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -40,8 +38,7 @@ public class SIMULA
     extends
         JFrame
     implements
-        ActionListener, WindowListener, KeyListener,
-        AdjustmentListener
+        ActionListener, WindowListener, KeyListener, AdjustmentListener
 {
 
     public static ItemVariable[] indice = new ItemVariable[1000];
@@ -82,6 +79,7 @@ public class SIMULA
     public JButton compButtonDialogComp, agenteButtonDialogComp, varButtonDialogComp, operButtonDialogComp, paramButtonDialogComp;
     public JButton remAntButtonDialogPar, iniBlocoButtonDialogPar, fimBlocoButtonDialogPar;
     public JButton varButtonDialogPar, operButtonDialogPar, paramButtonDialogPar;
+    public JButton duplicarRegra;
 //    public Choice corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
 //    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
     public JComboBox agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
@@ -674,14 +672,14 @@ public class SIMULA
             okButtonComp.setBounds( 30, 250, 80, 25 );
             baseComportamentos.add( okButtonComp );
             okButtonComp.addActionListener( this );
-            proxButtonComp = new JButton( "Proximo" );
-            proxButtonComp.setBounds( 130, 250, 80, 25 );
-            baseComportamentos.add( proxButtonComp );
-            proxButtonComp.addActionListener( this );
             antButtonComp = new JButton( "Anterior" );
-            antButtonComp.setBounds( 230, 250, 80, 25 );
+            antButtonComp.setBounds( 130, 250, 80, 25 );
             baseComportamentos.add( antButtonComp );
             antButtonComp.addActionListener( this );
+            proxButtonComp = new JButton( "Proximo" );
+            proxButtonComp.setBounds( 230, 250, 80, 25 );
+            baseComportamentos.add( proxButtonComp );
+            proxButtonComp.addActionListener( this );
             excButtonComp = new JButton( "Exclui" );
             excButtonComp.setBounds( 330, 250, 80, 25 );
             baseComportamentos.add( excButtonComp );
@@ -1091,14 +1089,14 @@ public class SIMULA
             okButtonDist.setBounds( 20, 150, 80, 25 );
             baseDistrib.add( okButtonDist );
             okButtonDist.addActionListener( this );
-            proxButtonDist = new JButton( "Proximo" );
-            proxButtonDist.setBounds( 110, 150, 80, 25 );
-            baseDistrib.add( proxButtonDist );
-            proxButtonDist.addActionListener( this );
             antButtonDist = new JButton( "Anterior" );
-            antButtonDist.setBounds( 200, 150, 80, 25 );
+            antButtonDist.setBounds( 110, 150, 80, 25 );
             baseDistrib.add( antButtonDist );
             antButtonDist.addActionListener( this );
+            proxButtonDist = new JButton( "Proximo" );
+            proxButtonDist.setBounds( 200, 150, 80, 25 );
+            baseDistrib.add( proxButtonDist );
+            proxButtonDist.addActionListener( this );
             excButtonDist = new JButton( "Exclui" );
             excButtonDist.setBounds( 290, 150, 80, 25 );
             baseDistrib.add( excButtonDist );
@@ -1194,11 +1192,11 @@ public class SIMULA
             baseVariaveis.add( excButtonVar );
             excButtonVar.addActionListener( this );
             antButtonVar = new JButton( "Anterior" );
-            antButtonVar.setBounds( 220, 155, 80, 25 );
+            antButtonVar.setBounds( 120, 155, 80, 25 );
             baseVariaveis.add( antButtonVar );
             antButtonVar.addActionListener( this );
             proxButtonVar = new JButton( "Proximo" );
-            proxButtonVar.setBounds( 120, 155, 80, 25 );
+            proxButtonVar.setBounds( 220, 155, 80, 25 );
             baseVariaveis.add( proxButtonVar );
             proxButtonVar.addActionListener( this );
             okButtonVar = new JButton( "OK" ); 
@@ -1562,13 +1560,13 @@ public class SIMULA
         okButton.setBounds( 10, 305, 80, 25 );
         baseAgentes.add( okButton );
         okButton.addActionListener( this );
+        antButton = new JButton( "Anterior" );
+        antButton.setBounds( 105, 305, 80, 25 );
+        baseAgentes.add( antButton );
         proxButton = new JButton( "Proximo" );
-        proxButton.setBounds( 105, 305, 80, 25 );
+        proxButton.setBounds( 200, 305, 80, 25 );
         baseAgentes.add( proxButton );
         proxButton.addActionListener( this );
-        antButton = new JButton( "Anterior" );
-        antButton.setBounds( 200, 305, 80, 25 );
-        baseAgentes.add( antButton );
         antButton.addActionListener( this );
         excButton = new JButton( "Exclui" );
         excButton.setBounds( 295, 305, 80, 25 );
@@ -1583,7 +1581,6 @@ public class SIMULA
         baseAgentes.add( canvas1 );
         gridCanvas = new GridCanvas();
         gridCanvas.setBounds( 260, 105, 161, 161 );
-        
         
         MouseInputAdapter mouseInputAdapter = new MouseInputAdapter() {
             @Override
