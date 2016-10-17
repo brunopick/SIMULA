@@ -22,9 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.util.regex.Pattern;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -34,17 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.PlainDocument;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 import parts.MenuBar;
 import utils.TextFormatterRegex;
 
@@ -227,12 +215,12 @@ public class SIMULA
             else if ( source == canButtonComp )
             {
                 defComportamentos.setVisible( false );
-                agenChoiceComp.removeAll();
+                agenChoiceComp.removeAllItems();
                 defComportamentos.dispose();
             }
             else if ( source == canButtonDist )
             {
-                agenChoiceDist.removeAll();
+                agenChoiceDist.removeAllItems();
                 distDialog.setVisible( false );
                 distDialog.dispose();
             }
@@ -272,7 +260,7 @@ public class SIMULA
                 {
                     salvaComportamentos();
                     defComportamentos.setVisible( false );
-                    agenChoiceComp.removeAll();
+                    agenChoiceComp.removeAllItems();
                 }
             }
             else if ( source == okButtonDialogPar )
@@ -328,7 +316,7 @@ public class SIMULA
                     salvaDistribuicao();
                 }
                 distDialog.setVisible( false );
-                agenChoiceDist.removeAll();
+                agenChoiceDist.removeAllItems();
             }
             else if ( source == okButtonDim )
             {
@@ -918,7 +906,7 @@ public class SIMULA
         if ( choice != ch )
         {
             choice = ch;
-            compChoiceDialogComp.removeAll();
+            compChoiceDialogComp.removeAllItems();
             if ( (choice == 1) || (choice == 3) )
             {
                 compChoiceDialogComp.addItem( "percebe_agente" );
@@ -947,7 +935,7 @@ public class SIMULA
                 compChoiceDialogComp.addItem( "transforma" );
             }
         }
-        varChoiceDialogComp.removeAll();
+        varChoiceDialogComp.removeAllItems();
         varChoiceDialogComp.addItem( "" );
         j = 1;
         while ( (variaveisList[j] != null) && (!(variaveisList[j].nome.equals( "" ))) )
@@ -957,7 +945,7 @@ public class SIMULA
         }
         varChoiceDialogComp.addItem( "sucesso" );
         j = 1;
-        agenteChoiceDialogComp.removeAll();
+        agenteChoiceDialogComp.removeAllItems();
         agenteChoiceDialogComp.addItem( "" );
         while ( (typeAgentList[j] != null) && (!(typeAgentList[j].nome.equals( "" ))) )
         {
@@ -968,7 +956,7 @@ public class SIMULA
         atualizaRegra( true );
         defDialogComportamentos.setVisible( true );
     }
-
+    
     public void atualizaComportamentos()
     {
         idLabelComp.setText( (new Integer( identComp )).toString() );
@@ -1123,7 +1111,7 @@ public class SIMULA
             distDialog.setTitle( "Distribuição de Agentes" );
             distDialog.setResizable( false );
         }
-        agenChoiceDist.removeAll();
+        agenChoiceDist.removeAllItems();
         agenChoiceDist.addItem( "" );
         while ( (typeAgentList[j] != null) && (!(typeAgentList[j].nome.equals( "" ))) )
         {
@@ -1744,7 +1732,7 @@ public class SIMULA
             defDialogParada.setTitle( "Definição do Critério de Parada" );
             defDialogParada.setResizable( false );
         }
-        varChoiceDialogPar.removeAll();
+        varChoiceDialogPar.removeAllItems();
         varChoiceDialogPar.addItem( "" );
         while ( (variaveisList[j] != null) && (!(variaveisList[j].nome.equals( "" ))) )
         {
@@ -2828,7 +2816,11 @@ public class SIMULA
 
     public static void main( String args[] )
     {
-        WebLookAndFeel.install ();
-        SIMULA simula = new SIMULA();
+        try {
+            WebLookAndFeel.install();
+            SIMULA simula = new SIMULA();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
