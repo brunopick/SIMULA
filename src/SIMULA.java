@@ -40,7 +40,7 @@ public class SIMULA
     extends
         JFrame
     implements
-        ActionListener, WindowListener, ItemListener, KeyListener,
+        ActionListener, WindowListener, KeyListener,
         AdjustmentListener
 {
 
@@ -84,8 +84,9 @@ public class SIMULA
     public JButton varButtonDialogPar, operButtonDialogPar, paramButtonDialogPar;
 //    public Choice corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
 //    public Choice varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
-    public JComboBox corChoice, agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
+    public JComboBox agenteChoiceDialogComp, varChoiceDialogComp, compChoiceDialogComp, agenChoiceComp, operChoiceDialogComp;
     public JComboBox varChoiceDialogPar, operChoiceDialogPar, agenChoiceDist, tipoChoiceVar;
+    public SColorChooserButton corChoice;
     public JDialog defAgentes, defComportamentos, defVariaveis, defDialogComportamentos;
     public JDialog critParadaDialog, dimensoesDialog, distDialog, defDialogParada, okDialog;
     public JScrollBar regraScrollDialogComp, regraScrollDialogPar;
@@ -1546,21 +1547,17 @@ public class SIMULA
         cargFieldAgent.setBounds( 160, 160, 50, 20 );
 //        baseAgentes.add( cargFieldAgent );
         cargFieldAgent.addKeyListener( this );
-        corChoice = new JComboBox();
-        corChoice.addItem( "Branco" );
-        corChoice.addItem( "Amarelo" );
-        corChoice.addItem( "Azul" );
-        corChoice.addItem( "Verde" );
-        corChoice.addItem( "Laranja" );
-        corChoice.addItem( "Rosa" );
-        corChoice.addItem( "Vermelho" );
-        corChoice.addItem( "Magenta" );
-        corChoice.addItem( "Ciano" );
-        corChoice.addItem( "Cinza" );
-        corChoice.addItem( "Preto" );
+
+        corChoice = new SColorChooserButton(Color.WHITE);
+        corChoice.addColorChangedListener(new ColorChangedListener() {
+            @Override
+            public void colorChanged(Color newColor) {
+                    cor = newColor;
+            }
+        });
         baseAgentes.add( corChoice );
-        corChoice.setBounds( 160, 200, 80, 21 );
-        corChoice.addItemListener( this );
+        corChoice.setBounds( 160, 200, 30, 30 );
+
         okButton = new JButton( "OK" );
         okButton.setBounds( 10, 305, 80, 25 );
         baseAgentes.add( okButton );
@@ -1587,17 +1584,16 @@ public class SIMULA
         gridCanvas = new GridCanvas();
         gridCanvas.setBounds( 260, 105, 161, 161 );
         
+        
         MouseInputAdapter mouseInputAdapter = new MouseInputAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                gridCanvas.selecionaCor( cor, e.getX(), e.getY() );
-                canvas1.alteraImagem( gridCanvas.pixels );
+                changeColor(e.getX(), e.getY());
             }
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                gridCanvas.selecionaCor( cor, e.getX(), e.getY() );
-                canvas1.alteraImagem( gridCanvas.pixels );
+                changeColor(e.getX(), e.getY());
             }
         };
         
@@ -1610,6 +1606,13 @@ public class SIMULA
         defAgentes.setResizable( false );
         atualizaAgentes();
         defAgentes.setVisible( true );
+    }
+    
+    private void changeColor(int x, int y) {
+        if (x > 0 && x < 160 && y > 0 && y < 160) {
+            gridCanvas.selecionaCor( cor, x, y );
+            canvas1.alteraImagem( gridCanvas.pixels );
+        }
     }
 
     public void salvaAgentes()
@@ -2768,49 +2771,6 @@ public class SIMULA
         else
         {
             atualizaRegra( false );
-        }
-    }
-
-    @Override
-    public void itemStateChanged( ItemEvent evt )
-    {
-        int item = corChoice.getSelectedIndex();
-        switch (item) {
-            case 0:
-                cor = Color.white;
-                break;
-            case 1:
-                cor = Color.yellow;
-                break;
-            case 2:
-                cor = Color.blue;
-                break;
-            case 3:
-                cor = Color.green;
-                break;
-            case 4:
-                cor = Color.orange;
-                break;
-            case 5:
-                cor = Color.magenta;
-                break;
-            case 6:
-                cor = Color.red;
-                break;
-            case 7:
-                cor = Color.pink;
-                break;
-            case 8:
-                cor = Color.cyan;
-                break;
-            case 9:
-                cor = Color.gray;
-                break;
-            case 10:
-                cor = Color.black;
-                break;
-            default:
-                break;
         }
     }
 

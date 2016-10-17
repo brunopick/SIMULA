@@ -22,10 +22,9 @@ public class SFileChooser
     {
         super();
         super.setDialogType( dialogType );
-        super.setAcceptAllFileFilterUsed( false );
         super.setMultiSelectionEnabled( false );
         super.addChoosableFileFilter( new FileNameExtensionFilter( "Arquivos .dat", "dat", "DAT" ) );
-        super.setCurrentDirectory( openPath == null ? new File(".") : openPath );
+        super.setAcceptAllFileFilterUsed( false );
         super.setFileSelectionMode( JFileChooser.FILES_ONLY );
     }
     
