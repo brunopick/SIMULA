@@ -6,6 +6,8 @@ import javax.swing.JFileChooser;
 import components.SFileChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -15,11 +17,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -158,12 +162,14 @@ public class SIMULA
                     try
                     {
                         Process compila = rt.exec( "java "
-                                + "-cp ." + File.pathSeparator + "weblaf-complete-1.29.jar "
+                                + "-cp ." 
+                                + File.pathSeparator + "weblaf-complete-1.29.jar"
+                                + File.pathSeparator + "SIMULA.jar "
                                 + "Executar" );
                         
                         BufferedReader reader = new BufferedReader(new InputStreamReader(compila.getInputStream()));
 
-                        StringBuilder output = new StringBuilder("Executar simulação VVVV \n -----SAIDA-----\n");
+                        StringBuilder output = new StringBuilder("Executar simulação \n -----SAIDA-----\n");
                         String line;			
                         while ((line = reader.readLine())!= null) {
                                 output.append(line).append("\n");
@@ -1307,7 +1313,7 @@ public class SIMULA
         {
             tmp[0][j] = -1;
         }
-        SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG, file );
+        SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG, SFileChooser.FILE_DAT );
         try
         {
             if ( fc.showOpenDialog( this ) == JFileChooser.APPROVE_OPTION )
@@ -1420,7 +1426,7 @@ public class SIMULA
         {
             if ( fileToSave == null )
             {
-                SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG, file );
+                SFileChooser fc = new SFileChooser( JFileChooser.SAVE_DIALOG, SFileChooser.FILE_DAT );
 
                 if ( fc.showSaveDialog( this ) == JFileChooser.APPROVE_OPTION )
                 {
@@ -1554,6 +1560,46 @@ public class SIMULA
         imgLabel = new JLabel( "Imagem:" );
         imgLabel.setBounds( 10, 230, 70, 20 );
         baseAgentes.add( imgLabel );
+        
+        JLabel selecionarImagemLabel = new JLabel( "Selecionar imagem:" );
+        selecionarImagemLabel.setBounds( 10, 260, 150, 20 );
+        baseAgentes.add( selecionarImagemLabel );
+        
+        JButton selectionarImagemButton = new JButton("Selecionar");
+        selectionarImagemButton.setBounds( 160, 260, 50, 20 );
+        baseAgentes.add( selectionarImagemButton );
+        final Component that = this;
+        selectionarImagemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SFileChooser fc = new SFileChooser( JFileChooser.OPEN_DIALOG, SFileChooser.FILE_IMAGE );
+                try
+                {
+                    if ( fc.showOpenDialog( that ) == JFileChooser.APPROVE_OPTION )
+                    {
+                        BufferedImage inputImage = ImageIO.read(fc.getSelectedFile());
+ 
+                        BufferedImage newImage = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
+
+                        Graphics g = newImage.createGraphics();
+                        g.drawImage(inputImage, 0, 0, 16, 16, null);
+                        g.dispose();
+                        
+                        for ( int i = 0; i < 256; i++) {
+                            int x = (i/16);
+                            int y = (i%16);
+                            
+                            gridCanvas.selecionaCor( new Color(newImage.getRGB( x, y )), x*10, y*10 );
+                            canvas1.alteraImagem( gridCanvas.pixels );
+                        }
+                    }
+                }
+                catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
         nomeField = new JTextField();
         nomeField.setBounds( 160, 40, 300, 20 );
         TextFormatterRegex.makeFormatter(nomeField, TextFormatterRegex.REGEX_VAR);
@@ -1583,7 +1629,7 @@ public class SIMULA
             }
         });
         baseAgentes.add( corChoice );
-        corChoice.setBounds( 160, 200, 30, 30 );
+        corChoice.setBounds( 160, 190, 30, 30 );
 
         okButton = new JButton( "OK" );
         okButton.setBounds( 10, 305, 80, 25 );
@@ -1606,7 +1652,7 @@ public class SIMULA
         baseAgentes.add( canButton );
         canButton.addActionListener( this );
         canvas1 = new Imagem();
-        canvas1.setBounds( 100, 230, 23, 23 );
+        canvas1.setBounds( 160, 230, 23, 23 );
         baseAgentes.add( canvas1 );
         gridCanvas = new GridCanvas();
         gridCanvas.setBounds( 260, 105, 161, 161 );
@@ -2079,7 +2125,7 @@ public class SIMULA
     
     private int compilaCodigo(Runtime rt) {
         try {
-            Process p = rt.exec("javac Codigos.java");
+            Process p = rt.exec("javac -cp ." + File.pathSeparator + "SIMULA.jar Codigos.java");
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
             StringBuilder output = new StringBuilder("-----SAIDA-----\n");
@@ -2093,7 +2139,6 @@ public class SIMULA
             while ((line = reader.readLine())!= null) {
                     output.append(line).append("\n");
             }
-            
             System.out.println( output.toString() );
             p.waitFor();
             return p.exitValue();
