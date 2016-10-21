@@ -1557,16 +1557,16 @@ public class SIMULA
         corLabel = new JLabel( "Cor Selecionada:" );
         corLabel.setBounds( 10, 200, 115, 20 );
         baseAgentes.add( corLabel );
-        imgLabel = new JLabel( "Imagem:" );
-        imgLabel.setBounds( 10, 230, 70, 20 );
+        imgLabel = new JLabel( "Imagem final:" );
+        imgLabel.setBounds( 260, 270, 80, 20 );
         baseAgentes.add( imgLabel );
         
         JLabel selecionarImagemLabel = new JLabel( "Selecionar imagem:" );
-        selecionarImagemLabel.setBounds( 10, 260, 150, 20 );
+        selecionarImagemLabel.setBounds( 10, 230, 150, 20 );
         baseAgentes.add( selecionarImagemLabel );
         
         JButton selectionarImagemButton = new JButton("Selecionar");
-        selectionarImagemButton.setBounds( 160, 260, 50, 20 );
+        selectionarImagemButton.setBounds( 160, 230, 80, 20 );
         baseAgentes.add( selectionarImagemButton );
         final Component that = this;
         selectionarImagemButton.addActionListener(new ActionListener() {
@@ -1652,7 +1652,7 @@ public class SIMULA
         baseAgentes.add( canButton );
         canButton.addActionListener( this );
         canvas1 = new Imagem();
-        canvas1.setBounds( 160, 230, 23, 23 );
+        canvas1.setBounds( 350, 270, 23, 23 );
         baseAgentes.add( canvas1 );
         gridCanvas = new GridCanvas();
         gridCanvas.setBounds( 260, 105, 161, 161 );
