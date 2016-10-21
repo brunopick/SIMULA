@@ -8,7 +8,7 @@ public class DateHourUtils {
         long timeInMillis = System.currentTimeMillis();
         Calendar cal1 = Calendar.getInstance();
         cal1.setTimeInMillis(timeInMillis);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         return dateFormat.format(cal1.getTime());
     }
