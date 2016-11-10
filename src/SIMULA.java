@@ -163,7 +163,7 @@ public class SIMULA
                     {
                         Process compila = rt.exec( "java "
                                 + "-cp ." 
-                                + File.pathSeparator + "weblaf-complete-1.29.jar"
+                                + File.pathSeparator + "lib/weblaf-complete-1.29.jar"
                                 + File.pathSeparator + "SIMULA.jar "
                                 + "Executar" );
                         
@@ -1557,19 +1557,19 @@ public class SIMULA
         cargLabelAgent = new JLabel( "Carga:" );
         cargLabelAgent.setBounds( 10, 160, 130, 23 );
 //        baseAgentes.add( cargLabelAgent );
-        corLabel = new JLabel( "Cor Selecionada:" );
-        corLabel.setBounds( 10, 200, 115, 23 );
+        corLabel = new JLabel( "Cor (Clique para alterar):" );
+        corLabel.setBounds( 10, 200, 145, 23 );
         baseAgentes.add( corLabel );
         imgLabel = new JLabel( "Imagem final:" );
         imgLabel.setBounds( 260, 270, 80, 23 );
         baseAgentes.add( imgLabel );
         
         JLabel selecionarImagemLabel = new JLabel( "Selecionar imagem:" );
-        selecionarImagemLabel.setBounds( 10, 230, 150, 23 );
+        selecionarImagemLabel.setBounds( 10, 250, 150, 23 );
         baseAgentes.add( selecionarImagemLabel );
         
         JButton selectionarImagemButton = new JButton("Selecionar");
-        selectionarImagemButton.setBounds( 160, 230, 80, 23 );
+        selectionarImagemButton.setBounds( 160, 250, 80, 23 );
         baseAgentes.add( selectionarImagemButton );
         final Component that = this;
         selectionarImagemButton.addActionListener(new ActionListener() {
@@ -1632,7 +1632,7 @@ public class SIMULA
             }
         });
         baseAgentes.add( corChoice );
-        corChoice.setBounds( 160, 190, 30, 30 );
+        corChoice.setBounds( 160, 195, 30, 30 );
 
         okButton = new JButton( "OK" );
         okButton.setBounds( 10, 305, 80, 25 );
