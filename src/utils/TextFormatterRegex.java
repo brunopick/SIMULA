@@ -8,9 +8,9 @@ import javax.swing.text.PlainDocument;
 
 public class TextFormatterRegex {
     
-    public static final String REGEX_VAR = "^([a-zA-Z_])+?$";
+    public static final String REGEX_VAR = "^[a-zA-Z]([a-zA-Z0-9_])+?$";
     
-    public static final String REGEX_PARAMETER_VALUE = "^([a-zA-Z0-9_])+?$";
+    public static final String REGEX_PARAMETER_VALUE = "^[a-zA-Z]([a-zA-Z0-9_])+?$";
     
     public static void makeFormatter(JTextField jTextField, final String regex) {
         jTextField.setDocument( new PlainDocument() {
@@ -29,5 +29,8 @@ public class TextFormatterRegex {
             }
         }
     });
+    }
+    public static void ___func_2_teste___(String alou) {
+        
     }
 }
