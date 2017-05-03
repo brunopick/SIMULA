@@ -30,7 +30,4 @@ public class TextFormatterRegex {
         }
     });
     }
-    public static void ___func_2_teste___(String alou) {
-        
-    }
 }
