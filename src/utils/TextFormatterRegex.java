@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
@@ -8,9 +10,9 @@ import javax.swing.text.PlainDocument;
 
 public class TextFormatterRegex {
     
-    public static final String REGEX_VAR = "^[a-zA-Z]([a-zA-Z0-9_])+?$";
+    public static final String REGEX_VAR = "^[a-zA-Z_]([a-zA-Z0-9_])*?$";
     
-    public static final String REGEX_PARAMETER_VALUE = "^[a-zA-Z]([a-zA-Z0-9_])+?$";
+    public static final String REGEX_PARAMETER_VALUE = "^([a-zA-Z0-9_])+?$";
     
     public static void makeFormatter(JTextField jTextField, final String regex) {
         jTextField.setDocument( new PlainDocument() {
