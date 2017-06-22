@@ -98,8 +98,14 @@ public class Metodos
 
     public static void removePista( Agente agente )
     {
-        Executar.ambiente.pistas[agente.coluna][agente.linha] = -1;
-        Logger.log(agente.nome+" remove pista");
+        Posicao origem = new Posicao( agente.coluna, agente.linha );
+        
+        Posicao pos = percebePista( 1, origem, agente.nome );
+        if ( pos != indeferido )
+        {
+            Executar.ambiente.pistas[pos.x][pos.y] = -1;
+            Logger.log(agente.nome+" remove pista");
+        }
     }
 
     public static void mataAgente( Agente agente, String alvo )
@@ -565,7 +571,7 @@ public class Metodos
     public static boolean atingePista( Agente agente )
     {
         Posicao pos = new Posicao( agente.coluna, agente.linha );
-        if ( Executar.ambiente.pistas[pos.x][pos.y] != -1 )
+        if ( percebePista(1, pos, agente.nome) != indeferido )
         {
             Logger.log(agente.nome+" atingiu pista");
             return true;
